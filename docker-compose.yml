@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_USER=tinn505
+      - DB_PASSWORD=MARTIN505
+      - DB_DATABASE=appkalev
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=tinn505
+      - POSTGRES_PASSWORD=MARTIN505
+      - POSTGRES_DB=appkalev
+    ports:
+      - "5432:5432"

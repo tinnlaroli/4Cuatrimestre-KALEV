@@ -1,21 +1,26 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+// swagger/swagger.js
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-const swaggerOptions = {
+// Opciones para Swagger
+const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'API',
+            title: 'KALEV API',
             version: '1.0.0',
-            description: 'Documentación de la API de la aplicación',
+            description: 'Documentación de la API para KALEV',
         },
     },
-    apis: ['./src/routes/*.js'], // Ruta de tus archivos de rutas
+    apis: ['./routes/*.js'], // Apuntar a los archivos de rutas para generar la documentación
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+// Crear el especificación Swagger
+const specs = swaggerJsdoc(options);
 
-module.exports = {
-    swaggerDocs,
-    swaggerUi,
+// Configurar el endpoint de Swagger
+const swaggerSetup = (app) => {
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 };
+
+module.exports = swaggerSetup;
