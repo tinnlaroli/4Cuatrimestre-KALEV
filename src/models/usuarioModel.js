@@ -5,7 +5,7 @@ const UsuarioModel = {
     // Crear un nuevo usuario
     crearUsuario: async ({ nombre, rol, correo, contraseñaHash }) => {
         const query = `
-            INSERT INTO Usuarios (nombre, rol, correo, contraseña_hash) 
+            INSERT INTO Usuarios (nombre, rol, correo, contraseña) 
             VALUES ($1, $2, $3, $4) 
             RETURNING *;
         `;
@@ -59,7 +59,7 @@ const UsuarioModel = {
     cambiarContraseña: async ({ id, nuevaContraseñaHash }) => {
         const query = `
             UPDATE Usuarios 
-            SET contraseña_hash = $1 
+            SET contraseña = $1 
             WHERE id_usuario = $2 
             RETURNING *;
         `;

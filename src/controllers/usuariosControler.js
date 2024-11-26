@@ -97,7 +97,7 @@ const loginUsuario = async (req, res) => {
         }
 
         // Comparar la contraseña
-        const esValida = await bcrypt.compare(contraseña, usuario.contraseña_hash);
+        const esValida = await bcrypt.compare(contraseña, usuario.contraseña);
         if (!esValida) {
             return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
         }
