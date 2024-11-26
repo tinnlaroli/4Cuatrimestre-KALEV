@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const usuariosController = require('../controllers/usuariosControler');
+const usuariosController = require('../controllers/usuariosController');
 const validarToken = require('../middlewares/validarToken');
 
 // Ruta de prueba básica (solo para verificar que funciona sin validarToken)

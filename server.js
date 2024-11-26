@@ -36,19 +36,20 @@ pool.connect()
 app.use(express.json()); // Para procesar los datos en formato JSON
 app.use(cors());         // Habilitar CORS para las solicitudes entre dominios
 
-// Configuración de Swagger
-setupSwagger(app);
-
 // Rutas
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
+const clasesRoutes = require('./src/routes/clasesRoutes');
+const estudiantesRoutes = require('./src/routes/estudiantesRoutes');
 
 // Middleware global
 app.use((req, res, next) => {
     next();
 });
 
-// Rutas para usuarios
+// Rutas para usuarios y clases
 app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/clases', clasesRoutes);
+app.use('/api/estudiantes', estudiantesRoutes);
 
 // Puerto y arranque
 const PORT = process.env.PORT || 5000; // Usa el puerto definido en .env o el 5000 por defecto
