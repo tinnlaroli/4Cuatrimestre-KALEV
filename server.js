@@ -3,8 +3,7 @@ const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const { Pool } = require('pg');
-const setupSwagger = require('./swagger/swagger'); // Importa la configuración de Swagger
-
+const setupSwagger = require('./swagger/swagger');
 // Cargar variables de entorno
 dotenv.config();
 
@@ -40,6 +39,7 @@ setupSwagger(app);       // Configura Swagger en la aplicación
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const clasesRoutes = require('./src/routes/clasesRoutes');
 const estudiantesRoutes = require('./src/routes/estudiantesRoutes');
+const reporteRoutes = require('./src/routes/reporte');
 
 // Middleware global
 app.use((req, res, next) => {
@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/clases', clasesRoutes);
 app.use('/api/estudiantes', estudiantesRoutes);
+app.use('/api', reporteRoutes);
 
 // Puerto y arranque
 const PORT = process.env.PORT || 5000; // Usa el puerto definido en .env o el 5000 por defecto
