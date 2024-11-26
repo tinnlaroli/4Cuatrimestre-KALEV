@@ -35,7 +35,7 @@ pool.connect()
 // Middleware
 app.use(express.json()); // Para procesar los datos en formato JSON
 app.use(cors());         // Habilitar CORS para las solicitudes entre dominios
-
+setupSwagger(app);       // Configura Swagger en la aplicación
 // Rutas
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const clasesRoutes = require('./src/routes/clasesRoutes');

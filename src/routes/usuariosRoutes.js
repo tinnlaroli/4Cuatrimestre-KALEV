@@ -2,29 +2,30 @@ const express = require('express');
 const router = express.Router();
 const usuariosController = require('../controllers/usuariosController');
 const validarToken = require('../middlewares/validarToken');
+/**
+ * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: Gestión de usuarios
+ */
 
-// Ruta de prueba básica (solo para verificar que funciona sin validarToken)
 /**
  * @swagger
  * /api/usuarios/prueba:
  *   get:
- *     description: Ruta de prueba para verificar que el servidor funciona correctamente
+ *     summary: Ruta de prueba para verificar que el servidor funciona correctamente
+ *     tags: [Usuarios]
  *     responses:
  *       200:
  *         description: Prueba exitosa
  */
-router.get('/prueba', (req, res) => {
-    console.log('Ruta alcanzada después del middleware global');
-    res.json({ message: 'Prueba exitosa después del middleware global' });
-});
-
-// Rutas para manejar los usuarios
 
 /**
  * @swagger
  * /api/usuarios:
  *   post:
- *     description: Crear un nuevo usuario
+ *     summary: Crear un nuevo usuario 
+ *     tags: [Usuarios]
  *     parameters:
  *       - in: body
  *         name: usuario
@@ -56,13 +57,13 @@ router.get('/prueba', (req, res) => {
  *       500:
  *         description: Error al crear el usuario
  */
-router.post('/', usuariosController.crearUsuario);  // Crear un nuevo usuario (público)
 
 /**
  * @swagger
  * /api/usuarios:
  *   get:
- *     description: Obtener todos los usuarios
+ *     summary: Obtener todos los usuarios
+ *     tags: [Usuarios]
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -71,13 +72,13 @@ router.post('/', usuariosController.crearUsuario);  // Crear un nuevo usuario (p
  *       401:
  *         description: Token no válido o expirado
  */
-router.get('/', validarToken(), usuariosController.obtenerUsuarios);  // Obtener todos los usuarios (protegido)
 
 /**
  * @swagger
  * /api/usuarios/{id}:
  *   get:
- *     description: Obtener un usuario por ID
+ *     summary: Obtener un usuario por ID
+ *     tags: [Usuarios]
  *     parameters:
  *       - in: path
  *         name: id
@@ -93,13 +94,14 @@ router.get('/', validarToken(), usuariosController.obtenerUsuarios);  // Obtener
  *       401:
  *         description: Token no válido o expirado
  */
-router.get('/:id', validarToken(), usuariosController.obtenerUsuarioPorId);  // Obtener un usuario por ID (protegido)
 
 /**
  * @swagger
  * /api/usuarios/{id}:
  *   put:
- *     description: Actualizar un usuario por ID
+ *     summary: Actualizar un usuario por ID
+ *     tags: [Usuarios]
+ * 
  *     parameters:
  *       - in: path
  *         name: id
@@ -130,13 +132,14 @@ router.get('/:id', validarToken(), usuariosController.obtenerUsuarioPorId);  // 
  *       401:
  *         description: Token no válido o expirado
  */
-router.put('/:id', validarToken(), usuariosController.actualizarUsuario);  // Actualizar un usuario (protegido)
 
 /**
  * @swagger
  * /api/usuarios/{id}:
  *   delete:
- *     description: Eliminar un usuario por ID
+ *     summary: Eliminar un usuario por ID
+ *     tags: [Usuarios]
+ * 
  *     parameters:
  *       - in: path
  *         name: id
@@ -152,13 +155,14 @@ router.put('/:id', validarToken(), usuariosController.actualizarUsuario);  // Ac
  *       401:
  *         description: Token no válido o expirado
  */
-router.delete('/:id', validarToken(), usuariosController.eliminarUsuario);  // Eliminar un usuario (protegido)
 
 /**
  * @swagger
  * /api/usuarios/login:
  *   post:
- *     description: Autenticar usuario y generar JWT
+ *     summary: Autenticar usuario y generar JWT
+ *     tags: [Usuarios]
+ * 
  *     parameters:
  *       - in: body
  *         name: usuario
@@ -179,13 +183,14 @@ router.delete('/:id', validarToken(), usuariosController.eliminarUsuario);  // E
  *       401:
  *         description: Usuario o contraseña incorrectos
  */
-router.post('/login', usuariosController.loginUsuario);  // Autenticar usuario y generar JWT (público)
 
 /**
  * @swagger
  * /api/usuarios/cambiarContrasenia/{id}:
  *   put:
- *     description: Cambiar la contraseña de un usuario
+ *     summary: Cambiar la contraseña de un usuario
+ *     tags: [Usuarios]
+ * 
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,6 +216,27 @@ router.post('/login', usuariosController.loginUsuario);  // Autenticar usuario y
  *       401:
  *         description: Token no válido o expirado
  */
+
+// Ruta de prueba básica (solo para verificar que funciona sin validarToken)
+router.get('/prueba', (req, res) => {
+    console.log('Ruta alcanzada después del middleware global');
+    res.json({ message: 'Prueba exitosa después del middleware global' });
+});
+
+// Rutas para manejar los usuarios
+
+router.post('/', usuariosController.crearUsuario);  // Crear un nuevo usuario (público)
+
+router.get('/', validarToken(), usuariosController.obtenerUsuarios);  // Obtener todos los usuarios (protegido)
+
+router.get('/:id', validarToken(), usuariosController.obtenerUsuarioPorId);  // Obtener un usuario por ID (protegido)
+
+router.put('/:id', validarToken(), usuariosController.actualizarUsuario);  // Actualizar un usuario (protegido)
+
+router.delete('/:id', validarToken(), usuariosController.eliminarUsuario);  // Eliminar un usuario (protegido)
+
+router.post('/login', usuariosController.loginUsuario);  // Autenticar usuario y generar JWT (público)
+
 router.put('/cambiarContrasenia/:id', validarToken(), usuariosController.cambiarContraseña);  // Cambiar contraseña (protegido)
 
 module.exports = router;
