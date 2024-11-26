@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const { Pool } = require('pg');
+const setupSwagger = require('./swagger/swagger'); // Importa la configuración de Swagger
 
 // Cargar variables de entorno
 dotenv.config();
@@ -35,22 +36,19 @@ pool.connect()
 app.use(express.json()); // Para procesar los datos en formato JSON
 app.use(cors());         // Habilitar CORS para las solicitudes entre dominios
 
-
+// Configuración de Swagger
+setupSwagger(app);
 
 // Rutas
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 
 // Middleware global
 app.use((req, res, next) => {
-    console.log('Middleware global alcanzado');
     next();
 });
+
 // Rutas para usuarios
 app.use('/api/usuarios', usuariosRoutes);
-
-
-
-
 
 // Puerto y arranque
 const PORT = process.env.PORT || 5000; // Usa el puerto definido en .env o el 5000 por defecto

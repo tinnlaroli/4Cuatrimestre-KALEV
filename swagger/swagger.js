@@ -1,26 +1,38 @@
-// swagger/swagger.js
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
-// Opciones para Swagger
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'KALEV API',
-            version: '1.0.0',
-            description: 'Documentación de la API para KALEV',
-        },
+// Opciones de configuración para Swagger
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: "KALEV API",
+      description: "Documentación de la API para el proyecto KALEV",
+      version: "1.0.0",
     },
-    apis: ['./routes/*.js'], // Apuntar a los archivos de rutas para generar la documentación
+    securityDefinitions: {
+      BearerAuth: {
+        type: "apiKey",
+        in: "header",
+        name: "Authorization",
+        description:
+          "Introduce el token JWT en el encabezado Authorization (Bearer <token>)",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:5000/api",
+      },
+    ],
+  },
+  apis: ["./src/routes/*.js"],
 };
 
-// Crear el especificación Swagger
-const specs = swaggerJsdoc(options);
+// Inicializa Swagger
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
-// Configurar el endpoint de Swagger
-const swaggerSetup = (app) => {
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+// Función para configurar Swagger en tu aplicación
+const setupSwagger = (app) => {
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // Rutas para acceder a la documentación Swagger
 };
 
-module.exports = swaggerSetup;
+module.exports = setupSwagger;
