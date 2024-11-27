@@ -1,11 +1,12 @@
 const dotenv = require('dotenv');
+console.log('Variables de entorno cargadas:', process.env);
 dotenv.config(); // Cargar las variables de entorno primero
 
 const { Pool } = require('pg');
 
 // Verificar que las variables de entorno estén correctamente cargadas
+console.log('DB_URL desde Railway:', process.env.DB_URL);
 if (!process.env.DB_URL) {
-    console.log(process.env.DB_URL);
     throw new Error('DB_URL no está definida en las variables de entorno.');
 }
 
