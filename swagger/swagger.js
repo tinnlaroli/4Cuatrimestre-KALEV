@@ -20,8 +20,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://api-appkalev.up.railway.app/",
-        description: "Servidor de producción",
+        url: "https://api-appkalev.up.railway.app",
       },
     ],
   },
