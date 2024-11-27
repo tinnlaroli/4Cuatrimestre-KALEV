@@ -207,7 +207,7 @@ const validarToken = require('../middlewares/validarToken');
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
+ *             items:
  *               correo:
  *                 type: string
  *                 example: "usuario@example.com"
