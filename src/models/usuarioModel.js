@@ -27,6 +27,7 @@ const UsuarioModel = {
         const result = await pool.query(query, [id]);
         return result.rows[0];
     },
+    
 
     // Obtener un usuario por correo
     obtenerUsuarioPorCorreo: async (correo) => {

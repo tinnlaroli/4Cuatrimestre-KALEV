@@ -10,6 +10,7 @@ CREATE TABLE Usuarios (
     correo VARCHAR(150) UNIQUE NOT NULL,
     contraseña VARCHAR(150) NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    estado VARCHAR(255)
 );
 
 -- Crear la tabla Clases

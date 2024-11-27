@@ -7,6 +7,11 @@ const crearUsuario = async (req, res) => {
     const { nombre, rol, correo, contraseña } = req.body;
 
     try {
+        // Validación de entrada
+        if (!nombre || !rol || !correo || !contraseña) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
         // Verificar si el correo ya está registrado
         const usuarioExistente = await UsuarioModel.obtenerUsuarioPorCorreo(correo);
         if (usuarioExistente) {
@@ -58,6 +63,11 @@ const actualizarUsuario = async (req, res) => {
     const { nombre, correo, rol, estado } = req.body;
 
     try {
+        // Validación de campos
+        if (!nombre || !correo || !rol || estado === undefined) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
         const usuarioActualizado = await UsuarioModel.actualizarUsuario({ id, nombre, correo, rol, estado });
         if (!usuarioActualizado) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -90,6 +100,11 @@ const loginUsuario = async (req, res) => {
     const { correo, contraseña } = req.body;
 
     try {
+        // Validación de campos
+        if (!correo || !contraseña) {
+            return res.status(400).json({ message: 'Correo y contraseña son requeridos' });
+        }
+
         // Verificar si el usuario existe
         const usuario = await UsuarioModel.obtenerUsuarioPorCorreo(correo);
         if (!usuario) {
@@ -118,33 +133,54 @@ const loginUsuario = async (req, res) => {
 
 // Cambiar contraseña
 const cambiarContraseña = async (req, res) => {
-    const { id } = req.params;
-    const { contraseñaActual, nuevaContraseña } = req.body;
+    const { id } = req.params;  // Acceder al parámetro de la ruta
+    const { contraseñaActual, contraseñaNueva } = req.body;
+
+    console.log('ID del usuario:', id);  // Verificar que el id esté correctamente extraído
+    console.log('Contraseña actual:', contraseñaActual);
 
     try {
-        // Verificar si el usuario existe
+        // Validación de entrada
+        if (!contraseñaActual) {
+            return res.status(400).json({ message: 'La contraseña actual es requerida' });
+        }
+        if (!contraseñaNueva) {
+            return res.status(400).json({ message: 'La nueva contraseña es requerida' });
+        }
+
+        // Obtener el usuario de la base de datos
         const usuario = await UsuarioModel.obtenerUsuarioPorId(id);
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Validar contraseña actual
-        const esValida = await bcrypt.compare(contraseñaActual, usuario.contraseña_hash);
-        if (!esValida) {
-            return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+        // Verificar que la contraseña actual exista
+        if (!usuario.contraseña) {
+            return res.status(500).json({ message: 'Error interno: contraseña no encontrada en la base de datos' });
         }
 
-        // Hashear la nueva contraseña
-        const nuevaContraseñaHash = await bcrypt.hash(nuevaContraseña, 10);
+        // Comparar la contraseña actual con el hash almacenado
+        const esCorrecta = await bcrypt.compare(contraseñaActual, usuario.contraseña);
+        if (!esCorrecta) {
+            return res.status(400).json({ message: 'Contraseña actual incorrecta' });
+        }
 
-        // Actualizar la contraseña
-        const usuarioActualizado = await UsuarioModel.cambiarContraseña({ id, nuevaContraseñaHash });
-        res.status(200).json({ message: 'Contraseña actualizada correctamente', usuario: usuarioActualizado });
+        // Encriptar la nueva contraseña
+        const hashContraseñaNueva = await bcrypt.hash(contraseñaNueva, 10);
+
+        // Actualizar la contraseña en la base de datos
+        await UsuarioModel.cambiarContraseña({ id, nuevaContraseñaHash: hashContraseñaNueva });
+
+        // Respuesta exitosa
+        res.status(200).json({ message: 'Contraseña actualizada con éxito' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al cambiar la contraseña' });
+        res.status(500).json({ message: 'Error al cambiar la contraseña. Intenta nuevamente más tarde.' });
     }
 };
+
+
+
 
 module.exports = {
     crearUsuario,

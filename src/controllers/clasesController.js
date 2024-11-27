@@ -98,7 +98,7 @@ unirseAClase: async (req, res) => {
     if (!codigo_clase) {
         return res.status(400).json({ error: 'Falta el código de la clase' });
     }
-
+    
     try {
         // Buscar la clase por su código
         const clase = await ClaseModel.obtenerClasePorCodigo(codigo_clase);
