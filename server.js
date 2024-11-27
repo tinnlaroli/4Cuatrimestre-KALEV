@@ -8,7 +8,7 @@ const setupSwagger = require('./swagger/swagger');
 dotenv.config();
 
 // Importar la conexión a la base de datos
-const { pool } = require('./utils/db');
+const { pool } = require('./src/utils/db');
 
 // Middleware
 app.use(express.json()); // Para procesar los datos en formato JSON
