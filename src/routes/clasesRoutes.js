@@ -7,67 +7,55 @@ const validarToken = require('../middlewares/validarToken');
  * @swagger
  * tags:
  *   name: Clases
- *   description: Rutas relacionadas con la gestión de clases
+ *   description: Endpoints relacionados con la gestión de clases
  */
 
 /**
  * @swagger
- * /clases:
+ * /:
  *   post:
  *     summary: Crear una nueva clase
- *     description: Crea una nueva clase para un docente.
- *     tags: [Clases]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - nombre
- *               - descripcion
- *               - nivel
- *               - materia
  *             properties:
- *               nombre:
+ *               nombre_clase:
  *                 type: string
  *                 description: Nombre de la clase
  *               descripcion:
  *                 type: string
- *                 description: Descripción de la clase
- *               nivel:
- *                 type: string
- *                 description: Nivel educativo de la clase
- *               materia:
- *                 type: string
- *                 description: Materia de la clase
+ *                 description: Descripción opcional de la clase
  *     responses:
  *       201:
- *         description: Clase creada con éxito
+ *         description: Clase creada exitosamente
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 id_clase:
- *                   type: integer
- *                   description: ID de la clase recién creada
+ *                   type: string
+ *                   description: ID único de la clase
+ *                 codigo_clase:
+ *                   type: string
+ *                   description: Código único de la clase
  *       400:
- *         description: Parámetros de entrada inválidos
- *       401:
- *         description: Token de autenticación no válido o expirado
+ *         description: Datos inválidos en la solicitud
  *       500:
  *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /clases/{codigo_clase}:
+ * /{codigo_clase}:
  *   get:
  *     summary: Obtener una clase por su código
- *     description: Recupera los detalles de una clase usando su código único.
  *     tags: [Clases]
  *     parameters:
  *       - in: path
@@ -78,21 +66,24 @@ const validarToken = require('../middlewares/validarToken');
  *         description: Código único de la clase
  *     responses:
  *       200:
- *         description: Clase encontrada
+ *         description: Información de la clase encontrada
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 nombre:
+ *                 id_clase:
+ *                   type: string
+ *                   description: ID de la clase
+ *                 nombre_clase:
  *                   type: string
  *                   description: Nombre de la clase
  *                 descripcion:
  *                   type: string
  *                   description: Descripción de la clase
- *                 nivel:
+ *                 codigo_clase:
  *                   type: string
- *                   description: Nivel educativo de la clase
+ *                   description: Código de la clase
  *       404:
  *         description: Clase no encontrada
  *       500:
@@ -101,16 +92,15 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /clases:
+ * /:
  *   get:
  *     summary: Obtener todas las clases de un docente
- *     description: Recupera todas las clases asociadas a un docente.
- *     tags: [Clases]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     responses:
  *       200:
- *         description: Clases encontradas
+ *         description: Lista de clases del docente
  *         content:
  *           application/json:
  *             schema:
@@ -119,51 +109,55 @@ const validarToken = require('../middlewares/validarToken');
  *                 type: object
  *                 properties:
  *                   id_clase:
- *                     type: integer
+ *                     type: string
  *                     description: ID de la clase
- *                   nombre:
+ *                   nombre_clase:
  *                     type: string
  *                     description: Nombre de la clase
- *       401:
- *         description: Token de autenticación no válido o expirado
+ *                   descripcion:
+ *                     type: string
+ *                     description: Descripción de la clase
+ *                   codigo_clase:
+ *                     type: string
+ *                     description: Código único de la clase
  *       500:
  *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /clases/unirse:
+ * /unirse:
  *   post:
  *     summary: Unirse a una clase con el código
- *     description: Permite a un estudiante unirse a una clase usando su código único.
- *     tags: [Clases]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - codigo_clase
  *             properties:
  *               codigo_clase:
  *                 type: string
- *                 description: Código de la clase a la que se desea unirse
+ *                 description: Código único de la clase
  *     responses:
  *       200:
- *         description: El estudiante se unió a la clase con éxito
- *       400:
- *         description: Código de clase inválido o ya registrado en la clase
+ *         description: Estudiante unido exitosamente a la clase
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   description: Confirmación de la acción
  *       404:
- *         description: Clase no encontrada
- *       401:
- *         description: Token de autenticación no válido o expirado
+ *         description: Clase no encontrada o código incorrecto
  *       500:
  *         description: Error interno del servidor
  */
-
 
 // Crear una nueva clase (solo docente)
 router.post('/', validarToken(), clasesController.crearClase);

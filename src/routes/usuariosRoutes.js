@@ -5,14 +5,20 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /prueba:
+ * tags:
+ *   name: Usuarios
+ *   description: Endpoints para la gestión de usuarios
+ */
+
+/**
+ * @swagger
+ * /usuarios/prueba:
  *   get:
- *     summary: Ruta de prueba para verificar el middleware global
- *     description: Esta ruta es solo para probar que el middleware global se ejecuta correctamente.
- *     tags: [Prueba]
+ *     summary: Ruta de prueba básica
+ *     tags: [Usuarios]
  *     responses:
  *       200:
- *         description: Respuesta exitosa, ruta alcanzada después del middleware global
+ *         description: Prueba exitosa
  *         content:
  *           application/json:
  *             schema:
@@ -20,7 +26,7 @@ const validarToken = require('../middlewares/validarToken');
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Prueba exitosa después del middleware global"
+ *                   description: Mensaje de éxito
  */
 
 /**
@@ -28,7 +34,6 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios:
  *   post:
  *     summary: Crear un nuevo usuario
- *     description: Permite crear un nuevo usuario en el sistema. Ruta pública.
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
@@ -39,30 +44,16 @@ const validarToken = require('../middlewares/validarToken');
  *             properties:
  *               nombre:
  *                 type: string
- *                 example: "Juan Perez"
+ *                 description: Nombre del usuario
  *               correo:
  *                 type: string
- *                 example: "juan.perez@example.com"
+ *                 description: Correo electrónico del usuario
  *               contrasena:
  *                 type: string
- *                 example: "password123"
- *               telefono:
- *                 type: string
- *                 example: "+521234567890"
- *               direccion:
- *                 type: string
- *                 example: "Calle Falsa 123, Ciudad, País"
- *               fecha_nacimiento:
- *                 type: string
- *                 format: date
- *                 example: "1990-01-01"
+ *                 description: Contraseña del usuario
  *     responses:
  *       201:
- *         description: Usuario creado con éxito
- *       400:
- *         description: Datos inválidos o incompletos
- *       500:
- *         description: Error interno del servidor
+ *         description: Usuario creado exitosamente
  */
 
 /**
@@ -70,13 +61,12 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios:
  *   get:
  *     summary: Obtener todos los usuarios
- *     description: Obtiene una lista de todos los usuarios registrados en el sistema. Ruta protegida.
- *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
+ *     tags: [Usuarios]
  *     responses:
  *       200:
- *         description: Lista de usuarios obtenida con éxito
+ *         description: Lista de usuarios
  *         content:
  *           application/json:
  *             schema:
@@ -85,18 +75,11 @@ const validarToken = require('../middlewares/validarToken');
  *                 type: object
  *                 properties:
  *                   id:
- *                     type: integer
- *                     example: 1
+ *                     type: string
  *                   nombre:
  *                     type: string
- *                     example: "Juan Perez"
  *                   correo:
  *                     type: string
- *                     example: "juan.perez@example.com"
- *       401:
- *         description: Token no válido o expirado
- *       500:
- *         description: Error interno del servidor
  */
 
 /**
@@ -104,17 +87,16 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/{id}:
  *   get:
  *     summary: Obtener un usuario por ID
- *     description: Obtiene los datos de un usuario especificado por su ID. Ruta protegida.
+ *     security:
+ *       - BearerAuth: []
  *     tags: [Usuarios]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
- *         description: ID del usuario a obtener
- *     security:
- *       - bearerAuth: []
+ *           type: string
+ *         description: ID del usuario
  *     responses:
  *       200:
  *         description: Usuario encontrado
@@ -124,26 +106,11 @@ const validarToken = require('../middlewares/validarToken');
  *               type: object
  *               properties:
  *                 id:
- *                   type: integer
- *                   example: 1
+ *                   type: string
  *                 nombre:
  *                   type: string
- *                   example: "Juan Perez"
  *                 correo:
  *                   type: string
- *                   example: "juan.perez@example.com"
- *                 telefono:
- *                   type: string
- *                   example: "+521234567890"
- *                 direccion:
- *                   type: string
- *                   example: "Calle Falsa 123, Ciudad, País"
- *       404:
- *         description: Usuario no encontrado
- *       401:
- *         description: Token no válido o expirado
- *       500:
- *         description: Error interno del servidor
  */
 
 /**
@@ -151,15 +118,16 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/{id}:
  *   put:
  *     summary: Actualizar un usuario
- *     description: Permite actualizar la información de un usuario especificado por su ID. Ruta protegida.
+ *     security:
+ *       - BearerAuth: []
  *     tags: [Usuarios]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
- *         description: ID del usuario a actualizar
+ *           type: string
+ *         description: ID del usuario
  *     requestBody:
  *       required: true
  *       content:
@@ -169,29 +137,31 @@ const validarToken = require('../middlewares/validarToken');
  *             properties:
  *               nombre:
  *                 type: string
- *                 example: "Juan Perez Actualizado"
  *               correo:
  *                 type: string
- *                 example: "juan.perez.actualizado@example.com"
- *               telefono:
- *                 type: string
- *                 example: "+521987654321"
- *               direccion:
- *                 type: string
- *                 example: "Nueva Calle 456, Ciudad, País"
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Usuario actualizado con éxito
- *       400:
- *         description: Datos inválidos o incompletos
- *       401:
- *         description: Token no válido o expirado
- *       404:
- *         description: Usuario no encontrado
- *       500:
- *         description: Error interno del servidor
+ *         description: Usuario actualizado exitosamente
+ */
+
+/**
+ * @swagger
+ * /usuarios/{id}:
+ *   delete:
+ *     summary: Eliminar un usuario
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado exitosamente
  */
 
 /**
@@ -199,7 +169,6 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/login:
  *   post:
  *     summary: Autenticar usuario y generar JWT
- *     description: Permite a un usuario autenticarse proporcionando su correo y contraseña, y recibir un JWT para futuras solicitudes.
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
@@ -207,16 +176,16 @@ const validarToken = require('../middlewares/validarToken');
  *         application/json:
  *           schema:
  *             type: object
- *             items:
+ *             properties:
  *               correo:
  *                 type: string
- *                 example: "usuario@example.com"
+ *                 description: Correo electrónico del usuario
  *               contrasena:
  *                 type: string
- *                 example: "password123"
+ *                 description: Contraseña del usuario
  *     responses:
  *       200:
- *         description: Autenticación exitosa, JWT generado
+ *         description: Inicio de sesión exitoso
  *         content:
  *           application/json:
  *             schema:
@@ -224,15 +193,41 @@ const validarToken = require('../middlewares/validarToken');
  *               properties:
  *                 token:
  *                   type: string
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
- *       400:
- *         description: Datos inválidos o incompletos
- *       401:
- *         description: Credenciales incorrectas
- *       500:
- *         description: Error interno del servidor
+ *                   description: Token JWT generado
  */
 
+/**
+ * @swagger
+ * /usuarios/cambiarContrasenia/{id}:
+ *   put:
+ *     summary: Cambiar la contraseña de un usuario
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               contrasenaActual:
+ *                 type: string
+ *                 description: Contraseña actual del usuario
+ *               nuevaContrasena:
+ *                 type: string
+ *                 description: Nueva contraseña del usuario
+ *     responses:
+ *       200:
+ *         description: Contraseña cambiada exitosamente
+ */
 
 // Ruta de prueba básica (solo para verificar que funciona sin validarToken)
 router.get('/prueba', (req, res) => {

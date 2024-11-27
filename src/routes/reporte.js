@@ -7,31 +7,27 @@ const validarToken = require('../middlewares/validarToken');
  * @swagger
  * /clases/{id_clase}/reporte:
  *   get:
- *     summary: Generar el reporte en PDF de una clase
- *     description: Permite al docente generar un reporte en PDF que incluye el progreso de los estudiantes en una clase.
- *     tags: [Reportes]
+ *     summary: Generar un reporte PDF de la clase
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     parameters:
  *       - in: path
  *         name: id_clase
  *         required: true
  *         schema:
- *           type: integer
- *         description: ID de la clase para la cual se generará el reporte
- *     security:
- *       - bearerAuth: []
+ *           type: string
+ *         description: ID de la clase para generar el reporte
  *     responses:
  *       200:
- *         description: Reporte generado con éxito
+ *         description: Reporte PDF generado exitosamente
  *         content:
  *           application/pdf:
  *             schema:
  *               type: string
  *               format: binary
- *             description: El reporte en PDF de la clase
- *       400:
- *         description: Parámetro de ID de clase inválido o faltante
  *       401:
- *         description: Token de autenticación no válido o expirado
+ *         description: No autorizado. Token inválido o no proporcionado
  *       404:
  *         description: Clase no encontrada
  *       500:

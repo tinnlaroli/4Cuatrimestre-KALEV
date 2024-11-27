@@ -5,21 +5,29 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * /estudiantes/{id_estudiante}/clases:
+ * tags:
+ *   name: Clases
+ *   description: Endpoints relacionados con clases y estudiantes
+ */
+
+/**
+ * @swagger
+ * /{id_estudiante}/clases:
  *   get:
  *     summary: Obtener todas las clases en las que un estudiante está inscrito
- *     description: Obtiene todas las clases en las que un estudiante está inscrito, especificando su ID.
- *     tags: [Estudiantes]
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     parameters:
  *       - in: path
  *         name: id_estudiante
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID del estudiante
  *     responses:
  *       200:
- *         description: Clases del estudiante obtenidas con éxito
+ *         description: Lista de clases en las que el estudiante está inscrito
  *         content:
  *           application/json:
  *             schema:
@@ -28,34 +36,35 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 type: object
  *                 properties:
  *                   id_clase:
- *                     type: integer
- *                   nombre:
  *                     type: string
- *                   descripcion:
+ *                     description: ID de la clase
+ *                   nombre_clase:
  *                     type: string
+ *                     description: Nombre de la clase
  *       404:
- *         description: Estudiante no encontrado
+ *         description: Estudiante no encontrado o sin clases inscritas
  *       500:
  *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /estudiantes/{id_clase}/estudiantes:
+ * /{id_clase}/estudiantes:
  *   get:
  *     summary: Obtener estudiantes de una clase
- *     description: Obtiene una lista de todos los estudiantes inscritos en una clase especificada por su ID.
- *     tags: [Estudiantes]
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     parameters:
  *       - in: path
  *         name: id_clase
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID de la clase
  *     responses:
  *       200:
- *         description: Lista de estudiantes de la clase obtenida con éxito
+ *         description: Lista de estudiantes inscritos en la clase
  *         content:
  *           application/json:
  *             schema:
@@ -64,34 +73,35 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 type: object
  *                 properties:
  *                   id_estudiante:
- *                     type: integer
- *                   nombre:
  *                     type: string
- *                   correo:
+ *                     description: ID del estudiante
+ *                   nombre_estudiante:
  *                     type: string
+ *                     description: Nombre del estudiante
  *       404:
- *         description: Clase no encontrada
+ *         description: Clase no encontrada o sin estudiantes
  *       500:
  *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /estudiantes/{id_docente}/clases:
+ * /{id_docente}/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
- *     description: Obtiene todas las clases en las que un docente está inscrito, especificando su ID.
- *     tags: [Estudiantes]
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Clases]
  *     parameters:
  *       - in: path
  *         name: id_docente
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID del docente
  *     responses:
  *       200:
- *         description: Clases del docente obtenidas con éxito
+ *         description: Lista de clases asignadas al docente
  *         content:
  *           application/json:
  *             schema:
@@ -100,13 +110,13 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 type: object
  *                 properties:
  *                   id_clase:
- *                     type: integer
- *                   nombre:
  *                     type: string
- *                   descripcion:
+ *                     description: ID de la clase
+ *                   nombre_clase:
  *                     type: string
+ *                     description: Nombre de la clase
  *       404:
- *         description: Docente no encontrado
+ *         description: Docente no encontrado o sin clases asignadas
  *       500:
  *         description: Error interno del servidor
  */
