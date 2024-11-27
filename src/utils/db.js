@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-console.log('Variables de entorno cargadas:', process.env);
+//console.log('Variables de entorno cargadas:', process.env);
 dotenv.config(); // Cargar las variables de entorno primero
 
 const { Pool } = require('pg');

@@ -28,11 +28,11 @@ app.use((req, res, next) => {
 });
 
 // Rutas para usuarios y clases
-app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/clases', clasesRoutes);
-app.use('/api/estudiantes', estudiantesRoutes);
-app.use('/api', reporteRoutes);
-app.use('/api', juegosRoutes);
+app.use('/usuarios', usuariosRoutes);
+app.use('/clases', clasesRoutes);
+app.use('/estudiantes', estudiantesRoutes);
+app.use('/', reporteRoutes);
+app.use('/', juegosRoutes);
 
 // Puerto y arranque
 const PORT = process.env.PORT || 5000; // Usa el puerto definido en .env o el 5000 por defecto
