@@ -5,8 +5,8 @@ const { Pool } = require('pg');
 
 // Verificar que las variables de entorno estén correctamente cargadas
 if (!process.env.DB_URL) {
-    throw new Error('DB_URL no está definida en las variables de entorno.');
     console.log(process.env.DB_URL);
+    throw new Error('DB_URL no está definida en las variables de entorno.');
 }
 
 const pool = new Pool({
