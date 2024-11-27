@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "name": "CLASES_kalev",
+  "version": "22.9.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter mochawesome"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^10.7.3",
+    "sinon": "^15.0.4",
+    "supertest": "^6.3.1",
+    "mochawesome": "^7.1.3"
+  }
+}
