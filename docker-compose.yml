@@ -1,24 +1,34 @@
 version: '3.8'
 
 services:
+  # Servicio para la API (aplicación Node.js)
   api:
-    build: .
+    build: .  # Asegúrate de tener el Dockerfile en la raíz del proyecto
     ports:
-      - "5000:5000"
+      - "3000:3000"  # El puerto de la API
     environment:
-      - DB_USER=tinn505
-      - DB_PASSWORD=MARTIN505
+      - DB_USER=postgres
+      - DB_PASSWORD=admin12345
       - DB_DATABASE=appkalev
-      - DB_HOST=db
-      - DB_PORT=5432
+      - DB_HOST=db  # El nombre del servicio de la base de datos
+      - DB_PORT=5432  # Puerto interno de la base de datos (sin cambios)
     depends_on:
-      - db
+      - db  # Asegura que la API espere a que la base de datos esté lista
+    networks:
+      - kalev_network  # Definir la red si necesitas control sobre la misma
 
+  # Servicio para la base de datos PostgreSQL
   db:
     image: postgres:latest
     environment:
-      - POSTGRES_USER=tinn505
-      - POSTGRES_PASSWORD=MARTIN505
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin12345
       - POSTGRES_DB=appkalev
     ports:
-      - "5432:5432"
+      - "5435:5432"  # Cambié el puerto externo al 5435 (el puerto interno sigue siendo 5432)
+    networks:
+      - kalev_network  # Asegurando que ambos servicios estén en la misma red
+
+networks:
+  kalev_network:
+    driver: bridge

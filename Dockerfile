@@ -1,20 +1,22 @@
-# Usa la imagen oficial de Node.js
-FROM node:16
+FROM node:18
 
-# Directorio de trabajo
+# Instalar dependencias necesarias para compilar bcrypt
+RUN apt-get update && apt-get install -y build-essential python3
+
+# Crear y definir el directorio de trabajo
 WORKDIR /usr/src/app
 
-# Copia los archivos de tu proyecto
-COPY package*.json ./
+# Copiar los archivos del proyecto
+COPY package*.json ./ 
 
-# Instala las dependencias
+# Instalar las dependencias
 RUN npm install
 
-# Copia el resto de los archivos
+# Copiar el resto de los archivos de la aplicación
 COPY . .
 
-# Expone el puerto
-EXPOSE 5000
+# Exponer el puerto de la aplicación
+EXPOSE 3000
 
-# Comando para correr la API
-CMD ["node", "src/server.js"]
+# Comando para iniciar la aplicación
+CMD ["npm", "start"]
