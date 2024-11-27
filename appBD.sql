@@ -98,3 +98,32 @@ CREATE TABLE ProgresoEstilosDeAprendizaje (
     nivel INT DEFAULT 0,
     fecha_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE Juegos (
+    id_juego SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
+    tipo VARCHAR(50) NOT NULL, -- por ejemplo, "puzzle", "preguntas", etc.
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ClasesJuegos (
+    id_clase INT REFERENCES Clases(id_clase),
+    id_juego INT REFERENCES Juegos(id_juego),
+    fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_clase, id_juego)
+);
+
+CREATE TABLE EstudiantesJuegos (
+    id_estudiante INT REFERENCES Usuarios(id_usuario),
+    id_juego INT REFERENCES Juegos(id_juego),
+    progreso INT DEFAULT 0,  -- Porcentaje de avance o nivel alcanzado
+    fecha_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_completado TIMESTAMP,  -- Fecha cuando se completó el juego (si aplica)
+    PRIMARY KEY (id_estudiante, id_juego)
+);
+ALTER TABLE Usuarios
+ADD COLUMN foto VARCHAR(255),  -- Para almacenar la URL de la foto del estudiante
+ADD COLUMN estilo_aprendizaje INT REFERENCES EstilosDeAprendizaje(id_estilo);  -- Estilo de aprendizaje predeterminado del alumno
+
+

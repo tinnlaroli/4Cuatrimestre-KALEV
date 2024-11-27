@@ -1,33 +1,28 @@
-    const ClaseModel = require("../models/claseModel"); // Importar el modelo de clases
-    const EstudianteModel = require("../models/estudianteModel"); // Importar el modelo de estudiantes (para asignar estudiantes a clases)
+// clasesController.js
+const ClaseModel = require('../models/claseModel');
+const EstudianteModel = require('../models/estudianteModel');
+const JuegoModel = require('../models/juegoModel');
 
-    const clasesController = {
+const clasesController = {
     // Crear una nueva clase
     crearClase: async (req, res) => {
         const { nombre_clase, codigo_clase } = req.body;
         const id_docente = req.usuario.id_usuario; // El id del docente debe ser tomado de req.usuario.id
 
-        console.log("Datos recibidos para crear clase:", {
-        nombre_clase,
-        codigo_clase,
-        id_docente,
-        });
-
         if (!nombre_clase || !codigo_clase || !id_docente) {
-        console.log("Faltan datos:", { nombre_clase, codigo_clase, id_docente });
-        return res.status(400).json({ error: "Faltan datos necesarios" });
+            return res.status(400).json({ error: 'Faltan datos necesarios' });
         }
 
         try {
-        const clase = await ClaseModel.crearClase({
-            nombre_clase,
-            codigo_clase,
-            id_docente,
-        });
-        res.status(201).json(clase);
+            const clase = await ClaseModel.crearClase({
+                nombre_clase,
+                codigo_clase,
+                id_docente,
+            });
+            res.status(201).json(clase);
         } catch (error) {
-        console.error("Error al crear la clase:", error);
-        res.status(500).json({ message: "Error al crear la clase" });
+            console.error('Error al crear la clase:', error);
+            res.status(500).json({ message: 'Error al crear la clase' });
         }
     },
 
@@ -35,67 +30,98 @@
     obtenerClasePorCodigo: async (req, res) => {
         const { codigo_clase } = req.params;
 
-        console.log("Solicitando clase con código:", codigo_clase);
-
         try {
-        const clase = await ClaseModel.obtenerClasePorCodigo(codigo_clase);
-        if (!clase) {
-            console.log("Clase no encontrada con código:", codigo_clase);
-            return res.status(404).json({ message: "Clase no encontrada" });
-        }
-        console.log("Clase encontrada:", clase);
-        res.status(200).json(clase);
+            const clase = await ClaseModel.obtenerClasePorCodigo(codigo_clase);
+            if (!clase) {
+                return res.status(404).json({ message: 'Clase no encontrada' });
+            }
+            res.status(200).json(clase);
         } catch (error) {
-        console.error("Error al obtener la clase:", error);
-        res.status(500).json({ message: "Error al obtener la clase" });
+            console.error('Error al obtener la clase:', error);
+            res.status(500).json({ message: 'Error al obtener la clase' });
         }
     },
 
     // Obtener todas las clases de un docente
     obtenerClasesPorDocente: async (req, res) => {
-        const id_docente = req.usuario.id;
-
-        console.log("Solicitando clases para el docente con ID:", id_docente);
+        const id_docente = req.usuario.id_usuario;
 
         try {
-        const clases = await ClaseModel.obtenerClasesPorDocente(id_docente);
-        console.log("Clases encontradas:", clases);
-        res.status(200).json(clases);
+            const clases = await ClaseModel.obtenerClasesPorDocente(id_docente);
+            res.status(200).json(clases);
         } catch (error) {
-        console.error("Error al obtener las clases:", error);
-        res.status(500).json({ message: "Error al obtener las clases" });
+            console.error('Error al obtener las clases:', error);
+            res.status(500).json({ message: 'Error al obtener las clases' });
         }
     },
 
-    // Unirse a una clase con un código
-    unirseAClase: async (req, res) => {
-        const { codigo_clase } = req.body;
-        const estudianteId = req.usuario.id_usuario; // El estudiante que hace la petición
-
-        console.log(
-        "Estudiante con ID",
-        estudianteId,
-        "intentando unirse a la clase con código:",
-        codigo_clase
-        );
+    // Asignar un juego a una clase
+    asignarJuegoAClase: async (req, res) => {
+        const { id_clase, id_juego } = req.body;
 
         try {
+            const juego = await JuegoModel.obtenerJuegoPorId(id_juego);
+            if (!juego) {
+                return res.status(404).json({ message: 'Juego no encontrado' });
+            }
+
+            const clase = await ClaseModel.obtenerClasePorId(id_clase);
+            if (!clase) {
+                return res.status(404).json({ message: 'Clase no encontrada' });
+            }
+
+            await ClaseModel.asignarJuegoAClase(id_clase, id_juego);
+            res.status(200).json({ message: 'Juego asignado a la clase con éxito' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error al asignar el juego a la clase' });
+        }
+    },
+
+    // Obtener los juegos asignados a una clase
+    obtenerJuegosPorClase: async (req, res) => {
+        const { id_clase } = req.params;
+
+        try {
+            const juegos = await ClaseModel.obtenerJuegosPorClase(id_clase);
+            res.status(200).json(juegos);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error al obtener los juegos de la clase' });
+        }
+    },
+    // Unirse a una clase con el código
+unirseAClase: async (req, res) => {
+    const { codigo_clase } = req.body;
+    const id_estudiante = req.usuario.id_usuario; // Tomar el id del estudiante desde el token
+
+    if (!codigo_clase) {
+        return res.status(400).json({ error: 'Falta el código de la clase' });
+    }
+
+    try {
+        // Buscar la clase por su código
         const clase = await ClaseModel.obtenerClasePorCodigo(codigo_clase);
         if (!clase) {
-            console.log("Clase no encontrada con código:", codigo_clase);
-            return res.status(404).json({ message: "Clase no encontrada" });
+            return res.status(404).json({ message: 'Clase no encontrada' });
         }
 
-        // Añadir al estudiante a la clase
-        console.log("Añadiendo estudiante a la clase...");
-        await EstudianteModel.unirseAClase(estudianteId, clase.id_clase);
-        console.log("Estudiante añadido con éxito a la clase");
-        res.status(200).json({ message: "Te has unido a la clase con éxito" });
-        } catch (error) {
-        console.error("Error al unirse a la clase:", error);
-        res.status(500).json({ message: "Error al unirse a la clase" });
+        // Verificar si el estudiante ya está registrado en la clase
+        const estudianteEnClase = await EstudianteModel.obtenerEstudianteEnClase(id_estudiante, clase.id_clase);
+        if (estudianteEnClase) {
+            return res.status(400).json({ message: 'El estudiante ya está en esta clase' });
         }
-    },
-    };
 
-    module.exports = clasesController;
+        // Agregar al estudiante a la clase
+        await EstudianteModel.unirseAClase(id_estudiante, clase.id_clase);
+        res.status(200).json({ message: 'Estudiante se unió a la clase con éxito' });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al unirse a la clase' });
+    }
+}
+
+};
+
+module.exports = clasesController;

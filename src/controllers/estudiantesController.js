@@ -1,6 +1,7 @@
 // estudiantesController.js
 const EstudianteModel = require('../models/estudianteModel');
-const ClaseModel = require('../models/claseModel'); // Asegúrate de tener este modelo
+const ClaseModel = require('../models/claseModel');
+const JuegoModel = require('../models/juegoModel'); 
 
 const estudiantesController = {
     // Unirse a una clase
@@ -9,7 +10,7 @@ const estudiantesController = {
         const estudianteId = req.usuario.id_usuario; // Obtener el ID del estudiante desde el JWT
 
         try {
-            const clase = await ClaseModel.obtenerClasePorCodigo(codigo_clase); // Asegúrate de tener esta función en tu modelo de clase
+            const clase = await ClaseModel.obtenerClasePorCodigo(codigo_clase);
             if (!clase) {
                 return res.status(404).json({ message: 'Clase no encontrada' });
             }
@@ -58,6 +59,61 @@ const estudiantesController = {
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error al obtener las clases del docente' });
+        }
+    },
+
+    // Asignar un juego a un estudiante
+    asignarJuegoAEstudiante: async (req, res) => {
+        const { id_juego } = req.body;
+        const estudianteId = req.usuario.id_usuario; // Obtener el ID del estudiante desde el JWT
+
+        try {
+            const juego = await JuegoModel.obtenerJuegoPorId(id_juego);
+            if (!juego) {
+                return res.status(404).json({ message: 'Juego no encontrado' });
+            }
+
+            // Asignar juego a estudiante
+            await EstudianteModel.asignarJuegoAEstudiante(estudianteId, id_juego);
+            res.status(200).json({ message: 'Juego asignado con éxito' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error al asignar el juego' });
+        }
+    },
+
+    // Obtener el progreso de un estudiante en un juego
+    obtenerProgresoJuego: async (req, res) => {
+        const { id_juego } = req.params;
+        const estudianteId = req.usuario.id_usuario; // Obtener el ID del estudiante desde el JWT
+
+        try {
+            const progreso = await EstudianteModel.obtenerProgresoJuego(estudianteId, id_juego);
+            if (!progreso) {
+                return res.status(404).json({ message: 'Progreso no encontrado' });
+            }
+            res.status(200).json(progreso);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error al obtener el progreso del juego' });
+        }
+    },
+
+    // Marcar el juego como completado
+    completarJuego: async (req, res) => {
+        const { id_juego } = req.params;
+        const estudianteId = req.usuario.id_usuario; // Obtener el ID del estudiante desde el JWT
+
+        try {
+            const juegoCompletado = await EstudianteModel.marcarJuegoComoCompletado(estudianteId, id_juego);
+            if (!juegoCompletado) {
+                return res.status(404).json({ message: 'Juego no completado o no encontrado' });
+            }
+
+            res.status(200).json({ message: 'Juego completado con éxito' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error al completar el juego' });
         }
     }
 };
