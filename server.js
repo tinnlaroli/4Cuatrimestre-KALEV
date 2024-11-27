@@ -4,25 +4,33 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { Pool } = require('pg');
 const setupSwagger = require('./swagger/swagger');
+
 // Cargar variables de entorno
 dotenv.config();
 
-// Obtener las variables de entorno
-const { DB_USER, DB_HOST, DB_DATABASE, DB_PASSWORD, DB_PORT } = process.env;
+// Obtener la URL de la base de datos desde la variable de entorno
+const { DB_URL, PG_PASSWORD } = process.env;
 
-// Verificar que las variables de entorno se hayan cargado correctamente
+// Verificar que la variable de entorno se haya cargado correctamente
 console.log('Conectando a la base de datos con los siguientes parámetros:');
-console.log(`DB_USER: ${DB_USER}, DB_HOST: ${DB_HOST}, DB_DATABASE: ${DB_DATABASE}, DB_PORT: ${DB_PORT}`);
+console.log(`DB_URL: ${DB_URL}`);
+console.log('Tipo de DB_URL:', typeof DB_URL);
+console.log('Contenido de DB_URL:', DB_URL);
 
-// Conexión a la base de datos PostgreSQL
+// Verificar la contraseña cargada desde .env
+console.log('Contraseña de la base de datos desde .env:', PG_PASSWORD);
+console.log('Tipo de PG_PASSWORD:', typeof PG_PASSWORD);
+
+// Conexión a la base de datos PostgreSQL usando la URL y parámetros
 const pool = new Pool({
-    user: DB_USER,            // Usuario de la base de datos
-    host: DB_HOST,            // Dirección del servidor de la base de datos
-    database: DB_DATABASE,    // Nombre de la base de datos
-    password: DB_PASSWORD,    // Contraseña del usuario de la base de datos
-    port: DB_PORT,            // Puerto en el que PostgreSQL está escuchando
+    connectionString: DB_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
+
+// Conexión a la base de datos
 pool.connect()
     .then(() => {
         console.log('Conexión a la base de datos exitosa');
@@ -35,6 +43,7 @@ pool.connect()
 app.use(express.json()); // Para procesar los datos en formato JSON
 app.use(cors());         // Habilitar CORS para las solicitudes entre dominios
 setupSwagger(app);       // Configura Swagger en la aplicación
+
 // Rutas
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const clasesRoutes = require('./src/routes/clasesRoutes');
