@@ -1,39 +1,31 @@
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-// Opciones de configuración para Swagger con OpenAPI 3.0
+// Opciones de configuración para Swagger
 const swaggerOptions = {
   swaggerDefinition: {
-    openapi: "3.0.0",
     info: {
       title: "KALEV API",
       description: "Documentación de la API para el proyecto KALEV",
       version: "1.0.0",
     },
-    servers: [
-      {
-        url: "http://localhost:5000/api",
-        description: "Servidor local de desarrollo",
-      },
-    ],
-    components: {
-      securitySchemes: {
-        BearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-          description:
-            "Introduce el token JWT en el encabezado Authorization (Bearer <token>)",
-        },
+    securityDefinitions: {
+      BearerAuth: {
+        type: "apiKey",
+        in: "header",
+        name: "Authorization",
+        description:
+          "Introduce el token JWT en el encabezado Authorization (Bearer <token>)",
       },
     },
-    security: [
+    servers: [
       {
-        BearerAuth: [],
+        url: "https://api-appkalev.up.railway.app/",
+        description: "Servidor de producción",
       },
     ],
   },
-  apis: ["./src/routes/*.js"], // Incluye las rutas que contienen anotaciones para Swagger
+  apis: ["./src/routes/*.js"],
 };
 
 // Inicializa Swagger
