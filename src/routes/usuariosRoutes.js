@@ -2,151 +2,181 @@ const express = require('express');
 const router = express.Router();
 const usuariosController = require('../controllers/usuariosController');
 const validarToken = require('../middlewares/validarToken');
-/**
- * @swagger
- * tags:
- *   name: Usuarios
- *   description: Gestión de usuarios
- */
 
 /**
  * @swagger
- * /api/usuarios/prueba:
+ * /prueba:
  *   get:
- *     summary: Ruta de prueba para verificar que el servidor funciona correctamente
- *     tags: [Usuarios]
+ *     summary: Ruta de prueba para verificar el middleware global
+ *     description: Esta ruta es solo para probar que el middleware global se ejecuta correctamente.
+ *     tags: [Prueba]
  *     responses:
  *       200:
- *         description: Prueba exitosa
+ *         description: Respuesta exitosa, ruta alcanzada después del middleware global
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Prueba exitosa después del middleware global"
  */
 
 /**
  * @swagger
- * /api/usuarios:
+ * /usuarios:
  *   post:
- *     summary: Crear un nuevo usuario 
+ *     summary: Crear un nuevo usuario
+ *     description: Permite crear un nuevo usuario en el sistema. Ruta pública.
  *     tags: [Usuarios]
- *     parameters:
- *       - in: body
- *         name: usuario
- *         description: Datos del nuevo usuario
- *         schema:
- *           type: object
- *           required:
- *             - nombre
- *             - correo
- *             - contraseña
- *             - rol
- *           properties:
- *             nombre:
- *               type: string
- *             correo:
- *               type: string
- *             contraseña:
- *               type: string
- *             rol:
- *               type: string
- *               enum:
- *                 - jugador
- *                 - docente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               correo:
+ *                 type: string
+ *               contrasena:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Usuario creado con éxito
  *       400:
- *         description: El correo ya está registrado
+ *         description: Datos inválidos o incompletos
  *       500:
- *         description: Error al crear el usuario
+ *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /api/usuarios:
+ * /usuarios:
  *   get:
  *     summary: Obtener todos los usuarios
+ *     description: Obtiene una lista de todos los usuarios registrados en el sistema. Ruta protegida.
  *     tags: [Usuarios]
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de usuarios obtenida con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   nombre:
+ *                     type: string
+ *                   correo:
+ *                     type: string
  *       401:
  *         description: Token no válido o expirado
+ *       500:
+ *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /api/usuarios/{id}:
+ * /usuarios/{id}:
  *   get:
  *     summary: Obtener un usuario por ID
+ *     description: Obtiene los datos de un usuario especificado por su ID. Ruta protegida.
  *     tags: [Usuarios]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         schema:
+ *           type: integer
  *         description: ID del usuario a obtener
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Usuario encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 nombre:
+ *                   type: string
+ *                 correo:
+ *                   type: string
  *       404:
  *         description: Usuario no encontrado
  *       401:
  *         description: Token no válido o expirado
+ *       500:
+ *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /api/usuarios/{id}:
+ * /usuarios/{id}:
  *   put:
- *     summary: Actualizar un usuario por ID
+ *     summary: Actualizar un usuario
+ *     description: Permite actualizar la información de un usuario especificado por su ID. Ruta protegida.
  *     tags: [Usuarios]
- * 
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID del usuario a actualizar
- *       - in: body
- *         name: usuario
- *         description: Datos del usuario a actualizar
  *         schema:
- *           type: object
- *           properties:
- *             nombre:
- *               type: string
- *             correo:
- *               type: string
- *             rol:
- *               type: string
- *               enum:
- *                 - jugador
- *                 - docente
+ *           type: integer
+ *         description: ID del usuario a actualizar
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               correo:
+ *                 type: string
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Usuario actualizado con éxito
  *       400:
- *         description: Error en los datos enviados
+ *         description: Datos inválidos o incompletos
  *       401:
  *         description: Token no válido o expirado
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /api/usuarios/{id}:
+ * /usuarios/{id}:
  *   delete:
- *     summary: Eliminar un usuario por ID
+ *     summary: Eliminar un usuario
+ *     description: Elimina un usuario especificado por su ID. Ruta protegida.
  *     tags: [Usuarios]
- * 
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         schema:
+ *           type: integer
  *         description: ID del usuario a eliminar
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Usuario eliminado con éxito
@@ -154,67 +184,82 @@ const validarToken = require('../middlewares/validarToken');
  *         description: Usuario no encontrado
  *       401:
  *         description: Token no válido o expirado
+ *       500:
+ *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /api/usuarios/login:
+ * /usuarios/login:
  *   post:
  *     summary: Autenticar usuario y generar JWT
+ *     description: Permite a un usuario autenticarse proporcionando su correo y contraseña, y recibir un JWT para futuras solicitudes.
  *     tags: [Usuarios]
- * 
- *     parameters:
- *       - in: body
- *         name: usuario
- *         description: Datos del usuario para iniciar sesión
- *         schema:
- *           type: object
- *           required:
- *             - correo
- *             - contraseña
- *           properties:
- *             correo:
- *               type: string
- *             contraseña:
- *               type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               correo:
+ *                 type: string
+ *               contrasena:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Autenticación exitosa
+ *         description: Autenticación exitosa, JWT generado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       400:
+ *         description: Datos inválidos o incompletos
  *       401:
- *         description: Usuario o contraseña incorrectos
+ *         description: Credenciales incorrectas
+ *       500:
+ *         description: Error interno del servidor
  */
 
 /**
  * @swagger
- * /api/usuarios/cambiarContrasenia/{id}:
+ * /usuarios/cambiarContrasenia/{id}:
  *   put:
  *     summary: Cambiar la contraseña de un usuario
+ *     description: Permite a un usuario cambiar su contraseña proporcionada su ID y nueva contraseña. Ruta protegida.
  *     tags: [Usuarios]
- * 
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID del usuario
- *       - in: body
- *         name: contraseña
- *         description: Nueva contraseña
  *         schema:
- *           type: object
- *           required:
- *             - nuevaContraseña
- *           properties:
- *             nuevaContraseña:
- *               type: string
+ *           type: integer
+ *         description: ID del usuario que cambiará su contraseña
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nueva_contrasena:
+ *                 type: string
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Contraseña cambiada con éxito
  *       400:
- *         description: Error en los datos enviados
+ *         description: Datos inválidos o incompletos
  *       401:
  *         description: Token no válido o expirado
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
  */
 
 // Ruta de prueba básica (solo para verificar que funciona sin validarToken)

@@ -5,8 +5,21 @@ const juegosController = {
     crearJuego: async (req, res) => {
         const { nombre, descripcion, dificultad, tipo, clase_id } = req.body;
 
-        if (!nombre || !descripcion || !dificultad || !tipo || !clase_id) {
-            return res.status(400).json({ error: 'Faltan datos necesarios para crear el juego' });
+        // Validaciones
+        if (!nombre || typeof nombre !== 'string' || nombre.trim().length === 0) {
+            return res.status(400).json({ error: 'El nombre del juego es obligatorio y debe ser una cadena no vacía' });
+        }
+        if (!descripcion || typeof descripcion !== 'string' || descripcion.trim().length === 0) {
+            return res.status(400).json({ error: 'La descripción del juego es obligatoria y debe ser una cadena no vacía' });
+        }
+        if (!dificultad || !['baja', 'media', 'alta'].includes(dificultad)) {
+            return res.status(400).json({ error: 'La dificultad debe ser baja, media o alta' });
+        }
+        if (!tipo || typeof tipo !== 'string' || tipo.trim().length === 0) {
+            return res.status(400).json({ error: 'El tipo de juego es obligatorio y debe ser una cadena no vacía' });
+        }
+        if (!clase_id || isNaN(clase_id) || clase_id <= 0) {
+            return res.status(400).json({ error: 'El ID de la clase debe ser un número válido' });
         }
 
         try {
@@ -33,6 +46,11 @@ const juegosController = {
     obtenerJuegoPorId: async (req, res) => {
         const { id_juego } = req.params;
 
+        // Validaciones
+        if (!id_juego || isNaN(id_juego) || id_juego <= 0) {
+            return res.status(400).json({ error: 'El ID del juego debe ser un número válido' });
+        }
+
         try {
             const juego = await JuegoModel.obtenerJuegoPorId(id_juego);
             if (!juego) {
@@ -50,6 +68,26 @@ const juegosController = {
         const { id_juego } = req.params;
         const { nombre, descripcion, dificultad, tipo, clase_id } = req.body;
 
+        // Validaciones
+        if (!id_juego || isNaN(id_juego) || id_juego <= 0) {
+            return res.status(400).json({ error: 'El ID del juego debe ser un número válido' });
+        }
+        if (nombre && (typeof nombre !== 'string' || nombre.trim().length === 0)) {
+            return res.status(400).json({ error: 'El nombre del juego debe ser una cadena no vacía' });
+        }
+        if (descripcion && (typeof descripcion !== 'string' || descripcion.trim().length === 0)) {
+            return res.status(400).json({ error: 'La descripción del juego debe ser una cadena no vacía' });
+        }
+        if (dificultad && !['baja', 'media', 'alta'].includes(dificultad)) {
+            return res.status(400).json({ error: 'La dificultad debe ser baja, media o alta' });
+        }
+        if (tipo && (typeof tipo !== 'string' || tipo.trim().length === 0)) {
+            return res.status(400).json({ error: 'El tipo de juego debe ser una cadena no vacía' });
+        }
+        if (clase_id && (isNaN(clase_id) || clase_id <= 0)) {
+            return res.status(400).json({ error: 'El ID de la clase debe ser un número válido' });
+        }
+
         try {
             const juegoModificado = await JuegoModel.modificarJuego(id_juego, { nombre, descripcion, dificultad, tipo, clase_id });
             if (!juegoModificado) {
@@ -65,6 +103,11 @@ const juegosController = {
     // Eliminar un juego
     eliminarJuego: async (req, res) => {
         const { id_juego } = req.params;
+
+        // Validaciones
+        if (!id_juego || isNaN(id_juego) || id_juego <= 0) {
+            return res.status(400).json({ error: 'El ID del juego debe ser un número válido' });
+        }
 
         try {
             const juegoEliminado = await JuegoModel.eliminarJuego(id_juego);
