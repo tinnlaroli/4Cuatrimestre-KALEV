@@ -6,19 +6,20 @@ const validarToken = require('../middlewares/validarToken');
 /**
  * @swagger
  * tags:
- *   name: Usuarios
- *   description: Endpoints para la gestión de usuarios
+ *   - name: Prueba
+ *     description: Rutas de prueba para verificar la funcionalidad de la API.
  */
 
 /**
  * @swagger
- * /usuarios/prueba:
+ * /prueba:
  *   get:
  *     summary: Ruta de prueba básica
- *     tags: [Usuarios]
+ *     description: Verifica que la API está funcionando y alcanzable. No requiere token de autenticación.
+ *     tags: [Prueba]
  *     responses:
  *       200:
- *         description: Prueba exitosa
+ *         description: Respuesta de prueba exitosa.
  *         content:
  *           application/json:
  *             schema:
@@ -26,7 +27,14 @@ const validarToken = require('../middlewares/validarToken');
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Mensaje de éxito
+ *                   example: "Prueba exitosa después del middleware global"
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Usuarios
+ *     description: Rutas relacionadas con la gestión de usuarios.
  */
 
 /**
@@ -34,26 +42,21 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios:
  *   post:
  *     summary: Crear un nuevo usuario
+ *     description: Crea un nuevo usuario en la base de datos. Ruta pública.
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *                 description: Nombre del usuario
- *               correo:
- *                 type: string
- *                 description: Correo electrónico del usuario
- *               contrasena:
- *                 type: string
- *                 description: Contraseña del usuario
+ *             $ref: '#/components/schemas/NuevoUsuario'
  *     responses:
  *       201:
- *         description: Usuario creado exitosamente
+ *         description: Usuario creado con éxito.
+ *       400:
+ *         description: Datos inválidos o incompletos.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -61,25 +64,23 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios:
  *   get:
  *     summary: Obtener todos los usuarios
- *     security:
- *       - BearerAuth: []
+ *     description: Recupera todos los usuarios registrados. Requiere token de autenticación.
  *     tags: [Usuarios]
+ *     security:
+ *      - BearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de usuarios
+ *         description: Lista de usuarios.
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                   nombre:
- *                     type: string
- *                   correo:
- *                     type: string
+ *                 $ref: '#/components/schemas/Usuario'
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -87,30 +88,30 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/{id}:
  *   get:
  *     summary: Obtener un usuario por ID
- *     security:
- *       - BearerAuth: []
+ *     description: Recupera un usuario específico mediante su ID. Requiere token de autenticación.
  *     tags: [Usuarios]
+ *     security:
+ *      - BearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID del usuario.
  *         schema:
- *           type: string
- *         description: ID del usuario
+ *           type: integer
  *     responses:
  *       200:
- *         description: Usuario encontrado
+ *         description: Usuario encontrado.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: string
- *                 nombre:
- *                   type: string
- *                 correo:
- *                   type: string
+ *               $ref: '#/components/schemas/Usuario'
+ *       404:
+ *         description: Usuario no encontrado.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -118,30 +119,34 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/{id}:
  *   put:
  *     summary: Actualizar un usuario
- *     security:
- *       - BearerAuth: []
+ *     description: Actualiza los detalles de un usuario específico. Requiere token de autenticación.
  *     tags: [Usuarios]
+ *     security:
+ *      - BearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID del usuario.
  *         schema:
- *           type: string
- *         description: ID del usuario
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *               correo:
- *                 type: string
+ *             $ref: '#/components/schemas/Usuario'
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Usuario actualizado con éxito.
+ *       400:
+ *         description: Datos inválidos o incompletos.
+ *       404:
+ *         description: Usuario no encontrado.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -149,19 +154,26 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/{id}:
  *   delete:
  *     summary: Eliminar un usuario
- *     security:
- *       - BearerAuth: []
+ *     description: Elimina un usuario específico. Requiere token de autenticación.
  *     tags: [Usuarios]
+ *     security:
+ *      - BearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID del usuario.
  *         schema:
- *           type: string
- *         description: ID del usuario
+ *           type: integer
  *     responses:
- *       200:
- *         description: Usuario eliminado exitosamente
+ *       204:
+ *         description: Usuario eliminado con éxito.
+ *       404:
+ *         description: Usuario no encontrado.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -169,23 +181,17 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/login:
  *   post:
  *     summary: Autenticar usuario y generar JWT
+ *     description: Permite a un usuario autenticarse y recibir un token JWT. Ruta pública.
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               correo:
- *                 type: string
- *                 description: Correo electrónico del usuario
- *               contrasena:
- *                 type: string
- *                 description: Contraseña del usuario
+ *             $ref: '#/components/schemas/LoginUsuario'
  *     responses:
  *       200:
- *         description: Inicio de sesión exitoso
+ *         description: Autenticación exitosa y token generado.
  *         content:
  *           application/json:
  *             schema:
@@ -193,40 +199,46 @@ const validarToken = require('../middlewares/validarToken');
  *               properties:
  *                 token:
  *                   type: string
- *                   description: Token JWT generado
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmF0aW9uIjoiMTY1Njg0OTI2MiIsInJvbGUiOiJ1c2VyaW8iLCJpYXQiOjE2NTY4NDk2MjJ9.1Hl5YoQJytHwXg4ybNpj2k1H3_zQ8hizR2Pp1uNfZTg"
+ *       401:
+ *         description: Credenciales incorrectas.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 /**
  * @swagger
  * /usuarios/cambiarContrasenia/{id}:
  *   put:
- *     summary: Cambiar la contraseña de un usuario
- *     security:
- *       - BearerAuth: []
+ *     summary: Cambiar contraseña de un usuario
+ *     description: Permite a un usuario cambiar su contraseña. Requiere token de autenticación.
  *     tags: [Usuarios]
+ *     security:
+ *      - BearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID del usuario.
  *         schema:
- *           type: string
- *         description: ID del usuario
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               contrasenaActual:
- *                 type: string
- *                 description: Contraseña actual del usuario
- *               nuevaContrasena:
- *                 type: string
- *                 description: Nueva contraseña del usuario
+ *             $ref: '#/components/schemas/CambiarContrasenia'
  *     responses:
  *       200:
- *         description: Contraseña cambiada exitosamente
+ *         description: Contraseña cambiada con éxito.
+ *       400:
+ *         description: Datos inválidos o incompletos.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
+ *       404:
+ *         description: Usuario no encontrado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 
 // Ruta de prueba básica (solo para verificar que funciona sin validarToken)

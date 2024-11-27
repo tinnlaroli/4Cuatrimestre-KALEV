@@ -5,29 +5,23 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * tags:
- *   name: Clases
- *   description: Endpoints relacionados con clases y estudiantes
- */
-
-/**
- * @swagger
  * /{id_estudiante}/clases:
  *   get:
  *     summary: Obtener todas las clases en las que un estudiante está inscrito
+ *     description: Permite obtener la lista de todas las clases a las que un estudiante está inscrito. Requiere token de autenticación.
+ *     tags: [Estudiantes]
  *     security:
  *       - BearerAuth: []
- *     tags: [Clases]
  *     parameters:
- *       - in: path
- *         name: id_estudiante
+ *       - name: id_estudiante
+ *         in: path
  *         required: true
+ *         description: ID del estudiante para obtener sus clases.
  *         schema:
- *           type: string
- *         description: ID del estudiante
+ *           type: integer
  *     responses:
  *       200:
- *         description: Lista de clases en las que el estudiante está inscrito
+ *         description: Lista de clases obtenida con éxito.
  *         content:
  *           application/json:
  *             schema:
@@ -36,15 +30,17 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 type: object
  *                 properties:
  *                   id_clase:
- *                     type: string
- *                     description: ID de la clase
+ *                     type: integer
  *                   nombre_clase:
  *                     type: string
- *                     description: Nombre de la clase
+ *                   nivel:
+ *                     type: string
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Estudiante no encontrado o sin clases inscritas
+ *         description: Estudiante no encontrado o no tiene clases asignadas.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -52,19 +48,20 @@ const estudiantesController = require('../controllers/estudiantesController');
  * /{id_clase}/estudiantes:
  *   get:
  *     summary: Obtener estudiantes de una clase
+ *     description: Permite obtener la lista de estudiantes inscritos en una clase específica. Requiere token de autenticación.
+ *     tags: [Estudiantes]
  *     security:
  *       - BearerAuth: []
- *     tags: [Clases]
  *     parameters:
- *       - in: path
- *         name: id_clase
+ *       - name: id_clase
+ *         in: path
  *         required: true
+ *         description: ID de la clase para obtener sus estudiantes.
  *         schema:
- *           type: string
- *         description: ID de la clase
+ *           type: integer
  *     responses:
  *       200:
- *         description: Lista de estudiantes inscritos en la clase
+ *         description: Lista de estudiantes obtenida con éxito.
  *         content:
  *           application/json:
  *             schema:
@@ -73,15 +70,17 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 type: object
  *                 properties:
  *                   id_estudiante:
- *                     type: string
- *                     description: ID del estudiante
+ *                     type: integer
  *                   nombre_estudiante:
  *                     type: string
- *                     description: Nombre del estudiante
+ *                   edad:
+ *                     type: integer
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Clase no encontrada o sin estudiantes
+ *         description: Clase no encontrada o no tiene estudiantes inscritos.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -89,19 +88,20 @@ const estudiantesController = require('../controllers/estudiantesController');
  * /{id_docente}/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
+ *     description: Permite obtener la lista de todas las clases impartidas por un docente. Requiere token de autenticación.
+ *     tags: [Estudiantes]
  *     security:
  *       - BearerAuth: []
- *     tags: [Clases]
  *     parameters:
- *       - in: path
- *         name: id_docente
+ *       - name: id_docente
+ *         in: path
  *         required: true
+ *         description: ID del docente para obtener sus clases.
  *         schema:
- *           type: string
- *         description: ID del docente
+ *           type: integer
  *     responses:
  *       200:
- *         description: Lista de clases asignadas al docente
+ *         description: Lista de clases obtenida con éxito.
  *         content:
  *           application/json:
  *             schema:
@@ -110,15 +110,17 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 type: object
  *                 properties:
  *                   id_clase:
- *                     type: string
- *                     description: ID de la clase
+ *                     type: integer
  *                   nombre_clase:
  *                     type: string
- *                     description: Nombre de la clase
+ *                   nivel:
+ *                     type: string
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Docente no encontrado o sin clases asignadas
+ *         description: Docente no encontrado o no tiene clases asignadas.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 // Obtener todas las clases en las que un estudiante está inscrito

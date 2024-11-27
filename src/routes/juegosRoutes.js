@@ -5,21 +5,16 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
 
 /**
  * @swagger
- * tags:
- *   name: Juegos
- *   description: Endpoints para la gestión de juegos
- */
-
-/**
- * @swagger
  * /juegos:
  *   post:
  *     summary: Crear un nuevo juego
+ *     description: Permite a un docente crear un nuevo juego para la plataforma. Requiere token de autenticación.
+ *     tags: [Juegos]
  *     security:
  *       - BearerAuth: []
- *     tags: [Juegos]
  *     requestBody:
  *       required: true
+ *       description: Datos necesarios para crear un nuevo juego.
  *       content:
  *         application/json:
  *           schema:
@@ -27,23 +22,21 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *             properties:
  *               nombre:
  *                 type: string
- *                 description: Nombre del juego
+ *                 example: "Juego de Matemáticas"
  *               descripcion:
  *                 type: string
- *                 description: Descripción del juego
- *               dificultad:
+ *                 example: "Un juego interactivo para practicar operaciones matemáticas."
+ *               nivel_dificultad:
  *                 type: string
- *                 description: Nivel de dificultad del juego
- *               categoria:
- *                 type: string
- *                 description: Categoría del juego
+ *                 enum: [facil, medio, dificil]
+ *                 example: "medio"
  *     responses:
  *       201:
- *         description: Juego creado exitosamente
- *       400:
- *         description: Error en los datos proporcionados
+ *         description: Juego creado exitosamente.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -51,12 +44,13 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  * /juegos:
  *   get:
  *     summary: Obtener todos los juegos
+ *     description: Obtiene la lista de todos los juegos disponibles en la plataforma. Requiere token de autenticación.
+ *     tags: [Juegos]
  *     security:
  *       - BearerAuth: []
- *     tags: [Juegos]
  *     responses:
  *       200:
- *         description: Lista de juegos obtenida exitosamente
+ *         description: Lista de juegos obtenida con éxito.
  *         content:
  *           application/json:
  *             schema:
@@ -64,20 +58,18 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
- *                     type: string
- *                     description: ID del juego
+ *                   id_juego:
+ *                     type: integer
  *                   nombre:
  *                     type: string
- *                     description: Nombre del juego
  *                   descripcion:
  *                     type: string
- *                   dificultad:
+ *                   nivel_dificultad:
  *                     type: string
- *                   categoria:
- *                     type: string
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -85,39 +77,39 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  * /juegos/{id_juego}:
  *   get:
  *     summary: Obtener un juego por su ID
+ *     description: Obtiene los detalles de un juego específico a través de su ID. Requiere token de autenticación.
+ *     tags: [Juegos]
  *     security:
  *       - BearerAuth: []
- *     tags: [Juegos]
  *     parameters:
- *       - in: path
- *         name: id_juego
+ *       - name: id_juego
+ *         in: path
  *         required: true
+ *         description: ID del juego que se desea obtener.
  *         schema:
- *           type: string
- *         description: ID del juego
+ *           type: integer
  *     responses:
  *       200:
- *         description: Juego encontrado
+ *         description: Detalles del juego obtenidos con éxito.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id:
- *                   type: string
- *                   description: ID del juego
+ *                 id_juego:
+ *                   type: integer
  *                 nombre:
  *                   type: string
  *                 descripcion:
  *                   type: string
- *                 dificultad:
+ *                 nivel_dificultad:
  *                   type: string
- *                 categoria:
- *                   type: string
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Juego no encontrado
+ *         description: Juego no encontrado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -125,18 +117,20 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  * /juegos/{id_juego}:
  *   put:
  *     summary: Modificar un juego
+ *     description: Permite a un docente modificar los detalles de un juego existente. Requiere token de autenticación.
+ *     tags: [Juegos]
  *     security:
  *       - BearerAuth: []
- *     tags: [Juegos]
  *     parameters:
- *       - in: path
- *         name: id_juego
+ *       - name: id_juego
+ *         in: path
  *         required: true
+ *         description: ID del juego que se desea modificar.
  *         schema:
- *           type: string
- *         description: ID del juego
+ *           type: integer
  *     requestBody:
  *       required: true
+ *       description: Datos actualizados para el juego.
  *       content:
  *         application/json:
  *           schema:
@@ -144,19 +138,23 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *             properties:
  *               nombre:
  *                 type: string
+ *                 example: "Juego de Matemáticas Avanzado"
  *               descripcion:
  *                 type: string
- *               dificultad:
+ *                 example: "Juego mejorado para practicar operaciones avanzadas."
+ *               nivel_dificultad:
  *                 type: string
- *               categoria:
- *                 type: string
+ *                 enum: [facil, medio, dificil]
+ *                 example: "dificil"
  *     responses:
  *       200:
- *         description: Juego actualizado exitosamente
+ *         description: Juego modificado exitosamente.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Juego no encontrado
+ *         description: Juego no encontrado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -164,23 +162,26 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  * /juegos/{id_juego}:
  *   delete:
  *     summary: Eliminar un juego
+ *     description: Permite a un docente eliminar un juego específico de la plataforma. Requiere token de autenticación.
+ *     tags: [Juegos]
  *     security:
  *       - BearerAuth: []
- *     tags: [Juegos]
  *     parameters:
- *       - in: path
- *         name: id_juego
+ *       - name: id_juego
+ *         in: path
  *         required: true
+ *         description: ID del juego que se desea eliminar.
  *         schema:
- *           type: string
- *         description: ID del juego
+ *           type: integer
  *     responses:
- *       200:
- *         description: Juego eliminado exitosamente
+ *       204:
+ *         description: Juego eliminado exitosamente.
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Juego no encontrado
+ *         description: Juego no encontrado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 // Crear un nuevo juego

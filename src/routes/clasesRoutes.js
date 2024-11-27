@@ -5,19 +5,13 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * tags:
- *   name: Clases
- *   description: Endpoints relacionados con la gestión de clases
- */
-
-/**
- * @swagger
  * /:
  *   post:
  *     summary: Crear una nueva clase
+ *     description: Permite al docente crear una nueva clase. Requiere token de autenticación.
+ *     tags: [Clases]
  *     security:
  *       - BearerAuth: []
- *     tags: [Clases]
  *     requestBody:
  *       required: true
  *       content:
@@ -27,28 +21,28 @@ const validarToken = require('../middlewares/validarToken');
  *             properties:
  *               nombre_clase:
  *                 type: string
- *                 description: Nombre de la clase
+ *               nivel:
+ *                 type: string
  *               descripcion:
  *                 type: string
- *                 description: Descripción opcional de la clase
  *     responses:
  *       201:
- *         description: Clase creada exitosamente
+ *         description: Clase creada con éxito.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 id_clase:
+ *                   type: integer
+ *                 nombre_clase:
  *                   type: string
- *                   description: ID único de la clase
- *                 codigo_clase:
+ *                 nivel:
  *                   type: string
- *                   description: Código único de la clase
- *       400:
- *         description: Datos inválidos en la solicitud
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -56,38 +50,35 @@ const validarToken = require('../middlewares/validarToken');
  * /{codigo_clase}:
  *   get:
  *     summary: Obtener una clase por su código
+ *     description: Permite obtener los detalles de una clase específica por su código. No requiere autenticación.
  *     tags: [Clases]
  *     parameters:
- *       - in: path
- *         name: codigo_clase
+ *       - name: codigo_clase
+ *         in: path
  *         required: true
+ *         description: Código único de la clase.
  *         schema:
  *           type: string
- *         description: Código único de la clase
  *     responses:
  *       200:
- *         description: Información de la clase encontrada
+ *         description: Clase obtenida con éxito.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 id_clase:
- *                   type: string
- *                   description: ID de la clase
+ *                   type: integer
  *                 nombre_clase:
  *                   type: string
- *                   description: Nombre de la clase
+ *                 nivel:
+ *                   type: string
  *                 descripcion:
  *                   type: string
- *                   description: Descripción de la clase
- *                 codigo_clase:
- *                   type: string
- *                   description: Código de la clase
  *       404:
- *         description: Clase no encontrada
+ *         description: Clase no encontrada.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -95,12 +86,13 @@ const validarToken = require('../middlewares/validarToken');
  * /:
  *   get:
  *     summary: Obtener todas las clases de un docente
+ *     description: Permite al docente obtener todas las clases que imparte. Requiere token de autenticación.
+ *     tags: [Clases]
  *     security:
  *       - BearerAuth: []
- *     tags: [Clases]
  *     responses:
  *       200:
- *         description: Lista de clases del docente
+ *         description: Lista de clases obtenida con éxito.
  *         content:
  *           application/json:
  *             schema:
@@ -109,19 +101,15 @@ const validarToken = require('../middlewares/validarToken');
  *                 type: object
  *                 properties:
  *                   id_clase:
- *                     type: string
- *                     description: ID de la clase
+ *                     type: integer
  *                   nombre_clase:
  *                     type: string
- *                     description: Nombre de la clase
- *                   descripcion:
+ *                   nivel:
  *                     type: string
- *                     description: Descripción de la clase
- *                   codigo_clase:
- *                     type: string
- *                     description: Código único de la clase
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 /**
@@ -129,9 +117,10 @@ const validarToken = require('../middlewares/validarToken');
  * /unirse:
  *   post:
  *     summary: Unirse a una clase con el código
+ *     description: Permite a un estudiante unirse a una clase con el código correspondiente. Requiere token de autenticación.
+ *     tags: [Clases]
  *     security:
  *       - BearerAuth: []
- *     tags: [Clases]
  *     requestBody:
  *       required: true
  *       content:
@@ -141,10 +130,9 @@ const validarToken = require('../middlewares/validarToken');
  *             properties:
  *               codigo_clase:
  *                 type: string
- *                 description: Código único de la clase
  *     responses:
  *       200:
- *         description: Estudiante unido exitosamente a la clase
+ *         description: Unión a la clase realizada con éxito.
  *         content:
  *           application/json:
  *             schema:
@@ -152,11 +140,13 @@ const validarToken = require('../middlewares/validarToken');
  *               properties:
  *                 mensaje:
  *                   type: string
- *                   description: Confirmación de la acción
+ *                   example: "Te has unido a la clase con éxito."
+ *       401:
+ *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Clase no encontrada o código incorrecto
+ *         description: Clase no encontrada.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
 
 // Crear una nueva clase (solo docente)
