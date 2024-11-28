@@ -4,16 +4,23 @@ const dotenv = require('dotenv');
 const setupSwagger = require('./swagger/swagger');
 
 // Inicialización de la aplicación
-dotenv.config(); // Carga las variables de entorno desde el archivo .env
+dotenv.config();
 const app = express();
 
 // Importar la conexión a la base de datos
 const { pool } = require('./src/utils/db');
 
+// Configuración de CORS
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://api-appkalev.up.railway.app/'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+}));
+
 // Middlewares globales
-app.use(express.json()); // Procesar datos en formato JSON
-app.use(cors());         // Habilitar CORS para solicitudes entre dominios
-setupSwagger(app);       // Configurar Swagger para la documentación de API
+app.use(express.json());
+setupSwagger(app);
 
 // Importar rutas
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
@@ -31,7 +38,22 @@ app.use('/juegos', juegosRoutes);
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
-    console.error(err.stack); // Loguear el error en la consola
+    console.error(err.stack);
+
+    if (err.status === 404) {
+        return res.status(404).json({
+            error: true,
+            message: 'Recurso no encontrado.',
+        });
+    }
+
+    if (err.name === 'ValidationError') {
+        return res.status(400).json({
+            error: true,
+            message: 'Error de validación: ' + err.message,
+        });
+    }
+
     res.status(err.status || 500).json({
         error: true,
         message: err.message || 'Error interno del servidor.',
@@ -39,10 +61,9 @@ app.use((err, req, res, next) => {
 });
 
 // Puerto y arranque del servidor
-const PORT = process.env.PORT || 5000; // Usa el puerto definido en .env o el 5000 por defecto
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
 
-// Exportar app y pool (opcional, para pruebas o usos externos)
 module.exports = { app, pool };

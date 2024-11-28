@@ -5,7 +5,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * reporte/clases/{id_clase}/reporte:
+ * reporte/clases/reporte/{id_clase}:
  *   get:
  *     summary: Generar reporte en PDF de una clase
  *     description: Permite al docente generar un reporte en formato PDF de los estudiantes y sus progresos en una clase específica. Requiere token de autenticación.
@@ -36,6 +36,6 @@ const validarToken = require('../middlewares/validarToken');
  */
 
 // Ruta para generar el PDF del reporte
-router.get('/clases/:id_clase/reporte', validarToken(), reporteController.generarReportePDF);
+router.get('/clases/reporte/:id_clase', validarToken(), reporteController.generarReportePDF);
 
 module.exports = router;
