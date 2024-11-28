@@ -1,5 +1,8 @@
 import { expect } from 'chai';
 import {validarNombreJuego,validarDescripcion,validarDificultad,validarTipoJuego,validarIdClase} from '../src/validacionesJuego.js'; // Cambia el nombre según tu archivo
+import { getGameById } from "../src/validacionesJuego.js";
+import { juegos, eliminarJuegoPorId } from "../src/validacionesJuego.js"; // ajusta la ruta según sea necesario
+
 
 describe('Validaciones para crear un nuevo juego', () => {
     it('Validar nombre del juego', () => {
@@ -36,4 +39,54 @@ describe('Validaciones para crear un nuevo juego', () => {
         expect(validarIdClase(0)).to.be.false; // Cero no es válido
         expect(validarIdClase('')).to.be.false; // Espacio vacío
     });
+});
+describe("Pruebas para buscar un juego por su ID", () => {
+    it("Debe retornar el juego si el ID es válido", () => {
+      const game = getGameById(1);
+      expect(game).to.be.an("object");
+      expect(game).to.have.property("name", "Chess");
+    });
+  
+    it("Debe lanzar un error si el ID no es un número", () => {
+      expect(() => getGameById("abc")).to.throw("El ID debe ser un número.");
+      expect(() => getGameById(null)).to.throw("El ID debe ser un número.");
+      expect(() => getGameById(undefined)).to.throw("El ID debe ser un número.");
+    });
+  
+    it("Debe lanzar un error si no encuentra el juego", () => {
+      expect(() => getGameById(999)).to.throw("Juego no encontrado.");
+    });
+  });
+
+
+describe("Validaciones para eliminar un juego por ID", () => {
+  beforeEach(() => {
+    // Configuramos el estado inicial antes de cada prueba
+    juegos.set(1, { nombre: "Juego A" });
+    juegos.set(2, { nombre: "Juego B" });
+  });
+
+  afterEach(() => {
+    // Limpiamos los datos después de cada prueba
+    juegos.clear();
+  });
+
+  it("Debería eliminar un juego si el ID es válido y existe", () => {
+    const resultado = eliminarJuegoPorId(1);
+    expect(resultado).to.be.true;
+    expect(juegos.has(1)).to.be.false;
+  });
+
+  it("Debería lanzar un error si el ID no es un número", () => {
+    expect(() => eliminarJuegoPorId("1a")).to.throw("El ID debe ser un número válido");
+    expect(() => eliminarJuegoPorId("abc")).to.throw("El ID debe ser un número válido");
+  });
+
+  it("Debería lanzar un error si el juego no existe", () => {
+    expect(() => eliminarJuegoPorId(99)).to.throw("El juego no existe");
+  });
+
+  it("Debería lanzar un error si el ID es NaN", () => {
+    expect(() => eliminarJuegoPorId(NaN)).to.throw("El ID debe ser un número válido");
+  });
 });
