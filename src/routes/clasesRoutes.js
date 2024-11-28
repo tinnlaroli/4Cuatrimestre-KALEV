@@ -150,7 +150,7 @@ const validarToken = require('../middlewares/validarToken');
  */
 
 // Crear una nueva clase (solo docente)
-router.post('/', validarToken(), clasesController.crearClase);
+router.post('/clases', validarToken(), clasesController.crearClase);
 
 // Obtener una clase por su código
 router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);
