@@ -18,13 +18,19 @@ const validarToken = require('../middlewares/validarToken');
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - nombre_clase
+ *               - nivel
  *             properties:
  *               nombre_clase:
  *                 type: string
+ *                 description: Nombre de la clase.
  *               nivel:
  *                 type: string
+ *                 description: Nivel académico de la clase.
  *               descripcion:
  *                 type: string
+ *                 description: Descripción opcional de la clase.
  *     responses:
  *       201:
  *         description: Clase creada con éxito.
@@ -47,7 +53,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /{codigo_clase}:
+ * /clases/{codigo_clase}:
  *   get:
  *     summary: Obtener una clase por su código
  *     description: Permite obtener los detalles de una clase específica por su código. No requiere autenticación.
@@ -83,13 +89,20 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /docente/:id/clases:
+ * /docente/{id}/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
  *     description: Permite al docente obtener todas las clases que imparte. Requiere token de autenticación.
  *     tags: [Clases]
  *     security:
  *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID del docente.
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Lista de clases obtenida con éxito.
@@ -114,7 +127,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /unirse:
+ * /clases/unirse:
  *   post:
  *     summary: Unirse a una clase con el código
  *     description: Permite a un estudiante unirse a una clase con el código correspondiente. Requiere token de autenticación.
@@ -127,9 +140,12 @@ const validarToken = require('../middlewares/validarToken');
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - codigo_clase
  *             properties:
  *               codigo_clase:
  *                 type: string
+ *                 description: Código único de la clase al que se desea unir.
  *     responses:
  *       200:
  *         description: Unión a la clase realizada con éxito.
@@ -149,16 +165,17 @@ const validarToken = require('../middlewares/validarToken');
  *         description: Error interno del servidor.
  */
 
+
 // Crear una nueva clase (solo docente)
-router.post('/clases', validarToken(), clasesController.crearClase);
+router.post('/clases', validarToken, clasesController.crearClase);
 
 // Obtener una clase por su código
-router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);
+router.get('/clases/:codigo_clase', clasesController.obtenerClasePorCodigo);
 
 // Obtener todas las clases de un docente
-router.get('/docente/:id/clases', validarToken(), clasesController.obtenerClasesPorDocente);
+router.get('/clases/docente/:id', validarToken, clasesController.obtenerClasesPorDocente);
 
 // Unirse a una clase con el código
-router.post('/unirse', validarToken(), clasesController.unirseAClase);
+router.post('/clases/unirse', validarToken, clasesController.unirseAClase);
 
 module.exports = router;

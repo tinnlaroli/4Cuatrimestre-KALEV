@@ -1,43 +1,48 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const setupSwagger = require('./swagger/swagger');
 
-// Cargar variables de entorno
-dotenv.config();
+// Inicialización de la aplicación
+dotenv.config(); // Carga las variables de entorno desde el archivo .env
+const app = express();
 
 // Importar la conexión a la base de datos
 const { pool } = require('./src/utils/db');
 
-// Middleware
-app.use(express.json()); // Para procesar los datos en formato JSON
-app.use(cors());         // Habilitar CORS para las solicitudes entre dominios
-setupSwagger(app);       // Configura Swagger en la aplicación
+// Middlewares globales
+app.use(express.json()); // Procesar datos en formato JSON
+app.use(cors());         // Habilitar CORS para solicitudes entre dominios
+setupSwagger(app);       // Configurar Swagger para la documentación de API
 
-// Rutas
+// Importar rutas
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const clasesRoutes = require('./src/routes/clasesRoutes');
 const estudiantesRoutes = require('./src/routes/estudiantesRoutes');
-const reporteRoutes = require('./src/routes/reporte');
+const reporteRoutes = require('./src/routes/reporteRoutes');
 const juegosRoutes = require('./src/routes/juegosRoutes');
 
-// Middleware global
-app.use((req, res, next) => {
-    next();
+// Rutas principales
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/clases', clasesRoutes);
+app.use('/api/estudiantes', estudiantesRoutes);
+app.use('/api/reportes', reporteRoutes);
+app.use('/api/juegos', juegosRoutes);
+
+// Middleware de manejo de errores
+app.use((err, req, res, next) => {
+    console.error(err.stack); // Loguear el error en la consola
+    res.status(err.status || 500).json({
+        error: true,
+        message: err.message || 'Error interno del servidor.',
+    });
 });
 
-// Rutas para usuarios y clases
-app.use('/usuarios', usuariosRoutes);
-app.use('/clases', clasesRoutes);
-app.use('/estudiantes', estudiantesRoutes);
-app.use('/', reporteRoutes);
-app.use('/', juegosRoutes);
-
-// Puerto y arranque
+// Puerto y arranque del servidor
 const PORT = process.env.PORT || 5000; // Usa el puerto definido en .env o el 5000 por defecto
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
 
-module.exports = { pool }; // Exportamos el pool de conexiones si se necesita en otros archivos
+// Exportar app y pool (opcional, para pruebas o usos externos)
+module.exports = { app, pool };
