@@ -30,3 +30,40 @@ export function validarTipoJuego(tipo) {
 export function validarIdClase(idClase) {
     return typeof idClase === 'number' && idClase > 0;
 }
+// games.js
+const games = [
+    { id: 1, name: "Chess" },
+    { id: 2, name: "Monopoly" },
+    { id: 3, name: "Scrabble" }
+  ];
+  
+  export function getGameById(id) {
+    if (typeof id !== "number" || isNaN(id)) {
+      throw new Error("El ID debe ser un número.");
+    }
+  
+    const game = games.find(game => game.id === id);
+    if (!game) {
+      throw new Error("Juego no encontrado.");
+    }
+  
+    return game;
+  }
+// lógica para eliminar un juego
+const juegos = new Map(); // simulamos una base de datos
+
+function eliminarJuegoPorId(id) {
+  if (typeof id !== 'number' || isNaN(id)) {
+    throw new Error("El ID debe ser un número válido");
+  }
+
+  if (!juegos.has(id)) {
+    throw new Error("El juego no existe");
+  }
+
+  juegos.delete(id);
+  return true;
+}
+
+export { juegos, eliminarJuegoPorId };
+  
