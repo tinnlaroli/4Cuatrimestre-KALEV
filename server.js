@@ -25,7 +25,7 @@ const juegosRoutes = require('./src/routes/juegosRoutes');
 // Rutas principales
 app.use('/usuarios', usuariosRoutes);
 app.use('/clases', clasesRoutes);
-app.use('estudiantes', estudiantesRoutes);
+app.use('/estudiantes', estudiantesRoutes);
 app.use('/reportes', reporteRoutes);
 app.use('/juegos', juegosRoutes);
 

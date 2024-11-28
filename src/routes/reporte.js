@@ -30,7 +30,7 @@ const validarToken = require('../middlewares/validarToken');
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
  *       404:
- *         description: Clase no encontrada.
+ *         description: Clase no encontrada o no tiene estudiantes asignados.
  *       500:
  *         description: Error interno del servidor.
  */

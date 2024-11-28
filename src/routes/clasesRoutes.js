@@ -5,7 +5,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /clases:
+ * /crearClase:
  *   post:
  *     summary: Crear una nueva clase
  *     description: Permite al docente crear una nueva clase. Requiere token de autenticación.
@@ -162,10 +162,8 @@ const validarToken = require('../middlewares/validarToken');
  *         description: Error interno del servidor.
  */
 
-
-
 // Crear una nueva clase (solo docente)
-router.post('/', validarToken, clasesController.crearClase);
+router.post('/crearClase', validarToken, clasesController.crearClase);
 
 // Obtener una clase por su código
 router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);

@@ -1,11 +1,10 @@
-// clases.js
 const express = require('express');
 const router = express.Router();
 const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * /{id_estudiante}/clases:
+ * /estudiantes/{id_estudiante}/clases:
  *   get:
  *     summary: Obtener todas las clases en las que un estudiante está inscrito
  *     description: Permite obtener la lista de todas las clases a las que un estudiante está inscrito. Requiere token de autenticación.
@@ -45,7 +44,7 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * /{id_clase}/estudiantes:
+ * /clases/{id_clase}/estudiantes:
  *   get:
  *     summary: Obtener estudiantes de una clase
  *     description: Permite obtener la lista de estudiantes inscritos en una clase específica. Requiere token de autenticación.
@@ -85,7 +84,7 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * /{id_docente}/clases:
+ * /docentes/{id_docente}/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
  *     description: Permite obtener la lista de todas las clases impartidas por un docente. Requiere token de autenticación.
@@ -124,12 +123,12 @@ const estudiantesController = require('../controllers/estudiantesController');
  */
 
 // Obtener todas las clases en las que un estudiante está inscrito
-router.get('/:id_estudiante/clases', estudiantesController.obtenerClasesPorEstudiante);
+router.get('/estudiantes/:id_estudiante/clases', estudiantesController.obtenerClasesPorEstudiante);
 
 // Obtener estudiantes de una clase
-router.get('/:id_clase/estudiantes', estudiantesController.obtenerEstudiantesPorClase);
+router.get('/clases/:id_clase/estudiantes', estudiantesController.obtenerEstudiantesPorClase);
 
 // Obtener todas las clases de un docente
-router.get('/:id_docente/clases', estudiantesController.obtenerClasesPorDocente);
+router.get('/docentes/:id_docente/clases', estudiantesController.obtenerClasesPorDocente);
 
 module.exports = router;
