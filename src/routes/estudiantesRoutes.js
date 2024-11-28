@@ -44,7 +44,7 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * /clases/{id_clase}/estudiantes:
+ * /estudiantes/clases/{id_clase}:
  *   get:
  *     summary: Obtener estudiantes de una clase
  *     description: Permite obtener la lista de estudiantes inscritos en una clase específica. Requiere token de autenticación.
@@ -84,7 +84,7 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * /docentes/{id_docente}/clases:
+ * estudiantes/docentes/{id_docente}/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
  *     description: Permite obtener la lista de todas las clases impartidas por un docente. Requiere token de autenticación.
@@ -123,10 +123,10 @@ const estudiantesController = require('../controllers/estudiantesController');
  */
 
 // Obtener todas las clases en las que un estudiante está inscrito
-router.get('/estudiantes/:id_estudiante/clases', estudiantesController.obtenerClasesPorEstudiante);
+router.get('/:id_estudiante/clases', estudiantesController.obtenerClasesPorEstudiante);
 
 // Obtener estudiantes de una clase
-router.get('/clases/:id_clase/estudiantes', estudiantesController.obtenerEstudiantesPorClase);
+router.get('/clases/:id_clase', estudiantesController.obtenerEstudiantesPorClase);
 
 // Obtener todas las clases de un docente
 router.get('/docentes/:id_docente/clases', estudiantesController.obtenerClasesPorDocente);
