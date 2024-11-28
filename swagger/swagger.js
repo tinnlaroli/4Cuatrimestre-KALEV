@@ -75,12 +75,12 @@ const swaggerOptions = {
             correo: {
               type: "string",
               format: "email",
-              example: "usuario@example.com",
+              example: "admin@example.com",
             },
             contraseña: {
               type: "string",
               format: "password",
-              example: "mypassword",
+              example: "admin12345",
             },
           },
           required: ["correo", "contraseña"],
