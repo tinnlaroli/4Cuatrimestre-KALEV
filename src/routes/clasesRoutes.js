@@ -156,7 +156,7 @@ router.post('/', validarToken(), clasesController.crearClase);
 router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);
 
 // Obtener todas las clases de un docente
-router.get('/', validarToken(), clasesController.obtenerClasesPorDocente);
+router.get('/estudiantes/:id/clases', validarToken(), clasesController.obtenerClasesPorDocente);
 
 // Unirse a una clase con el código
 router.post('/unirse', validarToken(), clasesController.unirseAClase);
