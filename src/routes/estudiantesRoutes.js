@@ -32,8 +32,9 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                     type: integer
  *                   nombre_clase:
  *                     type: string
- *                   nivel:
+ *                   fecha_creacion:
  *                     type: string
+ *                     format: date-time
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
  *       404:
@@ -70,9 +71,13 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                 properties:
  *                   id_estudiante:
  *                     type: integer
- *                   nombre_estudiante:
+ *                   nombre:
  *                     type: string
- *                   edad:
+ *                   correo:
+ *                     type: string
+ *                   foto:
+ *                     type: string
+ *                   estilo_aprendizaje:
  *                     type: integer
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
@@ -112,8 +117,11 @@ const estudiantesController = require('../controllers/estudiantesController');
  *                     type: integer
  *                   nombre_clase:
  *                     type: string
- *                   nivel:
+ *                   codigo_clase:
  *                     type: string
+ *                   fecha_creacion:
+ *                     type: string
+ *                     format: date-time
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
  *       404:
@@ -121,6 +129,7 @@ const estudiantesController = require('../controllers/estudiantesController');
  *       500:
  *         description: Error interno del servidor.
  */
+
 
 // Obtener todas las clases en las que un estudiante está inscrito
 router.get('/:id_estudiante/clases', estudiantesController.obtenerClasesPorEstudiante);

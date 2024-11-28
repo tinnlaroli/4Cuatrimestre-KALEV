@@ -180,7 +180,23 @@ const cambiarContraseña = async (req, res) => {
 };
 
 
-
+    exports.subirFoto = (req, res) => {
+        const { id_usuario } = req.params;
+    
+        if (!req.file) {
+        return res.status(400).json({ mensaje: 'No se ha subido ninguna foto.' });
+        }
+    
+        const fotoPath = path.join(__dirname, '../uploads', req.file.filename);
+    
+        // Aquí puedes actualizar la base de datos con la URL de la foto
+        // Ejemplo: Usuario.findByIdAndUpdate(id_usuario, { foto: fotoPath }, ...)
+    
+        res.status(200).json({
+        mensaje: 'Foto subida con éxito.',
+        url_foto: fotoPath // o la URL pública de la imagen
+        });
+    };
 
 module.exports = {
     crearUsuario,

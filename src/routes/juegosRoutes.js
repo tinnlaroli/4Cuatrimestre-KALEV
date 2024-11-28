@@ -26,10 +26,10 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *               descripcion:
  *                 type: string
  *                 example: "Un juego interactivo para practicar operaciones matemáticas."
- *               nivel_dificultad:
+ *               tipo:
  *                 type: string
- *                 enum: [facil, medio, dificil]
- *                 example: "medio"
+ *                 enum: ["puzzle", "preguntas", "rompecabezas", "quiz"]
+ *                 example: "preguntas"
  *     responses:
  *       201:
  *         description: Juego creado exitosamente.
@@ -64,7 +64,7 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *                     type: string
  *                   descripcion:
  *                     type: string
- *                   nivel_dificultad:
+ *                   tipo:
  *                     type: string
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
@@ -102,7 +102,7 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *                   type: string
  *                 descripcion:
  *                   type: string
- *                 nivel_dificultad:
+ *                 tipo:
  *                   type: string
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
@@ -142,10 +142,10 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *               descripcion:
  *                 type: string
  *                 example: "Juego mejorado para practicar operaciones avanzadas."
- *               nivel_dificultad:
+ *               tipo:
  *                 type: string
- *                 enum: [facil, medio, dificil]
- *                 example: "dificil"
+ *                 enum: ["puzzle", "preguntas", "rompecabezas", "quiz"]
+ *                 example: "rompecabezas"
  *     responses:
  *       200:
  *         description: Juego modificado exitosamente.
@@ -183,6 +183,7 @@ const validarToken = require('../middlewares/validarToken'); // Middleware para 
  *       500:
  *         description: Error interno del servidor.
  */
+
 
 // Crear un nuevo juego
 router.post('/', validarToken(), juegosController.crearJuego);
