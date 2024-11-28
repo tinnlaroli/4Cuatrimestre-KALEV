@@ -5,7 +5,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /crearClase:
+ * /clases/crearClase:
  *   post:
  *     summary: Crear una nueva clase
  *     description: Permite al docente crear una nueva clase. Requiere token de autenticación.
