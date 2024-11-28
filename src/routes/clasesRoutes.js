@@ -83,7 +83,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /:
+ * /docente/:id/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
  *     description: Permite al docente obtener todas las clases que imparte. Requiere token de autenticación.
@@ -156,7 +156,7 @@ router.post('/clases', validarToken(), clasesController.crearClase);
 router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);
 
 // Obtener todas las clases de un docente
-router.get('/estudiantes/:id/clases', validarToken(), clasesController.obtenerClasesPorDocente);
+router.get('/docente/:id/clases', validarToken(), clasesController.obtenerClasesPorDocente);
 
 // Unirse a una clase con el código
 router.post('/unirse', validarToken(), clasesController.unirseAClase);
