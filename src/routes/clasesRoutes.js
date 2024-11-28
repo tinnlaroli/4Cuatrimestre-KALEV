@@ -20,17 +20,14 @@ const validarToken = require('../middlewares/validarToken');
  *             type: object
  *             required:
  *               - nombre_clase
- *               - nivel
+ *               - codigo_clase
  *             properties:
  *               nombre_clase:
- *                 type: string
- *                 description: Nombre de la clase.
- *               nivel:
- *                 type: string
- *                 description: Nivel académico de la clase.
- *               descripcion:
- *                 type: string
- *                 description: Descripción opcional de la clase.
+ *                type: string
+ *               description: Nombre de la clase.
+ *              codigo_clase:
+ *               type: string
+ *              description: Código único de la clase.
  *     responses:
  *       201:
  *         description: Clase creada con éxito.
