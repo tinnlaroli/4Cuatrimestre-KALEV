@@ -19,7 +19,7 @@ setupSwagger(app);       // Configurar Swagger para la documentación de API
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const clasesRoutes = require('./src/routes/clasesRoutes');
 const estudiantesRoutes = require('./src/routes/estudiantesRoutes');
-const reporteRoutes = require('./src/routes/reporteRoutes');
+const reporteRoutes = require('./src/routes/reporte');
 const juegosRoutes = require('./src/routes/juegosRoutes');
 
 // Rutas principales
