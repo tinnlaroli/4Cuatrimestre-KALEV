@@ -60,6 +60,10 @@ const swaggerOptions = {
               format: "email",
               example: "ana.torres@example.com",
             },
+            rol: {
+              type: "string",
+              example: "docente",
+            },
             contraseña: {
               type: "string",
               format: "password",
