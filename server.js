@@ -25,9 +25,9 @@ const juegosRoutes = require('./src/routes/juegosRoutes');
 // Rutas principales
 app.use('/usuarios', usuariosRoutes);
 app.use('/clases', clasesRoutes);
-app.use('/api/estudiantes', estudiantesRoutes);
-app.use('/api/reportes', reporteRoutes);
-app.use('/api/juegos', juegosRoutes);
+app.use('estudiantes', estudiantesRoutes);
+app.use('/reportes', reporteRoutes);
+app.use('/juegos', juegosRoutes);
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {

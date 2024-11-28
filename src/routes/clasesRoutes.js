@@ -23,11 +23,11 @@ const validarToken = require('../middlewares/validarToken');
  *               - codigo_clase
  *             properties:
  *               nombre_clase:
- *                type: string
- *               description: Nombre de la clase.
- *              codigo_clase:
- *               type: string
- *              description: Código único de la clase.
+ *                 type: string
+ *                 description: Nombre de la clase.
+ *               codigo_clase:
+ *                 type: string
+ *                 description: Código único de la clase.
  *     responses:
  *       201:
  *         description: Clase creada con éxito.
@@ -40,7 +40,7 @@ const validarToken = require('../middlewares/validarToken');
  *                   type: integer
  *                 nombre_clase:
  *                   type: string
- *                 nivel:
+ *                 codigo_clase:
  *                   type: string
  *       401:
  *         description: Token de autenticación no válido o no proporcionado.
@@ -86,7 +86,7 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
- * /docente/{id}/clases:
+ * /clases/docente/{id}:
  *   get:
  *     summary: Obtener todas las clases de un docente
  *     description: Permite al docente obtener todas las clases que imparte. Requiere token de autenticación.
@@ -163,11 +163,12 @@ const validarToken = require('../middlewares/validarToken');
  */
 
 
+
 // Crear una nueva clase (solo docente)
 router.post('/clases', validarToken, clasesController.crearClase);
 
 // Obtener una clase por su código
-router.get('/clases/:codigo_clase', clasesController.obtenerClasePorCodigo);
+router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);
 
 // Obtener todas las clases de un docente
 router.get('/clases/docente/:id', validarToken, clasesController.obtenerClasesPorDocente);
