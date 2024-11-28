@@ -7,7 +7,7 @@ const swaggerOptions = {
     openapi: "3.0.0",
     info: {
       title: "KALEV API",
-      description: "Documentación de la API para el proyecto KALEV",
+      description: "Documentación de la API para el proyecto KALEV. Ingresar en authorize el token generado al iniciar sesion con la estructura Bearer <token>",
       version: "1.0.0",
     },
     components: {
