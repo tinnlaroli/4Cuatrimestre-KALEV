@@ -163,15 +163,15 @@ const validarToken = require('../middlewares/validarToken');
  */
 
 // Crear una nueva clase (solo docente)
-router.post('/crearClase', validarToken, clasesController.crearClase);
+router.post('/crearClase', validarToken(), clasesController.crearClase);
 
 // Obtener una clase por su código
 router.get('/:codigo_clase', clasesController.obtenerClasePorCodigo);
 
 // Obtener todas las clases de un docente
-router.get('/docente/:id', validarToken, clasesController.obtenerClasesPorDocente);
+router.get('/docente/:id', validarToken(), clasesController.obtenerClasesPorDocente);
 
 // Unirse a una clase con el código
-router.post('/unirse', validarToken, clasesController.unirseAClase);
+router.post('/unirse', validarToken(), clasesController.unirseAClase);
 
 module.exports = router;
