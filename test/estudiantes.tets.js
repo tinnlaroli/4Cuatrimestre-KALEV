@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { validarNombre, estaEnClase } from "../src/validacionesEstudiantes.js";
+import { validarIDJuego, validarAsignacionEstudiante } from '../src/validacionesEstudiantes.js';
 
 describe("Validaciones de que un estudiante se una a una clase", () => {
     describe("Validar nombre", () => {
@@ -42,3 +43,42 @@ describe("Validaciones de que un estudiante se una a una clase", () => {
     });
 });
 //
+describe('Validaciones de asignación de juego a un estudiante', () => {
+
+    // Test para validar el ID del juego
+    describe('Validación del ID del juego', () => {
+      it('debería ser válido si el ID es solo números', () => {
+        const resultado = validarIDJuego('12345');
+        expect(resultado).to.be.true;
+      });
+  
+      it('debería ser inválido si el ID contiene letras o caracteres especiales', () => {
+        const resultado = validarIDJuego('123a45');
+        expect(resultado).to.be.false;
+      });
+  
+      it('debería ser inválido si el ID está vacío', () => {
+        const resultado = validarIDJuego('');
+        expect(resultado).to.be.false;
+      });
+    });
+  
+    // Test para validar la asignación al estudiante
+    describe('Validación de la asignación al estudiante', () => {
+      it('debería ser inválido si el nombre contiene números', () => {
+        const resultado = validarAsignacionEstudiante('Juan123 Pérez');
+        expect(resultado).to.be.false;
+      });
+  
+      it('debería ser inválido si el nombre contiene caracteres especiales', () => {
+        const resultado = validarAsignacionEstudiante('Juan! Pérez');
+        expect(resultado).to.be.false;
+      });
+  
+      it('debería ser inválido si el nombre está vacío', () => {
+        const resultado = validarAsignacionEstudiante('');
+        expect(resultado).to.be.false;
+      });
+    });
+  });
+ 
