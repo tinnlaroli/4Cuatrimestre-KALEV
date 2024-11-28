@@ -93,11 +93,16 @@ const swaggerOptions = {
         CambiarContrasenia: {
           type: "object",
           properties: {
-            nueva_contraseña: {
+            contraseñaActual: {
               type: "string",
               format: "password",
               example: "nuevacontraseña123",
             },
+            contraseñaNueva: {
+              type: "string",
+              format: "password",
+              example: "nuevacontraseña456",
+            }
           },
           required: ["nueva_contraseña"],
         },
