@@ -39,13 +39,13 @@ const swaggerOptions = {
               format: "email",
               example: "juan.perez@example.com",
             },
-            contrasena: {
+            contraseña: {
               type: "string",
               format: "password",
               example: "123456",
             },
           },
-          required: ["id", "nombre", "correo", "contrasena"],
+          required: ["id", "nombre", "correo", "contraseña"],
         },
         // Esquema para un nuevo usuario (registro)
         NuevoUsuario: {
@@ -60,13 +60,13 @@ const swaggerOptions = {
               format: "email",
               example: "ana.torres@example.com",
             },
-            contrasena: {
+            contraseña: {
               type: "string",
               format: "password",
               example: "abcdef",
             },
           },
-          required: ["nombre", "correo", "contrasena"],
+          required: ["nombre", "correo", "contraseña"],
         },
         // Esquema para el login de usuario
         LoginUsuario: {
@@ -75,27 +75,27 @@ const swaggerOptions = {
             correo: {
               type: "string",
               format: "email",
-              example: "usuario@ejemplo.com",
+              example: "usuario@example.com",
             },
-            contrasena: {
+            contraseña: {
               type: "string",
               format: "password",
               example: "mypassword",
             },
           },
-          required: ["correo", "contrasena"],
+          required: ["correo", "contraseña"],
         },
         // Esquema para cambiar la contraseña
         CambiarContrasenia: {
           type: "object",
           properties: {
-            nueva_contrasena: {
+            nueva_contraseña: {
               type: "string",
               format: "password",
               example: "nuevacontraseña123",
             },
           },
-          required: ["nueva_contrasena"],
+          required: ["nueva_contraseña"],
         },
         // Esquema para una clase
         Clase: {
