@@ -84,7 +84,7 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 /**
  * @swagger
- * estudiantes/docentes/{id_docente}/clases:
+ * /estudiantes/docentes/{id_docente}/clases:
  *   get:
  *     summary: Obtener todas las clases de un docente
  *     description: Permite obtener la lista de todas las clases impartidas por un docente. Requiere token de autenticación.
