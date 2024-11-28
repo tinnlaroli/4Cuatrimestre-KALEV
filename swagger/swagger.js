@@ -118,16 +118,12 @@ const swaggerOptions = {
               type: "string",
               example: "Matemáticas Avanzadas",
             },
-            nivel: {
+            codigo_clase: {
               type: "string",
-              example: "Secundaria",
-            },
-            descripcion: {
-              type: "string",
-              example: "Clase enfocada en álgebra y geometría.",
-            },
+              example: "ABC123",
+            }
           },
-          required: ["id_clase", "nombre_clase", "nivel", "descripcion"],
+          required: ["id_clase", "nombre_clase", "codigo_clase"],
         },
         // Esquema para unirse a una clase
         UnirseClase: {
