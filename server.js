@@ -28,6 +28,7 @@ const clasesRoutes = require('./src/routes/clasesRoutes');
 const estudiantesRoutes = require('./src/routes/estudiantesRoutes');
 const reporteRoutes = require('./src/routes/reporte');
 const juegosRoutes = require('./src/routes/juegosRoutes');
+const docentesDirectoresRoutes = require('./routes/docentesDirectoresRoutes');
 
 // Rutas principales
 app.use('/usuarios', usuariosRoutes);
@@ -35,6 +36,9 @@ app.use('/clases', clasesRoutes);
 app.use('/estudiantes', estudiantesRoutes);
 app.use('/reportes', reporteRoutes);
 app.use('/juegos', juegosRoutes);
+app.use('docentesdirectores', docentesdirectoresRoutes);
+////////////PARA ACOSTA SIN SWGAGGER NI NADA CAEWN
+app.use('/api', docentesDirectoresRoutes);
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
