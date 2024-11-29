@@ -28,7 +28,7 @@ const clasesRoutes = require('./src/routes/clasesRoutes');
 const estudiantesRoutes = require('./src/routes/estudiantesRoutes');
 const reporteRoutes = require('./src/routes/reporte');
 const juegosRoutes = require('./src/routes/juegosRoutes');
-const docentesDirectoresRoutes = require('./routes/docentesDirectoresRoutes');
+const docentesDirectoresRoutes = require('./src/routes/docentesdirectoresRoutes');
 
 // Rutas principales
 app.use('/usuarios', usuariosRoutes);
