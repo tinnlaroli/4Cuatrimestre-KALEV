@@ -1,7 +1,7 @@
-const DocenteModel = require('../models/docenteModel');
-const DirectorModel = require('../models/directorModel');
+const DocenteModel = require('../models/docentesModel');
+const DirectorModel = require('../models/directoreModel');
 
-const docenteController = {
+const docentesController = {
     // Crear un nuevo docente
     crearDocente: async (req, res) => {
         const { nombre, apellido, correo, contrasena } = req.body;
@@ -129,4 +129,4 @@ const docenteController = {
     // Las demás rutas para directores son similares a las de docentes
 };
 
-module.exports = docenteController;
+module.exports = docentesController;

@@ -1,6 +1,6 @@
 const { pool } = require('../utils/db');// Asegúrate de tener configurada tu conexión a la base de datos
 
-const DocenteModel = {
+const docenteModel = {
     // Crear un nuevo docente
     crearDocente: async ({ nombre, apellido, correo, telefono, especialidad, fecha_registro }) => {
         const query = `
@@ -52,4 +52,4 @@ const DocenteModel = {
     }
 };
 
-module.exports = DocenteModel;
+module.exports = docenteModel;

@@ -36,7 +36,7 @@ app.use('/clases', clasesRoutes);
 app.use('/estudiantes', estudiantesRoutes);
 app.use('/reportes', reporteRoutes);
 app.use('/juegos', juegosRoutes);
-app.use('docentesdirectores', docentesdirectoresRoutes);
+app.use('/docentesdirectores', docentesdirectoresRoutes);
 ////////////PARA ACOSTA SIN SWGAGGER NI NADA CAEWN
 app.use('/api', docentesDirectoresRoutes);
 
