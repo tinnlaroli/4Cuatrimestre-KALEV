@@ -1,5 +1,4 @@
-const DirectorModel = require('../models/directorModel'); // Asegúrate de que esta ruta sea correcta
-
+const DirectorModel = require('../models/directoreModel'); // Asegúrate de que esta ruta sea correcta
 const directoresController = {
     // Crear un nuevo director
     crearDirector: async (req, res) => {
