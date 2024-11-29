@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=autorack.proxy.rlwy.net
+      - DB_PORT=42831
+      - DB_USER=postgres
+      - DB_PASSWORD=yJPUtHFQDegJSnBbxzFdpHaxmBmwOLtc
+      - DB_NAME=railway
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yJPUtHFQDegJSnBbxzFdpHaxmBmwOLtc
+      POSTGRES_DB: railway
