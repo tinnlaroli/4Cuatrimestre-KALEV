@@ -1,4 +1,4 @@
-const db = require('../config/db'); // Asegúrate de que esta ruta sea correcta
+const { pool } = require('../utils/db');// Asegúrate de tener configurada tu conexión a la base de datos
 
 const DirectorModel = {
     // Crear un nuevo director
