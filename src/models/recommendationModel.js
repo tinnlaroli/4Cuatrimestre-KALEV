@@ -5,8 +5,13 @@ const obtenerRecomendaciones = async () => {
         SELECT id_recomendacion, nombre, descripcion, estilo_aprendizaje
         FROM recomendaciones;
     `;
-    const { rows } = await pool.query(query);
-    return rows;
+    try {
+        const { rows } = await pool.query(query);
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener recomendaciones:', error);
+        throw new Error('Error al obtener recomendaciones');
+    }
 };
 
 const obtenerRecomendacionPorId = async (id) => {
@@ -15,8 +20,13 @@ const obtenerRecomendacionPorId = async (id) => {
         FROM recomendaciones
         WHERE id_recomendacion = $1;
     `;
-    const { rows } = await pool.query(query, [id]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al obtener recomendación por ID:', error);
+        throw new Error('Error al obtener recomendación por ID');
+    }
 };
 
 const crearRecomendacion = async (nombre, descripcion, estilo_aprendizaje) => {
@@ -25,8 +35,13 @@ const crearRecomendacion = async (nombre, descripcion, estilo_aprendizaje) => {
         VALUES ($1, $2, $3)
         RETURNING id_recomendacion, nombre, descripcion, estilo_aprendizaje;
     `;
-    const { rows } = await pool.query(query, [nombre, descripcion, estilo_aprendizaje]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [nombre, descripcion, estilo_aprendizaje]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al crear recomendación:', error);
+        throw new Error('Error al crear recomendación');
+    }
 };
 
 const actualizarRecomendacion = async (id, nombre, descripcion, estilo_aprendizaje) => {
@@ -36,8 +51,13 @@ const actualizarRecomendacion = async (id, nombre, descripcion, estilo_aprendiza
         WHERE id_recomendacion = $4
         RETURNING id_recomendacion, nombre, descripcion, estilo_aprendizaje;
     `;
-    const { rows } = await pool.query(query, [nombre, descripcion, estilo_aprendizaje, id]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [nombre, descripcion, estilo_aprendizaje, id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al actualizar recomendación:', error);
+        throw new Error('Error al actualizar recomendación');
+    }
 };
 
 const eliminarRecomendacion = async (id) => {
@@ -46,8 +66,13 @@ const eliminarRecomendacion = async (id) => {
         WHERE id_recomendacion = $1
         RETURNING id_recomendacion;
     `;
-    const { rows } = await pool.query(query, [id]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al eliminar recomendación:', error);
+        throw new Error('Error al eliminar recomendación');
+    }
 };
 
 module.exports = {
