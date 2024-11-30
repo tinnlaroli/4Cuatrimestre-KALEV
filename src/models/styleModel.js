@@ -1,58 +1,72 @@
-// **Modelo (styleModel.js)**
 const { pool } = require('../config/dbConfig');
 
-/**
- * Obtiene todos los estilos de aprendizaje registrados.
- */
+// Obtener todos los estilos de aprendizaje
 const obtenerEstilos = async () => {
-    const query = 'SELECT * FROM EstilosDeAprendizaje;';
-    const { rows } = await pool.query(query);
-    return rows;
+    const query = 'SELECT * FROM estilosdeaprendizaje;';
+    try {
+        const { rows } = await pool.query(query);
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener estilos de aprendizaje:', error);
+        throw new Error('Error al obtener estilos de aprendizaje');
+    }
 };
 
-/**
- * Obtiene un estilo de aprendizaje por su ID.
- */
+// Obtener un estilo de aprendizaje por ID
 const obtenerEstiloPorId = async (id) => {
-    const query = 'SELECT * FROM EstilosDeAprendizaje WHERE id_estilo = $1;';
-    const { rows } = await pool.query(query, [id]);
-    return rows[0];
+    const query = 'SELECT * FROM estilosdeaprendizaje WHERE id_estilo = $1;';
+    try {
+        const { rows } = await pool.query(query, [id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al obtener estilo de aprendizaje por ID:', error);
+        throw new Error('Error al obtener estilo de aprendizaje por ID');
+    }
 };
 
-/**
- * Crea un nuevo estilo de aprendizaje.
- */
+// Crear un nuevo estilo de aprendizaje
 const crearEstilo = async (nombre, descripcion) => {
     const query = `
-        INSERT INTO EstilosDeAprendizaje (nombre, descripcion)
+        INSERT INTO estilosdeaprendizaje (nombre, descripcion)
         VALUES ($1, $2)
         RETURNING *;
     `;
-    const { rows } = await pool.query(query, [nombre, descripcion]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [nombre, descripcion]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al crear estilo de aprendizaje:', error);
+        throw new Error('Error al crear estilo de aprendizaje');
+    }
 };
 
-/**
- * Actualiza un estilo de aprendizaje existente.
- */
+// Actualizar un estilo de aprendizaje
 const actualizarEstilo = async (id, nombre, descripcion) => {
     const query = `
-        UPDATE EstilosDeAprendizaje
+        UPDATE estilosdeaprendizaje
         SET nombre = $1, descripcion = $2
         WHERE id_estilo = $3
         RETURNING *;
     `;
-    const { rows } = await pool.query(query, [nombre, descripcion, id]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [nombre, descripcion, id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al actualizar estilo de aprendizaje:', error);
+        throw new Error('Error al actualizar estilo de aprendizaje');
+    }
 };
 
-/**
- * Elimina un estilo de aprendizaje por su ID.
- */
+// Eliminar un estilo de aprendizaje
 const eliminarEstilo = async (id) => {
-    const query = 'DELETE FROM EstilosDeAprendizaje WHERE id_estilo = $1 RETURNING id_estilo;';
-    const { rows } = await pool.query(query, [id]);
-    return rows[0];
+    const query = 'DELETE FROM estilosdeaprendizaje WHERE id_estilo = $1 RETURNING id_estilo;';
+    try {
+        const { rows } = await pool.query(query, [id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al eliminar estilo de aprendizaje:', error);
+        throw new Error('Error al eliminar estilo de aprendizaje');
+    }
 };
 
 module.exports = {
