@@ -1,4 +1,3 @@
-// **Controller (classController.js)**
 const classModel = require('../models/classModel');
 
 /**
@@ -14,7 +13,7 @@ const crearClase = async (req, res) => {
     }
 
     try {
-        const nuevaClase = await classModel.crearClase(nombre, descripcion, codigo_unico);
+        const nuevaClase = await classModel.registrarClase(nombre, codigo_unico, req.usuario.id_usuario);
         res.status(201).json({ message: 'Clase creada con éxito', clase: nuevaClase });
     } catch (error) {
         console.error(error);
@@ -92,10 +91,7 @@ const eliminarClase = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const claseEliminada = await classModel.eliminarClase(id);
-        if (!claseEliminada) {
-            return res.status(404).json({ message: 'Clase no encontrada.' });
-        }
+        await classModel.eliminarClase(id);
         res.status(200).json({ message: 'Clase eliminada' });
     } catch (error) {
         console.error(error);
