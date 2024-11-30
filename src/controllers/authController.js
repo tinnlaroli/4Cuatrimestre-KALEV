@@ -4,11 +4,6 @@ const authModel = require('../models/userModel');
 
 const SECRET_KEY = process.env.JWT_SECRET || 'mi_secreta';
 
-/**
- * Registra un nuevo usuario en la base de datos.
- * @param {Object} req - La solicitud HTTP.
- * @param {Object} res - La respuesta HTTP.
- */
 const registrarUsuario = async (req, res) => {
     const { nombre, correo, password, role } = req.body;
     if (!nombre || !correo || !password || !role) {
@@ -25,11 +20,6 @@ const registrarUsuario = async (req, res) => {
     }
 };
 
-/**
- * Inicia sesión de un usuario y genera un token de autenticación.
- * @param {Object} req - La solicitud HTTP.
- * @param {Object} res - La respuesta HTTP.
- */
 const loginUsuario = async (req, res) => {
     const { correo, password } = req.body;
     if (!correo || !password) {
@@ -55,63 +45,7 @@ const loginUsuario = async (req, res) => {
     }
 };
 
-/**
- * Obtiene los detalles de un usuario por su ID.
- * @param {Object} req - La solicitud HTTP.
- * @param {Object} res - La respuesta HTTP.
- */
-const obtenerUsuario = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const usuario = await authModel.obtenerUsuarioPorId(id);
-        if (!usuario) {
-            return res.status(404).json({ message: 'Usuario no encontrado.' });
-        }
-        res.status(200).json({ usuario });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al obtener el usuario' });
-    }
-};
-
-/**
- * Actualiza los detalles de un usuario existente.
- * @param {Object} req - La solicitud HTTP.
- * @param {Object} res - La respuesta HTTP.
- */
-const actualizarUsuario = async (req, res) => {
-    const { id } = req.params;
-    const { nombre, correo, role } = req.body;
-    try {
-        const usuarioActualizado = await authModel.actualizarUsuario(id, nombre, correo, role);
-        if (!usuarioActualizado) {
-            return res.status(404).json({ message: 'Usuario no encontrado.' });
-        }
-        res.status(200).json({ message: 'Usuario actualizado', usuario: usuarioActualizado });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al actualizar el usuario' });
-    }
-};
-
-/**
- * Elimina un usuario de la base de datos.
- * @param {Object} req - La solicitud HTTP.
- * @param {Object} res - La respuesta HTTP.
- */
-const eliminarUsuario = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const usuarioEliminado = await authModel.eliminarUsuario(id);
-        if (!usuarioEliminado) {
-            return res.status(404).json({ message: 'Usuario no encontrado.' });
-        }
-        res.status(200).json({ message: 'Usuario eliminado' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al eliminar el usuario' });
-    }
-};
+// Resto del código...
 
 module.exports = {
     registrarUsuario,
