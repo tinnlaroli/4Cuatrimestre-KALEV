@@ -49,8 +49,5 @@ const loginUsuario = async (req, res) => {
 
 module.exports = {
     registrarUsuario,
-    loginUsuario,
-    obtenerUsuario,
-    actualizarUsuario,
-    eliminarUsuario,
+    loginUsuario
 };
