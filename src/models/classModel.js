@@ -20,16 +20,23 @@ const registrarClase = async (nombre, codigo, docenteId) => {
 };
 
 /**
- * Obtiene todas las clases de un docente específico.
- * @param {number} docenteId - ID del docente.
- * @returns {Promise<Array>} - Lista de clases.
+ * Obtener las clases asignadas al docente autenticado
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
  */
-const obtenerClases = async (docenteId) => {
-    const query = `
-        SELECT * FROM clases;
-    `;
-    const { rows } = await db.query(query, [docenteId]);
-    return rows;
+const obtenerClases = async (req, res) => {
+    const id_docente = req.usuario.id_usuario; // Este ID debería venir de la autenticación o token
+
+    try {
+        const clases = await classModel.obtenerClasesPorDocente(id_docente);
+        if (clases.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron clases para este docente' });
+        }
+        res.status(200).json({ clases });
+    } catch (error) {
+        console.error('Error al obtener las clases:', error);
+        res.status(500).json({ message: 'Error al obtener las clases' });
+    }
 };
 
 /**
