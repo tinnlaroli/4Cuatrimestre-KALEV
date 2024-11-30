@@ -7,7 +7,7 @@ const validarToken = require('../middlewares/validarToken');
  * @swagger
  * tags:
  *   name: Usuarios
- *   description: Gestión de usuarios (docentes, directores, tutores)
+ *   description: Gestión de usuarios (docentes, directores, tutores).
  */
 
 /**
@@ -15,7 +15,7 @@ const validarToken = require('../middlewares/validarToken');
  * /usuarios/register:
  *   post:
  *     summary: Registrar un nuevo usuario
- *     description: Permite registrar un nuevo usuario (docente, director, tutor).
+ *     description: Permite registrar un nuevo usuario en el sistema.
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
@@ -23,15 +23,27 @@ const validarToken = require('../middlewares/validarToken');
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - nombre
+ *               - correo
+ *               - password
+ *               - role
  *             properties:
  *               nombre:
  *                 type: string
+ *                 description: Nombre del usuario.
+ *                 example: Juan Pérez
  *               correo:
  *                 type: string
+ *                 description: Correo electrónico del usuario.
+ *                 example: juan.perez@example.com
  *               password:
  *                 type: string
+ *                 description: Contraseña del usuario.
+ *                 example: password123
  *               role:
  *                 type: string
+ *                 description: Rol del usuario.
  *                 enum: [docente, director, tutor]
  *     responses:
  *       201:
@@ -47,8 +59,8 @@ router.post('/usuarios/register', usuarioController.registrarUsuario);
  * @swagger
  * /usuarios/login:
  *   post:
- *     summary: Iniciar sesión de un usuario
- *     description: Permite a un usuario iniciar sesión y obtener un token de autenticación.
+ *     summary: Iniciar sesión
+ *     description: Permite iniciar sesión y obtener un token de autenticación.
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
@@ -56,14 +68,30 @@ router.post('/usuarios/register', usuarioController.registrarUsuario);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - correo
+ *               - password
  *             properties:
  *               correo:
  *                 type: string
+ *                 description: Correo electrónico del usuario.
+ *                 example: juan.perez@example.com
  *               password:
  *                 type: string
+ *                 description: Contraseña del usuario.
+ *                 example: password123
  *     responses:
  *       200:
  *         description: Token de autenticación generado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: Token de autenticación.
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
  *       400:
  *         description: Campos faltantes.
  *       401:
@@ -77,21 +105,38 @@ router.post('/usuarios/login', usuarioController.loginUsuario);
  * @swagger
  * /usuarios/{id}:
  *   get:
- *     summary: Obtener detalles de un usuario por ID
- *     description: Permite obtener información de un usuario específico.
+ *     summary: Obtener detalles de un usuario
+ *     description: Devuelve los detalles de un usuario específico según su ID.
  *     tags: [Usuarios]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID del usuario a obtener.
+ *         description: ID del usuario.
  *         schema:
  *           type: integer
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Información del usuario obtenida con éxito.
+ *         description: Detalles del usuario obtenidos con éxito.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id_usuario:
+ *                   type: integer
+ *                   example: 1
+ *                 nombre:
+ *                   type: string
+ *                   example: Juan Pérez
+ *                 correo:
+ *                   type: string
+ *                   example: juan.perez@example.com
+ *                 role:
+ *                   type: string
+ *                   example: docente
  *       404:
  *         description: Usuario no encontrado.
  *       500:
@@ -103,14 +148,14 @@ router.get('/usuarios/:id', validarToken(), usuarioController.obtenerUsuario);
  * @swagger
  * /usuarios/{id}:
  *   put:
- *     summary: Actualizar información de un usuario
- *     description: Permite actualizar los datos de un usuario por su ID.
+ *     summary: Actualizar un usuario
+ *     description: Permite actualizar los datos de un usuario existente.
  *     tags: [Usuarios]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID del usuario a actualizar.
+ *         description: ID del usuario.
  *         schema:
  *           type: integer
  *     security:
@@ -124,18 +169,20 @@ router.get('/usuarios/:id', validarToken(), usuarioController.obtenerUsuario);
  *             properties:
  *               nombre:
  *                 type: string
+ *                 example: Juan Pérez Actualizado
  *               correo:
  *                 type: string
+ *                 example: juan.perez@example.com
  *               role:
  *                 type: string
  *                 enum: [docente, director, tutor]
  *     responses:
- *        200:
- *          description: Usuario actualizado con éxito.
- *        404:
- *          description: Usuario no encontrado.
- *        500:
- *          description: Error interno del servidor.
+ *       200:
+ *         description: Usuario actualizado con éxito.
+ *       404:
+ *         description: Usuario no encontrado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 router.put('/usuarios/:id', validarToken(), usuarioController.actualizarUsuario);
 
@@ -143,25 +190,25 @@ router.put('/usuarios/:id', validarToken(), usuarioController.actualizarUsuario)
  * @swagger
  * /usuarios/{id}:
  *   delete:
- *     summary: Eliminar un usuario por ID
- *     description: Permite eliminar un usuario específico por su ID.
+ *     summary: Eliminar un usuario
+ *     description: Permite eliminar un usuario por su ID.
  *     tags: [Usuarios]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID del usuario a eliminar.
+ *         description: ID del usuario.
  *         schema:
  *           type: integer
  *     security:
  *       - bearerAuth: []
  *     responses:
- *        200:
- *          description: Usuario eliminado con éxito.
- *        404:
- *          description: Usuario no encontrado.
- *        500:
- *          description: Error interno del servidor.
+ *       200:
+ *         description: Usuario eliminado con éxito.
+ *       404:
+ *         description: Usuario no encontrado.
+ *       500:
+ *         description: Error interno del servidor.
  */
 router.delete('/usuarios/:id', validarToken(), usuarioController.eliminarUsuario);
 

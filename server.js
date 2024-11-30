@@ -1,8 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const pool = require("./src/config/dbConfig"); // Configuración de la base de datos
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+const { swaggerUi, swaggerSpec } = require("./src/config/swaggerConfig");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,24 +11,7 @@ const API_URL = process.env.API_URL || `http://localhost:${PORT}`;
 app.use(express.json());
 
 // Configuración de Swagger
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "KALEV API",
-      version: "1.0.0",
-      description: "API para la plataforma KALEV.",
-    },
-    servers: [
-      {
-        url: `${API_URL}`,
-      },
-    ],
-  },
-  apis: ["./src/routes/*.js"], // Ubicación de las rutas documentadas con Swagger
-};
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Importar rutas
 const authRoutes = require("./src/routes/authRoutes");
