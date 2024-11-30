@@ -5,6 +5,13 @@ const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: Gestión de usuarios (docentes, directores, tutores)
+ */
+
+/**
+ * @swagger
  * /usuarios/register:
  *   post:
  *     summary: Registrar un nuevo usuario
@@ -30,7 +37,7 @@ const validarToken = require('../middlewares/validarToken');
  *       201:
  *         description: Usuario registrado con éxito.
  *       400:
- *         description: Campos faltantes o incorrectos.
+ *         description: Campos faltantes o correo ya registrado.
  *       500:
  *         description: Error interno del servidor.
  */
@@ -57,6 +64,8 @@ router.post('/usuarios/register', usuarioController.registrarUsuario);
  *     responses:
  *       200:
  *         description: Token de autenticación generado.
+ *       400:
+ *         description: Campos faltantes.
  *       401:
  *         description: Credenciales inválidas.
  *       500:
@@ -78,6 +87,8 @@ router.post('/usuarios/login', usuarioController.loginUsuario);
  *         description: ID del usuario a obtener.
  *         schema:
  *           type: integer
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Información del usuario obtenida con éxito.
@@ -102,6 +113,8 @@ router.get('/usuarios/:id', validarToken(), usuarioController.obtenerUsuario);
  *         description: ID del usuario a actualizar.
  *         schema:
  *           type: integer
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -140,6 +153,8 @@ router.put('/usuarios/:id', validarToken(), usuarioController.actualizarUsuario)
  *         description: ID del usuario a eliminar.
  *         schema:
  *           type: integer
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *        200:
  *          description: Usuario eliminado con éxito.

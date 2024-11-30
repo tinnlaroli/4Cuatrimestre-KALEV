@@ -11,12 +11,18 @@ const registrarUsuario = async (req, res) => {
     }
 
     try {
+        // Verificar si el correo ya está registrado
+        const usuarioExistente = await usuarioModel.autenticarUsuario(correo);
+        if (usuarioExistente) {
+            return res.status(400).json({ message: 'El correo ya está registrado.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const nuevoUsuario = await usuarioModel.registrarUsuario(nombre, correo, hashedPassword, role);
-        res.status(201).json({ message: 'Usuario registrado con éxito', usuario: nuevoUsuario });
+        res.status(201).json({ message: 'Usuario registrado con éxito.', data: nuevoUsuario });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al registrar el usuario' });
+        res.status(500).json({ message: 'Error al registrar el usuario.', error: error.message });
     }
 };
 
@@ -38,10 +44,10 @@ const loginUsuario = async (req, res) => {
         }
 
         const token = jwt.sign({ id: usuario.id_usuario, role: usuario.role }, SECRET_KEY, { expiresIn: '1h' });
-        res.status(200).json({ token });
+        res.status(200).json({ message: 'Inicio de sesión exitoso.', token });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error en el inicio de sesión' });
+        res.status(500).json({ message: 'Error en el inicio de sesión.', error: error.message });
     }
 };
 
@@ -52,10 +58,10 @@ const obtenerUsuario = async (req, res) => {
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado.' });
         }
-        res.status(200).json({ usuario });
+        res.status(200).json({ message: 'Usuario obtenido con éxito.', data: usuario });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al obtener el usuario' });
+        res.status(500).json({ message: 'Error al obtener el usuario.', error: error.message });
     }
 };
 
@@ -67,10 +73,10 @@ const actualizarUsuario = async (req, res) => {
         if (!usuarioActualizado) {
             return res.status(404).json({ message: 'Usuario no encontrado.' });
         }
-        res.status(200).json({ message: 'Usuario actualizado', usuario: usuarioActualizado });
+        res.status(200).json({ message: 'Usuario actualizado con éxito.', data: usuarioActualizado });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al actualizar el usuario' });
+        res.status(500).json({ message: 'Error al actualizar el usuario.', error: error.message });
     }
 };
 
@@ -81,10 +87,10 @@ const eliminarUsuario = async (req, res) => {
         if (!usuarioEliminado) {
             return res.status(404).json({ message: 'Usuario no encontrado.' });
         }
-        res.status(200).json({ message: 'Usuario eliminado' });
+        res.status(200).json({ message: 'Usuario eliminado con éxito.' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al eliminar el usuario' });
+        res.status(500).json({ message: 'Error al eliminar el usuario.', error: error.message });
     }
 };
 
