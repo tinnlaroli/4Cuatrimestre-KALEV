@@ -24,6 +24,19 @@ const registrarClase = async (nombre, codigo, docenteId) => {
  * @param {number} docenteId - ID del docente.
  * @returns {Promise<Array>} - Lista de clases.
  */
+const obtenerClases = async (docenteId) => {
+    const query = `
+        SELECT * FROM clases;
+    `;
+    const { rows } = await db.query(query, [docenteId]);
+    return rows;
+};
+
+/**
+ * Obtiene todas las clases de un docente específico.
+ * @param {number} docenteId - ID del docente.
+ * @returns {Promise<Array>} - Lista de clases.
+ */
 const obtenerClasesPorDocente = async (docenteId) => {
     const query = `
         SELECT * FROM clases
@@ -79,6 +92,7 @@ const eliminarClase = async (id) => {
 
 module.exports = {
     registrarClase,
+    obtenerClases,
     obtenerClasesPorDocente,
     obtenerClasePorId,
     actualizarClase,
