@@ -11,12 +11,26 @@ const registrarUsuario = async (req, res) => {
     }
 
     try {
+        const usuarioExistente = await authModel.obtenerUsuarioPorCorreo(correo);
+        if (usuarioExistente) {
+            return res.status(400).json({ message: 'El correo ya está registrado.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const nuevoUsuario = await authModel.registrarUsuario(nombre, correo, hashedPassword, role);
-        res.status(201).json({ message: 'Usuario registrado con éxito', usuario: nuevoUsuario });
+
+        res.status(201).json({
+            message: 'Usuario registrado con éxito',
+            usuario: {
+                id_usuario: nuevoUsuario.id_usuario,
+                nombre: nuevoUsuario.nombre,
+                correo: nuevoUsuario.correo,
+                role: nuevoUsuario.role,
+            },
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al registrar el usuario' });
+        console.error('Error al registrar el usuario:', error);
+        res.status(500).json({ message: 'Error al registrar el usuario.' });
     }
 };
 
@@ -37,17 +51,51 @@ const loginUsuario = async (req, res) => {
             return res.status(401).json({ message: 'Correo o contraseña incorrectos.' });
         }
 
-        const token = jwt.sign({ id: usuario.id_usuario, role: usuario.role }, SECRET_KEY, { expiresIn: '1h' });
-        res.status(200).json({ token });
+        const token = jwt.sign(
+            { id: usuario.id_usuario, role: usuario.role },
+            SECRET_KEY,
+            { expiresIn: '1h' }
+        );
+
+        res.status(200).json({
+            message: 'Inicio de sesión exitoso',
+            token,
+            usuario: {
+                id_usuario: usuario.id_usuario,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                role: usuario.role,
+            },
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error en el inicio de sesión' });
+        console.error('Error en el inicio de sesión:', error);
+        res.status(500).json({ message: 'Error en el inicio de sesión.' });
     }
 };
 
-// Resto del código...
+/**
+ * Validar el token JWT.
+ * @param {Object} req - Solicitud HTTP.
+ * @param {Object} res - Respuesta HTTP.
+ */
+const validarToken = (req, res) => {
+    try {
+        const usuario = req.usuario; // Usuario decodificado del token
+        res.status(200).json({
+            message: 'Token válido.',
+            usuario: {
+                id_usuario: usuario.id,
+                role: usuario.role,
+            },
+        });
+    } catch (error) {
+        console.error('Error al validar el token:', error);
+        res.status(500).json({ message: 'Error al validar el token.' });
+    }
+};
 
 module.exports = {
     registrarUsuario,
-    loginUsuario
+    loginUsuario,
+    validarToken,
 };
