@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const pool = require("./src/config/dbConfig"); // Configuración de la base de datos
-const { swaggerUi, swaggerSpec } = require("./src/config/swaggerConfig");
+const { swaggerUi, swaggerSpec } = require("./swaggerConfig");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
