@@ -56,7 +56,7 @@ const feedbackController = require('../controllers/feedbackController');
  *       500:
  *         description: Error interno del servidor.
  */
-router.get('/feedback/:id', feedbackController.obtenerFeedback);
+router.get('/:id', feedbackController.obtenerFeedback);
 
 /**
  * @swagger
@@ -122,7 +122,7 @@ router.get('/feedback/:id', feedbackController.obtenerFeedback);
  *       500:
  *         description: Error interno del servidor.
  */
-router.post('/feedback', feedbackController.enviarFeedback);
+router.post('/', feedbackController.enviarFeedback);
 
 /**
  * @swagger

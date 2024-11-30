@@ -27,9 +27,9 @@ const feedbackRoutes = require("./src/routes/feedbackRoutes");
 app.use("/auth", authRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/clases", classRoutes);
-app.use("/estudiantes", studentRoutes);
-app.use("/estilos-aprendizaje", styleRoutes);
-app.use("/recomendaciones", recommendationRoutes);
+app.use("/students", studentRoutes);
+app.use("/styles", styleRoutes);
+app.use("/recommendations", recommendationRoutes);
 app.use("/reportes", reportRoutes);
 app.use("/feedback", feedbackRoutes);
 

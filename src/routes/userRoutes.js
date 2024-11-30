@@ -53,7 +53,7 @@ const validarToken = require('../middlewares/validarToken');
  *       500:
  *         description: Error interno del servidor.
  */
-router.post('/usuarios/register', usuarioController.registrarUsuario);
+router.post('/register', usuarioController.registrarUsuario);
 
 /**
  * @swagger
@@ -99,7 +99,7 @@ router.post('/usuarios/register', usuarioController.registrarUsuario);
  *       500:
  *         description: Error interno del servidor.
  */
-router.post('/usuarios/login', usuarioController.loginUsuario);
+router.post('/login', usuarioController.loginUsuario);
 
 /**
  * @swagger
@@ -142,7 +142,7 @@ router.post('/usuarios/login', usuarioController.loginUsuario);
  *       500:
  *         description: Error interno del servidor.
  */
-router.get('/usuarios/:id', validarToken(), usuarioController.obtenerUsuario);
+router.get('/:id', validarToken(), usuarioController.obtenerUsuario);
 
 /**
  * @swagger
@@ -184,7 +184,7 @@ router.get('/usuarios/:id', validarToken(), usuarioController.obtenerUsuario);
  *       500:
  *         description: Error interno del servidor.
  */
-router.put('/usuarios/:id', validarToken(), usuarioController.actualizarUsuario);
+router.put('/:id', validarToken(), usuarioController.actualizarUsuario);
 
 /**
  * @swagger
@@ -210,6 +210,6 @@ router.put('/usuarios/:id', validarToken(), usuarioController.actualizarUsuario)
  *       500:
  *         description: Error interno del servidor.
  */
-router.delete('/usuarios/:id', validarToken(), usuarioController.eliminarUsuario);
+router.delete('/:id', validarToken(), usuarioController.eliminarUsuario);
 
 module.exports = router;
