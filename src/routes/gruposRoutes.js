@@ -7,7 +7,7 @@ const validarToken = require('../middlewares/validarToken');
  * @swagger
  * tags:
  *   name: Grupos
- *   description: Gestión de grupos asignados a los docentes.
+ *   description: Gestión de grupos asignados a los directores.
  */
 
 /**
@@ -15,7 +15,7 @@ const validarToken = require('../middlewares/validarToken');
  * /grupos:
  *   post:
  *     summary: Crear un nuevo grupo
- *     description: Permite a un docente crear un nuevo grupo con un nombre, grado y código único.
+ *     description: Permite a un director crear un nuevo grupo con un nombre, grado y código único.
  *     tags: [Grupos]
  *     security:
  *       - BearerAuth: []
@@ -33,17 +33,22 @@ const validarToken = require('../middlewares/validarToken');
  *               nombre:
  *                 type: string
  *                 description: Nombre del grupo.
+ *                 example: Grupo 1
  *               codigo_unico:
  *                 type: string
  *                 description: Código único para identificar el grupo.
+ *                 example: GRP001
  *               grado:
  *                 type: string
  *                 description: Grado al que pertenece el grupo.
+ *                 example: Primero
  *     responses:
  *       201:
  *         description: Grupo creado con éxito.
  *       400:
  *         description: Campos obligatorios faltantes.
+ *       403:
+ *         description: Solo los directores pueden crear grupos.
  *       500:
  *         description: Error interno del servidor.
  */
@@ -124,12 +129,15 @@ router.get('/:id', validarToken(), groupController.obtenerGrupoPorId);
  *               nombre:
  *                 type: string
  *                 description: Nombre actualizado del grupo.
+ *                 example: Grupo Actualizado
  *               codigo_unico:
  *                 type: string
  *                 description: Código único actualizado del grupo.
+ *                 example: GRP002
  *               grado:
  *                 type: string
  *                 description: Grado actualizado del grupo.
+ *                 example: Segundo
  *     responses:
  *       200:
  *         description: Grupo actualizado con éxito.
