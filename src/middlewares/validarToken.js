@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const validarToken = () => {
     return (req, res, next) => {
         console.log('Authorization Header:', req.headers['authorization']);
