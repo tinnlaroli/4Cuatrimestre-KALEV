@@ -4,7 +4,7 @@ const { pool } = require('../config/dbConfig');
 const obtenerUsuarioPorId = async (id) => {
     const query = `
         SELECT id_usuario, nombre_usuario AS nombre, correo, id_rol AS role
-        FROM kalev.usuarios
+        FROM usuarios
         WHERE id_usuario = $1;
     `;
     try {
@@ -37,7 +37,7 @@ const registrarUsuario = async (nombre, correo, contrasena, role) => {
 const autenticarUsuario = async (correo) => {
     const query = `
         SELECT id_usuario, nombre_usuario AS nombre, correo, contrasena, id_rol AS role
-        FROM kalev.usuarios
+        FROM usuarios
         WHERE correo = $1;
     `;
     try {
@@ -52,7 +52,7 @@ const autenticarUsuario = async (correo) => {
 // Actualizar usuario
 const actualizarUsuario = async (id, nombre, correo, role) => {
     const query = `
-        UPDATE kalev.usuarios
+        UPDATE usuarios
         SET nombre_usuario = $1, correo = $2, id_rol = $3
         WHERE id_usuario = $4
         RETURNING id_usuario, nombre_usuario AS nombre, correo, id_rol AS role;
@@ -69,7 +69,7 @@ const actualizarUsuario = async (id, nombre, correo, role) => {
 // Eliminar usuario
 const eliminarUsuario = async (id) => {
     const query = `
-        DELETE FROM kalev.usuarios
+        DELETE FROM usuarios
         WHERE id_usuario = $1
         RETURNING id_usuario;
     `;

@@ -7,7 +7,7 @@ const db = require('../config/dbConfig');
  */
 const obtenerFeedback = async (id) => {
     const query = `
-        SELECT * FROM kalev.feedback_estrategias
+        SELECT * FROM feedback_estrategias
         WHERE id_feedback = $1;
     `;
     const { rows } = await db.query(query, [id]);
@@ -24,7 +24,7 @@ const obtenerFeedback = async (id) => {
  */
 const enviarFeedback = async (docenteId, estrategiaId, comentario, efectividad) => {
     const query = `
-        INSERT INTO kalev.feedback_estrategias (id_estrategia, id_docente, efectividad, comentario, fecha_registro)
+        INSERT INTO feedback_estrategias (id_estrategia, id_docente, efectividad, comentario, fecha_registro)
         VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
         RETURNING *;
     `;
@@ -39,7 +39,7 @@ const enviarFeedback = async (docenteId, estrategiaId, comentario, efectividad) 
  */
 const obtenerHistorial = async () => {
     const query = `
-        SELECT * FROM kalev.historial
+        SELECT * FROM historial
         ORDER BY fecha DESC;
     `;
     const { rows } = await db.query(query);
