@@ -19,7 +19,7 @@ const obtenerUsuarioPorId = async (id) => {
 // Registrar un nuevo usuario
 const registrarUsuario = async (nombre, correo, contrasena, role) => {
     const query = `
-        INSERT INTO kalev.usuarios (nombre_usuario, correo, contrasena, id_rol)
+        INSERT INTO usuarios (nombre_usuario, correo, contrasena, id_rol)
         VALUES ($1, $2, $3, $4)
         RETURNING id_usuario, nombre_usuario AS nombre, correo, id_rol AS role;
     `;
