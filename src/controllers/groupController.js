@@ -8,32 +8,44 @@ const groupModel = require('../models/groupModel');
 const crearGrupo = async (req, res) => {
     const { nombre, codigo_unico, grado } = req.body;
 
-    // Verificar si el usuario tiene el rol de director
-    if (req.usuario.role !== 2) { // 2 corresponde al rol de director
+    // Log de los datos recibidos en la solicitud
+    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado });
+
+    // Log del usuario autenticado
+    console.log('Usuario autenticado:', req.usuario);
+
+    // Validar que el usuario sea un director (role: 2)
+    if (req.usuario.role !== 2) {
+        console.warn('Acceso denegado: El usuario no es un director.');
         return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden crear grupos.' });
     }
 
+    // Validar que los campos requeridos estén presentes
     if (!nombre || !codigo_unico || !grado) {
+        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado });
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
     try {
+        // Intentar registrar el grupo
+        console.log('Intentando registrar grupo:', { nombre, codigo_unico, id_director: req.usuario.id_usuario, grado });
+
         const nuevoGrupo = await groupModel.registrarGrupo(
             nombre,
             codigo_unico,
-            null, // No se asigna un docente en la creación inicial
             req.usuario.id_usuario, // ID del director desde el token
             grado
         );
+
+        console.log('Grupo registrado con éxito:', nuevoGrupo);
+
         res.status(201).json({ message: 'Grupo creado con éxito', grupo: nuevoGrupo });
     } catch (error) {
-        if (error.code === '23505') { // Código de error de clave única en PostgreSQL
-            return res.status(400).json({ message: 'El código único ya está en uso.' });
-        }
-        console.error('Error al crear el grupo:', error);
-        res.status(500).json({ message: 'Error al crear el grupo' });
+        console.error('Error al crear el grupo:', error.message);
+        res.status(500).json({ message: 'Error al crear el grupo', error: error.message });
     }
 };
+
 
 /**
  * Obtener todos los grupos asignados a un docente
