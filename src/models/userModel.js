@@ -1,9 +1,10 @@
 const { pool } = require('../config/dbConfig');
 
+// Obtener usuario por ID
 const obtenerUsuarioPorId = async (id) => {
     const query = `
-        SELECT id_usuario, nombre, correo, role
-        FROM usuarios
+        SELECT id_usuario, nombre_usuario AS nombre, correo, id_rol AS role
+        FROM kalev.usuarios
         WHERE id_usuario = $1;
     `;
     try {
@@ -15,14 +16,15 @@ const obtenerUsuarioPorId = async (id) => {
     }
 };
 
-const registrarUsuario = async (nombre, correo, password, role) => {
+// Registrar un nuevo usuario
+const registrarUsuario = async (nombre, correo, contrasena, role) => {
     const query = `
-        INSERT INTO usuarios (nombre, correo, password, role)
+        INSERT INTO kalev.usuarios (nombre_usuario, correo, contrasena, id_rol)
         VALUES ($1, $2, $3, $4)
-        RETURNING id_usuario, nombre, correo, role;
+        RETURNING id_usuario, nombre_usuario AS nombre, correo, id_rol AS role;
     `;
     try {
-        const { rows } = await pool.query(query, [nombre, correo, password, role]);
+        const { rows } = await pool.query(query, [nombre, correo, contrasena, role]);
         return rows[0];
     } catch (error) {
         console.error('Error al registrar usuario:', error);
@@ -30,10 +32,11 @@ const registrarUsuario = async (nombre, correo, password, role) => {
     }
 };
 
+// Autenticar usuario por correo
 const autenticarUsuario = async (correo) => {
     const query = `
-        SELECT id_usuario, nombre, correo, password, role
-        FROM usuarios
+        SELECT id_usuario, nombre_usuario AS nombre, correo, contrasena, id_rol AS role
+        FROM kalev.usuarios
         WHERE correo = $1;
     `;
     try {
@@ -45,12 +48,13 @@ const autenticarUsuario = async (correo) => {
     }
 };
 
+// Actualizar usuario
 const actualizarUsuario = async (id, nombre, correo, role) => {
     const query = `
-        UPDATE usuarios
-        SET nombre = $1, correo = $2, role = $3
+        UPDATE kalev.usuarios
+        SET nombre_usuario = $1, correo = $2, id_rol = $3
         WHERE id_usuario = $4
-        RETURNING id_usuario, nombre, correo, role;
+        RETURNING id_usuario, nombre_usuario AS nombre, correo, id_rol AS role;
     `;
     try {
         const { rows } = await pool.query(query, [nombre, correo, role, id]);
@@ -61,9 +65,10 @@ const actualizarUsuario = async (id, nombre, correo, role) => {
     }
 };
 
+// Eliminar usuario
 const eliminarUsuario = async (id) => {
     const query = `
-        DELETE FROM usuarios
+        DELETE FROM kalev.usuarios
         WHERE id_usuario = $1
         RETURNING id_usuario;
     `;

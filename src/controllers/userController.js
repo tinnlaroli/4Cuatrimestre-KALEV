@@ -38,7 +38,7 @@ const loginUsuario = async (req, res) => {
             return res.status(401).json({ message: 'Correo o contraseña incorrectos.' });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, usuario.password);
+        const isPasswordValid = await bcrypt.compare(password, usuario.contrasena);
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Correo o contraseña incorrectos.' });
         }
