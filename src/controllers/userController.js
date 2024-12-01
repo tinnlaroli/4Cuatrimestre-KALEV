@@ -16,7 +16,7 @@ const registrarUsuario = async (req, res) => {
 
     try {
         // Obtener el ID del rol desde la base de datos
-        const queryRol = `SELECT id_rol FROM kalev.roles WHERE nombre_rol = $1`;
+        const queryRol = `SELECT id_rol FROM roles WHERE nombre_rol = $1`;
         const { rows: roles } = await pool.query(queryRol, [rol]);
 
         if (roles.length === 0) {
