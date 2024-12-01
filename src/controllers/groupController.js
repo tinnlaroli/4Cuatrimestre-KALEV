@@ -8,6 +8,11 @@ const groupModel = require('../models/groupModel');
 const crearGrupo = async (req, res) => {
     const { nombre, codigo_unico, grado } = req.body;
 
+    // Verificar si el usuario tiene el rol de director
+    if (req.usuario.role !== 2) { // 2 corresponde al rol de director
+        return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden crear grupos.' });
+    }
+
     if (!nombre || !codigo_unico || !grado) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
@@ -16,19 +21,22 @@ const crearGrupo = async (req, res) => {
         const nuevoGrupo = await groupModel.registrarGrupo(
             nombre,
             codigo_unico,
-            req.usuario.id_usuario, // ID del docente desde el token
-            1, // ID del director (esto deberías obtenerlo dinámicamente según tu lógica)
+            null, // No se asigna un docente en la creación inicial
+            req.usuario.id_usuario, // ID del director desde el token
             grado
         );
         res.status(201).json({ message: 'Grupo creado con éxito', grupo: nuevoGrupo });
     } catch (error) {
+        if (error.code === '23505') { // Código de error de clave única en PostgreSQL
+            return res.status(400).json({ message: 'El código único ya está en uso.' });
+        }
         console.error('Error al crear el grupo:', error);
         res.status(500).json({ message: 'Error al crear el grupo' });
     }
 };
 
 /**
- * Obtener todos los grupos asignados al docente autenticado
+ * Obtener todos los grupos asignados a un docente
  * @param {Object} req - La solicitud HTTP
  * @param {Object} res - La respuesta HTTP
  */
@@ -38,7 +46,7 @@ const obtenerGrupos = async (req, res) => {
     try {
         const grupos = await groupModel.obtenerGruposPorDocente(id_docente);
         if (grupos.length === 0) {
-            return res.status(404).json({ message: 'No se encontraron grupos para este docente' });
+            return res.status(404).json({ message: 'No se encontraron grupos para este docente.' });
         }
         res.status(200).json({ grupos });
     } catch (error) {
@@ -76,6 +84,11 @@ const actualizarGrupo = async (req, res) => {
     const { id } = req.params;
     const { nombre, codigo_unico, grado } = req.body;
 
+    // Verificar si el usuario tiene el rol de director
+    if (req.usuario.role !== 2) { // 2 corresponde al rol de director
+        return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden actualizar grupos.' });
+    }
+
     try {
         const grupoActualizado = await groupModel.actualizarGrupo(id, nombre, codigo_unico, grado);
         if (!grupoActualizado) {
@@ -95,6 +108,11 @@ const actualizarGrupo = async (req, res) => {
  */
 const eliminarGrupo = async (req, res) => {
     const { id } = req.params;
+
+    // Verificar si el usuario tiene el rol de director
+    if (req.usuario.role !== 2) { // 2 corresponde al rol de director
+        return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden eliminar grupos.' });
+    }
 
     try {
         await groupModel.eliminarGrupo(id);
