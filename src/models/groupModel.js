@@ -16,9 +16,17 @@ const registrarGrupo = async (nombreGrupo, codigoUnico, idDocente, idDirector, g
         RETURNING *;
     `;
     const values = [nombreGrupo, codigoUnico, idDocente, idDirector, grado];
-    const { rows } = await pool.query(query, values);
-    return rows[0];
+    console.log('Valores para la consulta SQL:', values);
+
+    try {
+        const { rows } = await pool.query(query, values);
+        return rows[0];
+    } catch (error) {
+        console.error('Error en la consulta SQL para registrar grupo:', error.message);
+        throw error;
+    }
 };
+
 
 /**
  * Obtiene todos los grupos asociados a un docente específico.

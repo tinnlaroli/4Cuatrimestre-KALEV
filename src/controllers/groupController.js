@@ -6,38 +6,35 @@ const groupModel = require('../models/groupModel');
  * @param {Object} res - La respuesta HTTP
  */
 const crearGrupo = async (req, res) => {
-    const { nombre, codigo_unico, grado } = req.body;
+    const { nombre, codigo_unico, grado, id_docente } = req.body;
 
-    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado });
+    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado, id_docente });
     console.log('Usuario autenticado:', req.usuario);
 
-    // Validar que el usuario sea un director (role: 2)
+    // Validar que el usuario sea un director
     if (req.usuario.role !== 2) {
-        console.warn('Acceso denegado: El usuario no es un director.');
         return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden crear grupos.' });
     }
 
-    // Validar campos obligatorios
-    if (!nombre || !codigo_unico || !grado) {
-        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado });
+    if (!nombre || !codigo_unico || !grado || !id_docente) {
+        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado, id_docente });
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
     try {
-        // Log del intento de registrar el grupo
-        console.log('Intentando registrar grupo:', {
+        console.log('Intentando registrar grupo con datos:', {
             nombre,
             codigo_unico,
-            id_docente: req.usuario.id_usuario, // Si corresponde incluir un docente
-            id_director: req.usuario.id_usuario, // ID del director desde el token
+            id_docente,
+            id_director: req.usuario.id_usuario,
             grado,
         });
 
         const nuevoGrupo = await groupModel.registrarGrupo(
             nombre,
             codigo_unico,
-            null, // id_docente no se proporciona aquí
-            req.usuario.id_usuario, // ID del director autenticado
+            id_docente,
+            req.usuario.id_usuario, // ID del director
             grado
         );
 
