@@ -6,9 +6,9 @@ const groupModel = require('../models/groupModel');
  * @param {Object} res - La respuesta HTTP
  */
 const crearGrupo = async (req, res) => {
-    const { nombre, codigo_unico, grado, id_docente } = req.body;
+    const { nombre, codigo_unico, grado, id_director, id_docente } = req.body;
 
-    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado, id_docente });
+    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado, id_director, id_docente });
     console.log('Usuario autenticado:', req.usuario);
 
     // Validar que el usuario sea un director
@@ -16,8 +16,8 @@ const crearGrupo = async (req, res) => {
         return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden crear grupos.' });
     }
 
-    if (!nombre || !codigo_unico || !grado || !id_docente) {
-        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado, id_docente });
+    if (!nombre || !codigo_unico || !grado || !id_director ||!id_docente) {
+        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado, id_director, id_docente });
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
@@ -26,7 +26,7 @@ const crearGrupo = async (req, res) => {
             nombre,
             codigo_unico,
             id_docente,
-            id_director: req.usuario.id,
+            id_director,
             grado,
         });
 
@@ -34,7 +34,7 @@ const crearGrupo = async (req, res) => {
             nombre,
             codigo_unico,
             id_docente,
-            req.usuario.id, // ID del usuario director
+            id_director,
             grado
         );
 
