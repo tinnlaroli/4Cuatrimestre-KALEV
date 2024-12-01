@@ -1,4 +1,4 @@
-const pool = require('../config/dbConfig'); // Configuración de la base de datos PostgreSQL
+const { pool } = require('../config/dbConfig'); // Configuración de la base de datos PostgreSQL
 
 /**
  * Registra un nuevo grupo en la base de datos.
