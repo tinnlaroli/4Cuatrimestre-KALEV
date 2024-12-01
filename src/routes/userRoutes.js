@@ -109,7 +109,7 @@ router.post('/login', usuarioController.loginUsuario);
  *     description: Verifica si el token JWT enviado en los encabezados es válido.
  *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Token válido.
@@ -152,7 +152,7 @@ router.get('/validate', validarToken(), usuarioController.validarToken);
  *         schema:
  *           type: integer
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Detalles del usuario obtenidos con éxito.
@@ -195,7 +195,7 @@ router.get('/:id', validarToken(), usuarioController.obtenerUsuario);
  *         schema:
  *           type: integer
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -237,7 +237,7 @@ router.put('/:id', validarToken(), usuarioController.actualizarUsuario);
  *         schema:
  *           type: integer
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Usuario eliminado con éxito.
