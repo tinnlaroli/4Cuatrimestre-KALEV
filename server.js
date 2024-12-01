@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const pool = require("./src/config/dbConfig"); // Configuración de la base de datos
+const { pool } = require("./src/config/dbConfig"); // Configuración de la base de datos
 const { swaggerUi, swaggerSpec } = require("./swaggerConfig");
 
 const app = express();
@@ -33,25 +33,20 @@ app.use("/recommendations", recommendationRoutes);
 app.use("/reportes", reportRoutes);
 app.use("/feedback", feedbackRoutes);
 
-// Manejo de errores global
-app.use((err, req, res, next) => {
-  console.error("Error no manejado:", err);
-  res.status(500).json({
-    message: "Error interno del servidor.",
-    error: err.message,
-  });
-});
-
-// Iniciar la aplicación y probar la conexión a la base de datos
-pool
-  .connect()
-  .then(() => {
+// Verificar conexión a la base de datos antes de iniciar el servidor
+(async () => {
+  try {
+    // Realizar una consulta simple para verificar la conexión
+    await pool.query("SELECT NOW()");
     console.log("Conexión a la base de datos establecida.");
+
+    // Iniciar el servidor
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en ${API_URL}`);
       console.log(`Documentación Swagger en ${API_URL}/api-docs`);
     });
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("Error al conectar a la base de datos:", err);
-  });
+    process.exit(1); // Finalizar proceso si no hay conexión
+  }
+})();
