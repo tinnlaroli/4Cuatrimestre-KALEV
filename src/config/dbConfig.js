@@ -1,11 +1,11 @@
 const { Pool } = require('pg');
 
-// Crear un pool de conexión para la base de datos
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // Requerido para conexiones seguras en Railway
-  },
+    connectionString: process.env.DATABASE_URL, // Variable de entorno para la conexión
+    ssl: {
+        rejectUnauthorized: false, // Necesario para servicios de nube como Railway
+    },
 });
 
-module.exports = pool;
+module.exports = { pool };
+
