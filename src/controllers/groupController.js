@@ -26,7 +26,7 @@ const crearGrupo = async (req, res) => {
             nombre,
             codigo_unico,
             id_docente,
-            id_director: req.usuario.id_usuario,
+            id_director: req.usuario.id,
             grado,
         });
 
