@@ -210,9 +210,9 @@ router.get('/:id', validarToken(), usuarioController.obtenerUsuario);
  *                 type: string
  *                 example: juan.perez@example.com
  *               role:
- *                 type: string
- *                 enum: [docente, director, tutor]
- *     responses:
+ *                 type: integer
+*                 example: 1
+*     responses:
  *       200:
  *         description: Usuario actualizado con éxito.
  *       404:
