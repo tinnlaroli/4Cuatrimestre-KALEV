@@ -16,7 +16,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Importar rutas
 //const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
-const classRoutes = require("./src/routes/classRoutes");
+const gruposRoutes = require("./src/routes/gruposRoutes");
 const studentRoutes = require("./src/routes/studentRoutes");
 const styleRoutes = require("./src/routes/styleRoutes");
 const recommendationRoutes = require("./src/routes/recommendationRoutes");
@@ -26,7 +26,7 @@ const feedbackRoutes = require("./src/routes/feedbackRoutes");
 // Usar rutas
 //app.use("/auth", authRoutes);
 app.use("/usuarios", userRoutes);
-app.use("/clases", classRoutes);
+app.use("/grupos", gruposRoutes);
 app.use("/students", studentRoutes);
 app.use("/styles", styleRoutes);
 app.use("/recommendations", recommendationRoutes);
