@@ -1,27 +1,41 @@
 const groupModel = require('../models/groupModel');
 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { pool } = require('../config/dbConfig');
 /**
  * Crear un nuevo grupo
  * @param {Object} req - La solicitud HTTP
  * @param {Object} res - La respuesta HTTP
  */
 const crearGrupo = async (req, res) => {
-    const { nombre, codigo_unico, grado, id_director, id_docente } = req.body;
+    const { nombre, codigo_unico, grado, id_docente } = req.body;
 
-    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado, id_director, id_docente });
+    console.log('Datos recibidos en la solicitud:', { nombre, codigo_unico, grado, id_docente });
     console.log('Usuario autenticado:', req.usuario);
 
     // Validar que el usuario sea un director
     if (req.usuario.role !== 2) {
+        console.warn('Acceso denegado: El usuario no es un director.');
         return res.status(403).json({ message: 'Acceso denegado. Solo los directores pueden crear grupos.' });
     }
 
-    if (!nombre || !codigo_unico || !grado || !id_director ||!id_docente) {
-        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado, id_director, id_docente });
+    if (!nombre || !codigo_unico || !grado || !id_docente) {
+        console.warn('Campos obligatorios faltantes:', { nombre, codigo_unico, grado, id_docente });
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
     try {
+        // Obtener el ID del director desde la tabla directores
+        const queryDirector = `SELECT id_director FROM directores WHERE id_usuario = $1;`;
+        const { rows: directorRows } = await pool.query(queryDirector, [req.usuario.id]);
+        if (directorRows.length === 0) {
+            console.error('No se encontró un director asociado con este usuario.');
+            return res.status(403).json({ message: 'Acceso denegado. No se encontró un director asociado.' });
+        }
+
+        const id_director = directorRows[0].id_director;
+
         console.log('Intentando registrar grupo con datos:', {
             nombre,
             codigo_unico,
@@ -47,13 +61,14 @@ const crearGrupo = async (req, res) => {
     }
 };
 
+
 /**
  * Obtener todos los grupos asignados a un docente
  * @param {Object} req - La solicitud HTTP
  * @param {Object} res - La respuesta HTTP
  */
 const obtenerGrupos = async (req, res) => {
-    const id_docente = req.usuario.id_usuario;
+    const id_docente = req.usuario.id;
 
     try {
         const grupos = await groupModel.obtenerGruposPorDocente(id_docente);

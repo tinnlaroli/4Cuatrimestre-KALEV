@@ -2,12 +2,6 @@ const { pool } = require('../config/dbConfig'); // Configuración de la base de 
 
 /**
  * Registra un nuevo grupo en la base de datos.
- * @param {string} nombreGrupo - Nombre del grupo.
- * @param {string} codigoUnico - Código único del grupo.
- * @param {number} idDocente - ID del docente que crea el grupo.
- * @param {number} idDirector - ID del director asociado al grupo.
- * @param {string} grado - Grado del grupo.
- * @returns {Promise<Object>} - Grupo registrado.
  */
 const registrarGrupo = async (nombreGrupo, codigoUnico, idDocente, idDirector, grado) => {
     const query = `
@@ -27,42 +21,42 @@ const registrarGrupo = async (nombreGrupo, codigoUnico, idDocente, idDirector, g
     }
 };
 
-
 /**
  * Obtiene todos los grupos asociados a un docente específico.
- * @param {number} idDocente - ID del docente.
- * @returns {Promise<Array>} - Lista de grupos.
  */
 const obtenerGruposPorDocente = async (idDocente) => {
     const query = `
         SELECT * FROM grupos
         WHERE id_docente = $1;
     `;
-    const { rows } = await pool.query(query, [idDocente]);
-    return rows;
+    try {
+        const { rows } = await pool.query(query, [idDocente]);
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener grupos por docente:', error.message);
+        throw error;
+    }
 };
 
 /**
  * Obtiene un grupo por su ID.
- * @param {number} idGrupo - ID del grupo.
- * @returns {Promise<Object>} - Detalle del grupo.
  */
 const obtenerGrupoPorId = async (idGrupo) => {
     const query = `
         SELECT * FROM grupos
         WHERE id_grupo = $1;
     `;
-    const { rows } = await pool.query(query, [idGrupo]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [idGrupo]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al obtener grupo por ID:', error.message);
+        throw error;
+    }
 };
 
 /**
  * Actualiza los detalles de un grupo.
- * @param {number} idGrupo - ID del grupo.
- * @param {string} nombreGrupo - Nuevo nombre del grupo.
- * @param {string} codigoUnico - Nuevo código único del grupo.
- * @param {string} grado - Nuevo grado del grupo.
- * @returns {Promise<Object>} - Grupo actualizado.
  */
 const actualizarGrupo = async (idGrupo, nombreGrupo, codigoUnico, grado) => {
     const query = `
@@ -71,14 +65,17 @@ const actualizarGrupo = async (idGrupo, nombreGrupo, codigoUnico, grado) => {
         WHERE id_grupo = $4
         RETURNING *;
     `;
-    const { rows } = await pool.query(query, [nombreGrupo, codigoUnico, grado, idGrupo]);
-    return rows[0];
+    try {
+        const { rows } = await pool.query(query, [nombreGrupo, codigoUnico, grado, idGrupo]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al actualizar grupo:', error.message);
+        throw error;
+    }
 };
 
 /**
  * Elimina un grupo por su ID.
- * @param {number} idGrupo - ID del grupo.
- * @returns {Promise<void>} - Confirmación de eliminación.
  */
 const eliminarGrupo = async (idGrupo) => {
     const query = `
@@ -86,9 +83,14 @@ const eliminarGrupo = async (idGrupo) => {
         WHERE id_grupo = $1
         RETURNING *;
     `;
-    const { rows } = await pool.query(query, [idGrupo]);
-    if (rows.length === 0) {
-        throw new Error('Grupo no encontrado');
+    try {
+        const { rows } = await pool.query(query, [idGrupo]);
+        if (rows.length === 0) {
+            throw new Error('Grupo no encontrado');
+        }
+    } catch (error) {
+        console.error('Error al eliminar grupo:', error.message);
+        throw error;
     }
 };
 
@@ -97,5 +99,5 @@ module.exports = {
     obtenerGruposPorDocente,
     obtenerGrupoPorId,
     actualizarGrupo,
-    eliminarGrupo
+    eliminarGrupo,
 };
