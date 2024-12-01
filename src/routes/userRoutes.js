@@ -32,16 +32,16 @@ const validarToken = require('../middlewares/validarToken');
  *               nombre:
  *                 type: string
  *                 description: Nombre del usuario.
- *                 example: Juan Pérez
+ *                 example: admin
  *               correo:
  *                 type: string
  *                 description: Correo electrónico del usuario.
- *                 example: juan.perez@example.com
+ *                 example: admin@example.com
  *               password:
  *                 type: string
  *                 description: Contraseña del usuario.
- *                 example: password123
- *               role:
+ *                 example: admin123
+ *               rol:
  *                 type: string
  *                 description: Rol del usuario.
  *                 enum: [docente, director, tutor]

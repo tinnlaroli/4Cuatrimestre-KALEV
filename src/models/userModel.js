@@ -32,6 +32,7 @@ const registrarUsuario = async (nombre, correo, contrasena, role) => {
     }
 };
 
+
 // Autenticar usuario por correo
 const autenticarUsuario = async (correo) => {
     const query = `

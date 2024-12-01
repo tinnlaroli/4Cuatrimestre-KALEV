@@ -5,26 +5,42 @@ const usuarioModel = require('../models/userModel');
 const SECRET_KEY = process.env.JWT_SECRET || 'mi_secreta';
 
 const registrarUsuario = async (req, res) => {
-    const { nombre, correo, password, role } = req.body;
-    if (!nombre || !correo || !password || !role) {
+    const { nombre, correo, password, rol } = req.body;
+
+    // Validar campos obligatorios
+    if (!nombre || !correo || !password || !rol) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
     try {
+        // Obtener el ID del rol desde la base de datos
+        const queryRol = `SELECT id_rol FROM kalev.roles WHERE nombre_rol = $1`;
+        const { rows: roles } = await pool.query(queryRol, [rol]);
+
+        if (roles.length === 0) {
+            return res.status(400).json({ message: 'El rol proporcionado no es válido.' });
+        }
+
+        const role = roles[0].id_rol;
+
         // Verificar si el correo ya está registrado
         const usuarioExistente = await usuarioModel.autenticarUsuario(correo);
         if (usuarioExistente) {
             return res.status(400).json({ message: 'El correo ya está registrado.' });
         }
 
+        // Encriptar la contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Registrar al usuario
         const nuevoUsuario = await usuarioModel.registrarUsuario(nombre, correo, hashedPassword, role);
         res.status(201).json({ message: 'Usuario registrado con éxito.', data: nuevoUsuario });
     } catch (error) {
-        console.error(error);
+        console.error('Error al registrar el usuario:', error);
         res.status(500).json({ message: 'Error al registrar el usuario.', error: error.message });
     }
 };
+
 
 const loginUsuario = async (req, res) => {
     const { correo, password } = req.body;
