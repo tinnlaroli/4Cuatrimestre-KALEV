@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const usuarioModel = require('../models/userModel');
+const { pool } = require('../config/dbConfig');
+
 
 const SECRET_KEY = process.env.JWT_SECRET || 'mi_secreta';
 
