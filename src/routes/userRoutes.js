@@ -7,7 +7,7 @@ const validarToken = require('../middlewares/validarToken');
  * @swagger
  * tags:
  *   name: Usuarios
- *   description: Gestión de usuarios (docentes, directores, tutores).
+ *   description: Gestión de usuarios y autenticación.
  */
 
 /**
@@ -27,7 +27,7 @@ const validarToken = require('../middlewares/validarToken');
  *               - nombre
  *               - correo
  *               - password
- *               - role
+ *               - rol
  *             properties:
  *               nombre:
  *                 type: string
@@ -100,6 +100,42 @@ router.post('/register', usuarioController.registrarUsuario);
  *         description: Error interno del servidor.
  */
 router.post('/login', usuarioController.loginUsuario);
+
+/**
+ * @swagger
+ * /usuarios/validate:
+ *   get:
+ *     summary: Validar token JWT
+ *     description: Verifica si el token JWT enviado en los encabezados es válido.
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Token válido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Token válido.
+ *                 usuario:
+ *                   type: object
+ *                   properties:
+ *                     id_usuario:
+ *                       type: integer
+ *                       example: 1
+ *                     role:
+ *                       type: string
+ *                       example: docente
+ *       401:
+ *         description: Token no válido o expirado.
+ *       500:
+ *         description: Error interno del servidor.
+ */
+router.get('/validate', validarToken(), usuarioController.validarToken);
 
 /**
  * @swagger
