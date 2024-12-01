@@ -16,7 +16,6 @@ const obtenerUsuarioPorId = async (id) => {
     }
 };
 
-// Registrar un nuevo usuario
 const registrarUsuario = async (nombre, correo, contrasena, role) => {
     const query = `
         INSERT INTO usuarios (nombre_usuario, correo, contrasena, id_rol)
@@ -27,10 +26,11 @@ const registrarUsuario = async (nombre, correo, contrasena, role) => {
         const { rows } = await pool.query(query, [nombre, correo, contrasena, role]);
         return rows[0];
     } catch (error) {
-        console.error('Error al registrar usuario:', error);
+        console.error('Error al registrar usuario:', error.message);
         throw new Error('Error al registrar usuario.');
     }
 };
+
 
 
 // Autenticar usuario por correo

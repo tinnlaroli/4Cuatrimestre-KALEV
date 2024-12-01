@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const usuarioModel = require('../models/userModel');
 const { pool } = require('../config/dbConfig');
-
 
 const SECRET_KEY = process.env.JWT_SECRET || 'mi_secreta';
 
@@ -15,8 +13,8 @@ const registrarUsuario = async (req, res) => {
     }
 
     try {
-        // Obtener el ID del rol desde la base de datos
-        const queryRol = `SELECT id_rol FROM roles WHERE nombre_rol = $1`;
+        // Validar que el rol existe en la tabla roles
+        const queryRol = `SELECT id_rol FROM roles WHERE LOWER(nombre_rol) = LOWER($1)`;
         const { rows: roles } = await pool.query(queryRol, [rol]);
 
         if (roles.length === 0) {
@@ -36,12 +34,14 @@ const registrarUsuario = async (req, res) => {
 
         // Registrar al usuario
         const nuevoUsuario = await usuarioModel.registrarUsuario(nombre, correo, hashedPassword, role);
-        res.status(201).json({ message: 'Usuario registrado con éxito.', data: nuevoUsuario });
+
+        return res.status(201).json({ message: 'Usuario registrado con éxito.', data: nuevoUsuario });
     } catch (error) {
-        console.error('Error al registrar el usuario:', error);
+        console.error('Error al registrar el usuario:', error.message);
         res.status(500).json({ message: 'Error al registrar el usuario.', error: error.message });
     }
 };
+
 
 
 const loginUsuario = async (req, res) => {
