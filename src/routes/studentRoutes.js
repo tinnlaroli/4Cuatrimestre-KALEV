@@ -99,17 +99,28 @@ router.get('/:id', studentController.getStudentById);
  *             type: object
  *             required:
  *               - nombre
+ *               - apellido
  *               - correo
+ *               - fecha_nacimiento
  *               - id_grupo
  *             properties:
  *               nombre:
  *                 type: string
  *                 description: Nombre del alumno.
  *                 example: María López
+ *               apellido:
+ *                 type: string
+ *                 description: Apellido del alumno.
+ *                 example: López
  *               correo:
  *                 type: string
  *                 description: Correo electrónico del alumno.
  *                 example: maria.lopez@example.com
+ *               fecha_nacimiento:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de nacimiento del alumno.
+ *                 example: 2005-03-25
  *               id_grupo:
  *                 type: integer
  *                 description: ID del grupo al que pertenece el alumno.
@@ -131,6 +142,9 @@ router.get('/:id', studentController.getStudentById);
  *                 correo:
  *                   type: string
  *                   example: maria.lopez@example.com
+ *                 fecha_nacimiento:
+ *                   type: string
+ *                   example: 2005-03-25
  *                 id_grupo:
  *                   type: integer
  *                   example: 101
@@ -138,6 +152,7 @@ router.get('/:id', studentController.getStudentById);
  *         description: Error al registrar el alumno.
  */
 router.post('/', studentController.createStudent);
+
 
 /**
  * @swagger

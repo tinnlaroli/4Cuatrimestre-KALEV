@@ -25,21 +25,22 @@ const getStudentById = async (req, res) => {
 };
 
 const createStudent = async (req, res) => {
-    const { nombre, apellido, correo, id_grupo } = req.body;
+    const { nombre, apellido, correo, fecha_nacimiento, id_grupo } = req.body;
     
     // Verificar que todos los campos necesarios estén presentes
-    if (!nombre || !apellido || !correo || !id_grupo) {
-        return res.status(400).json({ message: 'Faltan campos obligatorios: nombre, apellido, correo, o id_grupo.' });
+    if (!nombre || !apellido || !correo || !fecha_nacimiento || !id_grupo) {
+        return res.status(400).json({ message: 'Faltan campos obligatorios: nombre, apellido, correo, fecha_nacimiento, o id_grupo.' });
     }
 
     try {
-        const newStudent = await studentModel.registrarAlumno(nombre, apellido, correo, id_grupo);
+        const newStudent = await studentModel.registrarAlumno(nombre, apellido, correo, fecha_nacimiento, id_grupo);
         res.status(201).json(newStudent);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error al registrar el alumno', error: error.message });
     }
 };
+
 
 
 const updateStudent = async (req, res) => {

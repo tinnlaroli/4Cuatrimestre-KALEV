@@ -23,22 +23,22 @@ const obtenerAlumnoPorId = async (id) => {
         throw new Error('Error al obtener alumno por ID');
     }
 };
-
-// Registrar un nuevo estudiante
-const registrarAlumno = async (nombre, apellido, correo, id_grupo) => {
+// Registrar un nuevo alumno
+const registrarAlumno = async (nombre, apellido, correo, fecha_nacimiento, id_grupo) => {
     const query = `
-        INSERT INTO alumnos (nombre, apellido, correo, id_grupo)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO alumnos (nombre, apellido, correo, fecha_nacimiento, id_grupo)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
     `;
     try {
-        const { rows } = await pool.query(query, [nombre, apellido, correo, id_grupo]);
+        const { rows } = await pool.query(query, [nombre, apellido, correo, fecha_nacimiento, id_grupo]);
         return rows[0];
     } catch (error) {
-        console.error('Error al registrar estudiante:', error);
-        throw new Error('Error al registrar estudiante');
+        console.error('Error al registrar alumno:', error);
+        throw new Error('Error al registrar alumno');
     }
 };
+
 
 
 // Actualizar un alumno
