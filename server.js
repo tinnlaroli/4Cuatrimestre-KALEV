@@ -1,11 +1,18 @@
 require("dotenv").config();
 const express = require("express");
-const { pool } = require("./src/config/dbConfig"); // Configuración de la base de datos
+const cors = require("cors"); // Importamos el paquete cors
+const { pool } = require("./src/config/dbConfig");
 const { swaggerUi, swaggerSpec } = require("./swaggerConfig");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const API_URL = process.env.API_URL || `http://localhost:${PORT}`;
+
+// Habilitar CORS para todos los orígenes
+app.use(cors());
+
+// O si deseas permitir solo tu dominio local:
+// app.use(cors({ origin: 'http://127.0.0.1:5500' }));
 
 // Middleware
 app.use(express.json());
@@ -14,7 +21,6 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Importar rutas
-//const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const gruposRoutes = require("./src/routes/gruposRoutes");
 const studentRoutes = require("./src/routes/studentRoutes");
@@ -24,7 +30,6 @@ const reportRoutes = require("./src/routes/reportRoutes");
 const feedbackRoutes = require("./src/routes/feedbackRoutes");
 
 // Usar rutas
-//app.use("/auth", authRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/grupos", gruposRoutes);
 app.use("/students", studentRoutes);
