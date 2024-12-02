@@ -2,65 +2,65 @@ const studentModel = require('../models/studentModel');
 
 const getAllStudents = async (req, res) => {
     try {
-        const students = await studentModel.obtenerEstudiantes();
+        const students = await studentModel.obtenerAlumnos();  // Cambié 'obtenerEstudiantes' por 'obtenerAlumnos'
         res.status(200).json(students);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al obtener los estudiantes', error: error.message });
+        res.status(500).json({ message: 'Error al obtener los alumnos', error: error.message });  // Cambié 'estudiantes' por 'alumnos'
     }
 };
 
 const getStudentById = async (req, res) => {
     const { id } = req.params;
     try {
-        const student = await studentModel.obtenerEstudiantePorId(id);
+        const student = await studentModel.obtenerAlumnoPorId(id);  // Cambié 'obtenerEstudiantePorId' por 'obtenerAlumnoPorId'
         if (!student) {
-            return res.status(404).json({ message: 'Estudiante no encontrado' });
+            return res.status(404).json({ message: 'Alumno no encontrado' });  // Cambié 'Estudiante' por 'Alumno'
         }
         res.status(200).json(student);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al obtener el estudiante', error: error.message });
+        res.status(500).json({ message: 'Error al obtener el alumno', error: error.message });  // Cambié 'estudiante' por 'alumno'
     }
 };
 
 const createStudent = async (req, res) => {
-    const { nombre, correo, id_clase } = req.body;
+    const { nombre, correo, telefono, id_grupo } = req.body;  // Cambié 'id_clase' por 'id_grupo'
     try {
-        const newStudent = await studentModel.registrarEstudiante(nombre, correo, id_clase);
+        const newStudent = await studentModel.registrarAlumno(nombre, correo, telefono, id_grupo);  // Cambié 'registrarEstudiante' por 'registrarAlumno'
         res.status(201).json(newStudent);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al registrar el estudiante', error: error.message });
+        res.status(500).json({ message: 'Error al registrar el alumno', error: error.message });  // Cambié 'estudiante' por 'alumno'
     }
 };
 
 const updateStudent = async (req, res) => {
     const { id } = req.params;
-    const { nombre, correo, id_clase } = req.body;
+    const { nombre, correo, telefono, id_grupo } = req.body;  // Cambié 'id_clase' por 'id_grupo'
     try {
-        const updatedStudent = await studentModel.actualizarEstudiante(id, nombre, correo, id_clase);
+        const updatedStudent = await studentModel.actualizarAlumno(id, nombre, correo, telefono, id_grupo);  // Cambié 'actualizarEstudiante' por 'actualizarAlumno'
         if (!updatedStudent) {
-            return res.status(404).json({ message: 'Estudiante no encontrado' });
+            return res.status(404).json({ message: 'Alumno no encontrado' });  // Cambié 'Estudiante' por 'Alumno'
         }
         res.status(200).json(updatedStudent);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al actualizar el estudiante', error: error.message });
+        res.status(500).json({ message: 'Error al actualizar el alumno', error: error.message });  // Cambié 'estudiante' por 'alumno'
     }
 };
 
 const deleteStudent = async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedStudent = await studentModel.eliminarEstudiante(id);
+        const deletedStudent = await studentModel.eliminarAlumno(id);  // Cambié 'eliminarEstudiante' por 'eliminarAlumno'
         if (!deletedStudent) {
-            return res.status(404).json({ message: 'Estudiante no encontrado' });
+            return res.status(404).json({ message: 'Alumno no encontrado' });  // Cambié 'Estudiante' por 'Alumno'
         }
-        res.status(200).json({ message: 'Estudiante eliminado correctamente', id: deletedStudent.id_estudiante });
+        res.status(200).json({ message: 'Alumno eliminado correctamente', id: deletedStudent.id_alumno });  // Cambié 'estudiante' por 'alumno'
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al eliminar el estudiante', error: error.message });
+        res.status(500).json({ message: 'Error al eliminar el alumno', error: error.message });  // Cambié 'estudiante' por 'alumno'
     }
 };
 

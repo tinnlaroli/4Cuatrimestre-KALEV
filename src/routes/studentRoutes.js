@@ -5,20 +5,20 @@ const studentController = require('../controllers/studentController');
 /**
  * @swagger
  * tags:
- *   name: Estudiantes
- *   description: Gestión de estudiantes registrados en las clases.
+ *   name: Alumnos
+ *   description: Gestión de alumnos registrados en los grupos.
  */
 
 /**
  * @swagger
  * /students:
  *   get:
- *     summary: Obtener todos los estudiantes
- *     description: Devuelve una lista de todos los estudiantes registrados.
- *     tags: [Estudiantes]
+ *     summary: Obtener todos los alumnos
+ *     description: Devuelve una lista de todos los alumnos registrados.
+ *     tags: [Alumnos]
  *     responses:
  *       200:
- *         description: Lista de estudiantes obtenida exitosamente.
+ *         description: Lista de alumnos obtenida exitosamente.
  *         content:
  *           application/json:
  *             schema:
@@ -26,7 +26,7 @@ const studentController = require('../controllers/studentController');
  *               items:
  *                 type: object
  *                 properties:
- *                   id_estudiante:
+ *                   id_alumno:
  *                     type: integer
  *                     example: 1
  *                   nombre:
@@ -35,11 +35,11 @@ const studentController = require('../controllers/studentController');
  *                   correo:
  *                     type: string
  *                     example: juan.perez@example.com
- *                   id_clase:
+ *                   id_grupo:
  *                     type: integer
  *                     example: 101
  *       500:
- *         description: Error al obtener los estudiantes.
+ *         description: Error al obtener los alumnos.
  */
 router.get('/', studentController.getAllStudents);
 
@@ -47,25 +47,25 @@ router.get('/', studentController.getAllStudents);
  * @swagger
  * /students/{id}:
  *   get:
- *     summary: Obtener un estudiante por ID
- *     description: Devuelve los datos de un estudiante específico.
- *     tags: [Estudiantes]
+ *     summary: Obtener un alumno por ID
+ *     description: Devuelve los datos de un alumno específico.
+ *     tags: [Alumnos]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID del estudiante.
+ *         description: ID del alumno.
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: Estudiante obtenido exitosamente.
+ *         description: Alumno obtenido exitosamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id_estudiante:
+ *                 id_alumno:
  *                   type: integer
  *                   example: 1
  *                 nombre:
@@ -74,13 +74,13 @@ router.get('/', studentController.getAllStudents);
  *                 correo:
  *                   type: string
  *                   example: juan.perez@example.com
- *                 id_clase:
+ *                 id_grupo:
  *                   type: integer
  *                   example: 101
  *       404:
- *         description: Estudiante no encontrado.
+ *         description: Alumno no encontrado.
  *       500:
- *         description: Error al obtener el estudiante.
+ *         description: Error al obtener el alumno.
  */
 router.get('/:id', studentController.getStudentById);
 
@@ -88,9 +88,9 @@ router.get('/:id', studentController.getStudentById);
  * @swagger
  * /students:
  *   post:
- *     summary: Registrar un nuevo estudiante
- *     description: Permite registrar un nuevo estudiante en una clase.
- *     tags: [Estudiantes]
+ *     summary: Registrar un nuevo alumno
+ *     description: Permite registrar un nuevo alumno en un grupo.
+ *     tags: [Alumnos]
  *     requestBody:
  *       required: true
  *       content:
@@ -100,29 +100,29 @@ router.get('/:id', studentController.getStudentById);
  *             required:
  *               - nombre
  *               - correo
- *               - id_clase
+ *               - id_grupo
  *             properties:
  *               nombre:
  *                 type: string
- *                 description: Nombre del estudiante.
+ *                 description: Nombre del alumno.
  *                 example: María López
  *               correo:
  *                 type: string
- *                 description: Correo electrónico del estudiante.
+ *                 description: Correo electrónico del alumno.
  *                 example: maria.lopez@example.com
- *               id_clase:
+ *               id_grupo:
  *                 type: integer
- *                 description: ID de la clase a la que pertenece el estudiante.
+ *                 description: ID del grupo al que pertenece el alumno.
  *                 example: 101
  *     responses:
  *       201:
- *         description: Estudiante registrado exitosamente.
+ *         description: Alumno registrado exitosamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id_estudiante:
+ *                 id_alumno:
  *                   type: integer
  *                   example: 2
  *                 nombre:
@@ -131,11 +131,11 @@ router.get('/:id', studentController.getStudentById);
  *                 correo:
  *                   type: string
  *                   example: maria.lopez@example.com
- *                 id_clase:
+ *                 id_grupo:
  *                   type: integer
  *                   example: 101
  *       500:
- *         description: Error al registrar el estudiante.
+ *         description: Error al registrar el alumno.
  */
 router.post('/', studentController.createStudent);
 
@@ -143,14 +143,14 @@ router.post('/', studentController.createStudent);
  * @swagger
  * /students/{id}:
  *   put:
- *     summary: Actualizar un estudiante
- *     description: Permite actualizar los datos de un estudiante específico.
- *     tags: [Estudiantes]
+ *     summary: Actualizar un alumno
+ *     description: Permite actualizar los datos de un alumno específico.
+ *     tags: [Alumnos]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID del estudiante.
+ *         description: ID del alumno.
  *         schema:
  *           type: integer
  *     requestBody:
@@ -162,26 +162,26 @@ router.post('/', studentController.createStudent);
  *             required:
  *               - nombre
  *               - correo
- *               - id_clase
+ *               - id_grupo
  *             properties:
  *               nombre:
  *                 type: string
- *                 description: Nombre actualizado del estudiante.
+ *                 description: Nombre actualizado del alumno.
  *               correo:
  *                 type: string
- *                 description: Correo electrónico actualizado del estudiante.
- *               id_clase:
+ *                 description: Correo electrónico actualizado del alumno.
+ *               id_grupo:
  *                 type: integer
- *                 description: ID de la clase actualizada del estudiante.
+ *                 description: ID del grupo actualizado del alumno.
  *     responses:
  *       200:
- *         description: Estudiante actualizado exitosamente.
+ *         description: Alumno actualizado exitosamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id_estudiante:
+ *                 id_alumno:
  *                   type: integer
  *                   example: 1
  *                 nombre:
@@ -190,13 +190,13 @@ router.post('/', studentController.createStudent);
  *                 correo:
  *                   type: string
  *                   example: juan.perez.actualizado@example.com
- *                 id_clase:
+ *                 id_grupo:
  *                   type: integer
  *                   example: 102
  *       404:
- *         description: Estudiante no encontrado.
+ *         description: Alumno no encontrado.
  *       500:
- *         description: Error al actualizar el estudiante.
+ *         description: Error al actualizar el alumno.
  */
 router.put('/:id', studentController.updateStudent);
 
@@ -204,23 +204,23 @@ router.put('/:id', studentController.updateStudent);
  * @swagger
  * /students/{id}:
  *   delete:
- *     summary: Eliminar un estudiante
- *     description: Permite eliminar un estudiante específico.
- *     tags: [Estudiantes]
+ *     summary: Eliminar un alumno
+ *     description: Permite eliminar un alumno específico.
+ *     tags: [Alumnos]
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID del estudiante.
+ *         description: ID del alumno.
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: Estudiante eliminado exitosamente.
+ *         description: Alumno eliminado exitosamente.
  *       404:
- *         description: Estudiante no encontrado.
+ *         description: Alumno no encontrado.
  *       500:
- *         description: Error al eliminar el estudiante.
+ *         description: Error al eliminar el alumno.
  */
 router.delete('/:id', studentController.deleteStudent);
 
