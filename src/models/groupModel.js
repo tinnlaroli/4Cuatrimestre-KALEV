@@ -94,10 +94,30 @@ const eliminarGrupo = async (idGrupo) => {
     }
 };
 
+/**
+ * Obtiene todos los estudiantes asociados a un grupo específico
+ */
+const obtenerEstudiantesPorGrupo = async (idGrupo) => {
+    const query = `
+        SELECT id_alumno, nombre, apellido, fecha_nacimiento, correo, telefono
+        FROM alumnos
+        WHERE id_grupo = $1;
+    `;
+    try {
+        const { rows } = await pool.query(query, [idGrupo]);
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener estudiantes por grupo:', error.message);
+        throw error;
+    }
+};
+
+
 module.exports = {
     registrarGrupo,
     obtenerGruposPorDocente,
     obtenerGrupoPorId,
     actualizarGrupo,
     eliminarGrupo,
+    obtenerEstudiantesPorGrupo
 };

@@ -174,4 +174,59 @@ router.put('/:id', validarToken(), groupController.actualizarGrupo);
  */
 router.delete('/:id', validarToken(), groupController.eliminarGrupo);
 
+/**
+ * @swagger
+ * /grupos/{id}/students:
+ *   get:
+ *     summary: Obtener los estudiantes de un grupo
+ *     description: Devuelve una lista de estudiantes asociados a un grupo específico.
+ *     tags: [Grupos]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID del grupo al que pertenecen los estudiantes.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Lista de estudiantes obtenida con éxito.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 estudiantes:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id_alumno:
+ *                         type: integer
+ *                         description: ID del estudiante.
+ *                       nombre:
+ *                         type: string
+ *                         description: Nombre del estudiante.
+ *                       apellido:
+ *                         type: string
+ *                         description: Apellido del estudiante.
+ *                       fecha_nacimiento:
+ *                         type: string
+ *                         format: date
+ *                         description: Fecha de nacimiento del estudiante.
+ *                       correo:
+ *                         type: string
+ *                         description: Correo electrónico del estudiante.
+ *                       telefono:
+ *                         type: string
+ *                         description: Teléfono del estudiante.
+ *       404:
+ *         description: No se encontraron estudiantes para este grupo.
+ *       500:
+ *         description: Error interno del servidor.
+ */
+router.get('/:id/students', validarToken(), groupController.obtenerEstudiantesDeGrupo);
+
 module.exports = router;

@@ -162,6 +162,27 @@ const eliminarGrupo = async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar el grupo' });
     }
 };
+/**
+ * Obtener estudiantes de un grupo por ID
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ */
+const obtenerEstudiantesDeGrupo = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Consultar los estudiantes relacionados con el grupo
+        const estudiantes = await groupModel.obtenerEstudiantesPorGrupo(id);
+        if (!estudiantes || estudiantes.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron estudiantes para este grupo.' });
+        }
+        res.status(200).json({ estudiantes });
+    } catch (error) {
+        console.error('Error al obtener los estudiantes del grupo:', error.message);
+        res.status(500).json({ message: 'Error al obtener los estudiantes del grupo' });
+    }
+};
+
 
 module.exports = {
     crearGrupo,
@@ -169,4 +190,5 @@ module.exports = {
     obtenerGrupoPorId,
     actualizarGrupo,
     eliminarGrupo,
+    obtenerEstudiantesDeGrupo
 };
