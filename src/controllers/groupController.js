@@ -68,19 +68,32 @@ const crearGrupo = async (req, res) => {
  * @param {Object} res - La respuesta HTTP
  */
 const obtenerGrupos = async (req, res) => {
-    const id_docente = req.usuario.id;
+    const id_usuario = req.usuario.id; // Extraemos el id del usuario desde el token
 
     try {
+        // Primero, obtenemos el ID del docente a partir del ID del usuario
+        const queryDocente = `SELECT id_docente FROM docentes WHERE id_usuario = $1;`;
+        const { rows: docenteRows } = await pool.query(queryDocente, [id_usuario]);
+
+        if (docenteRows.length === 0) {
+            return res.status(404).json({ message: 'No se encontró un docente asociado con este usuario.' });
+        }
+
+        const id_docente = docenteRows[0].id_docente;
+
+        // Ahora, obtenemos los grupos asociados a ese docente
         const grupos = await groupModel.obtenerGruposPorDocente(id_docente);
         if (grupos.length === 0) {
             return res.status(404).json({ message: 'No se encontraron grupos para este docente.' });
         }
+
         res.status(200).json({ grupos });
     } catch (error) {
         console.error('Error al obtener los grupos:', error.message);
         res.status(500).json({ message: 'Error al obtener los grupos' });
     }
 };
+
 
 /**
  * Obtener un grupo por ID
