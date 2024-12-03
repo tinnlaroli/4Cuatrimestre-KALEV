@@ -26,7 +26,7 @@ const { validarToken } = require('../middlewares/validarToken');
  *               items:
  *                 $ref: '#/definitions/Actividad'
  */
-router.get('/actividades', validarToken(), actividadesController.obtenerActividadesController);
+router.get('/', validarToken(), actividadesController.obtenerActividadesController);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get('/actividades', validarToken(), actividadesController.obtenerActivida
  *             schema:
  *               $ref: '#/definitions/Actividad'
  */
-router.post('/actividades', validarToken(), actividadesController.agregarActividadController);
+router.post('/', validarToken(), actividadesController.agregarActividadController);
 
 /**
  * @swagger
@@ -77,7 +77,7 @@ router.post('/actividades', validarToken(), actividadesController.agregarActivid
  *             schema:
  *               $ref: '#/definitions/Actividad'
  */
-router.put('/actividades/:id', validarToken(), actividadesController.actualizarActividadController);
+router.put('/:id', validarToken(), actividadesController.actualizarActividadController);
 
 /**
  * @swagger
@@ -98,6 +98,6 @@ router.put('/actividades/:id', validarToken(), actividadesController.actualizarA
  *       404:
  *         description: Actividad no encontrada
  */
-router.delete('/actividades/:id', validarToken(), actividadesController.eliminarActividadController);
+router.delete('/:id', validarToken(), actividadesController.eliminarActividadController);
 
 module.exports = router;

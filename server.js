@@ -28,6 +28,7 @@ const styleRoutes = require("./src/routes/styleRoutes");
 const recommendationRoutes = require("./src/routes/recommendationRoutes");
 const reportRoutes = require("./src/routes/reportRoutes");
 const feedbackRoutes = require("./src/routes/feedbackRoutes");
+const actividadesRoutes = require("./src/routes/actividadesRoutes");
 
 // Usar rutas
 app.use("/usuarios", userRoutes);
@@ -37,6 +38,7 @@ app.use("/styles", styleRoutes);
 app.use("/recommendations", recommendationRoutes);
 app.use("/reportes", reportRoutes);
 app.use("/feedback", feedbackRoutes);
+app.use("/actividades", actividadesRoutes);
 
 // Verificar conexión a la base de datos antes de iniciar el servidor
 (async () => {
