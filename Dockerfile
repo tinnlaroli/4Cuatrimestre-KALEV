@@ -6,6 +6,6 @@ COPY ./ /usr/share/nginx/html
 
 # Exponemos el puerto 80
 EXPOSE 80
-
+ 
 # Iniciamos el servidor Nginx
 CMD ["nginx", "-g", "daemon off;"]
