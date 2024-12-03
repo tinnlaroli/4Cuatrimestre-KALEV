@@ -1,0 +1,166 @@
+/* General */
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../src/fondo-escolar.jpg'); /* Fondo escolar */
+  background-size: auto;
+  background-repeat: repeat;
+  background-position: center;
+  height: 100vh;
+}
+
+/* Contenedor del formulario */
+.container {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con opacidad */
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+  width: 100%;
+}
+
+/* Logo */
+#logo {
+  width: 200px;
+  margin-bottom: 30px;
+  animation: fadeInLogo 1.5s ease-out forwards;
+}
+
+/* Animación de entrada del logo */
+@keyframes fadeInLogo {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Títulos */
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FF5147;
+  margin-bottom: 30px;
+  animation: fadeInText 1s ease-out forwards;
+}
+
+/* Animación de entrada del texto */
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Formularios */
+form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+/* Input Fields */
+input {
+  border-radius: 25px;
+  font-size: 1rem;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border: 2px solid #FF7F50;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border-color: #F59F00;
+  box-shadow: 0 0 10px rgba(246, 159, 0, 0.5);
+  transform: scale(1.05);
+}
+
+/* Botones */
+.btn {
+  border-radius: 25px;
+  font-weight: 600;
+  padding: 12px 20px;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #FF5147;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #F59F00;
+  transform: scale(1.05);
+}
+
+.btn-success {
+  background-color: #4EBC97;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #239A3E;
+  transform: scale(1.05);
+}
+
+/* Transición de fade-in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-section {
+  display: block;
+}
+
+@media (max-width: 576px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+  }
+
+  input {
+    padding: 10px 15px;
+  }
+}
+
+/* Para pantallas más grandes */
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px; /* Aseguramos que el formulario no se vea demasiado estrecho en pantallas grandes */
+  }
+}

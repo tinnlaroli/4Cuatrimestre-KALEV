@@ -1,0 +1,138 @@
+/* General */
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #FF7F50;  /* Color base */
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Barra lateral */
+.sidebar {
+  background-color: #FF5147;
+  padding: 20px;
+  border-radius: 10px;
+  height: 100vh;
+}
+
+.sidebar h2 {
+  color: #FFD333;
+  text-align: center;
+}
+
+.sidebar .nav-link {
+  font-size: 1.2rem;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #F59F00;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #4EBC97;
+  color: white;
+}
+
+/* Sección de Grupos */
+#grupos {
+  background-color: #FFD333;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.button-group button {
+  background-color: #4EBC97;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #0081A7;
+  transform: scale(1.1);
+}
+
+/* Sección de Estudiantes */
+#studentsContainer {
+  margin-top: 20px;
+}
+
+#studentsContainer .card {
+  margin: 10px 0;
+  background-color: #F59F00;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Animaciones */
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-30px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.card {
+  animation: slideIn 0.5s ease-out;
+  margin: 10px 0;
+  background-color: #4EBC97;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-body {
+  text-align: center;
+}
+
+/* Para el cuadro de la gráfica en la parte superior derecha */
+#chart {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 120px;
+  height: 120px;
+  background-image: url('src/your-image.png');
+  background-size: cover;
+}
+
+/* Colores y diseño adicional para mejorar accesibilidad */
+h1 {
+  font-size: 2rem;
+  color: #0081A7;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.text-danger {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #FF5147;
+}

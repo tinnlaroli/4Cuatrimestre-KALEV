@@ -3,42 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KALEV - Plataforma Educativa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <title>KALEV - Login y Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style-login.css">
+    <link rel="stylesheet" href="css/style-animations.css">
 </head>
 <body>
-    <div class="container-fluid">
-        <!-- Barra lateral de navegación -->
-        <nav class="sidebar">
-            <div class="profile-section">
-                <img src="assets/images/profile-icon.png" alt="Perfil" class="profile-img">
-                <p class="profile-name">Usuario</p>
-            </div>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" id="navEnseñanzas" href="#">ENSEÑANZAS</a></li>
-                <li class="nav-item"><a class="nav-link" id="navSolicitarActividad" href="#">SOLICITAR ACTIVIDAD</a></li>
-                <li class="nav-item"><a class="nav-link" id="navEvaluarDesempeño" href="#">EVALUAR DESEMPEÑO</a></li>
-                <li class="nav-item"><a class="nav-link" id="navAlumnos" href="#">ALUMNOS</a></li>
-                <li class="nav-item"><a class="nav-link" id="navGrupos" href="#">GRUPOS</a></li>
-            </ul>
-            
-            
-        </nav>
+    <div class="container">
+        <img id="logo" src="src/kalev-name.png" alt="KALEV Logo" class="img-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- Login Form -->
+                <div id="loginForm" class="content-section visible">
+                    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+                    <form id="loginFormSubmit">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+                    </form>
+                    <p class="text-center mt-3">¿No tienes cuenta? <a href="#" id="goToRegister">Registrarse</a></p>
+                </div>
 
-        <!-- Contenido principal -->
-        <main class="main-content">
-            <header>
-                <h1>KALEV</h1>
-                <p class="subtitle">EN BÚSQUEDA DE UN APRENDIZAJE....</p>
-                <p class="highlight">PALABRA CAMBIANDO*</p>
-                <button class="btn-perfil">PERFILADOR DE APRENDIZAJE</button>
-            </header>
-        </main>
+                <!-- Register Form -->
+                <div id="registerForm" class="content-section">
+                    <h2 class="text-center mb-4">Registro</h2>
+                    <form id="registerFormSubmit">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="registerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Registrarse</button>
+                    </form>
+                    <p class="text-center mt-3">¿Ya tienes cuenta? <a href="#" id="goToLogin">Iniciar sesión</a></p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/script.js"></script>
+    <!-- Importar scripts al final -->
+    <script src="js/api.js" type="module"></script>  
+    <script src="js/app.js" type="module"></script>
+    <script src="js/animations.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

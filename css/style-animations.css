@@ -1,0 +1,46 @@
+/* Animación de entrada del logo */
+@keyframes fadeInLogo {
+  0% {
+      opacity: 0;
+      transform: scale(0.5);
+  }
+  100% {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+/* Animación de fade-in para formularios */
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      transform: translateY(30px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Animación de fade-out para formularios */
+@keyframes fadeOut {
+  0% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  100% {
+      opacity: 0;
+      transform: translateY(-30px);
+  }
+}
+
+/* Efecto hover en botones */
+.btn:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Efecto de desplazamiento suave */
+html {
+  scroll-behavior: smooth;
+}
