@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const actividadesController = require('../controllers/actividadesController');
-const { validarToken } = require('../middlewares/validarToken');
+const validarToken = require('../middlewares/validarToken');
 
 /**
  * @swagger
