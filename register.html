@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KALEV - Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style-login.css" />
+</head>
+<body>
+    <div class="container">
+        <img id="logo" src="src/kalev-name.png" alt="KALEV Logo" />
+        <h2>Registrarse</h2>
+
+        <!-- Formulario de registro -->
+        <form id="registerForm">
+            <div class="mb-3">
+                <label for="registerName" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="registerName" required />
+            </div>
+            <div class="mb-3">
+                <label for="registerEmail" class="form-label">Correo</label>
+                <input type="email" class="form-control" id="registerEmail" required />
+            </div>
+            <div class="mb-3">
+                <label for="registerPassword" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="registerPassword" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+
+        <!-- Enlace para ir al formulario de login -->
+        <p>¿Ya tienes cuenta? <a href="index.html">Inicia sesión aquí</a></p>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Lógica de registro
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            await registerUser(name, email, password);
+        });
+    </script>
+</body>
+</html>

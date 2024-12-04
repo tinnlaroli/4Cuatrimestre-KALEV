@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KALEV - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style-login.css" />
+</head>
+<body>
+    <div class="container">
+        <img id="logo" src="src/kalev-name.png" alt="KALEV Logo" />
+        <h2>Iniciar Sesión</h2>
+
+        <!-- Formulario de inicio de sesión -->
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo</label>
+                <input type="email" class="form-control" id="email" required />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+        </form>
+
+        <!-- Enlace para ir al formulario de registro -->
+        <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            await loginUser(email, password);
+        });
+    </script>
+</body>
+</html>
