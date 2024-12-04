@@ -1,11 +1,10 @@
-# Usamos una imagen base de nginx para servir los archivos estáticos
 FROM nginx:alpine
 
-# Copiamos los archivos de la aplicación al directorio predeterminado de nginx
+# Copiar los archivos de la aplicación al contenedor de Nginx
 COPY ./ /usr/share/nginx/html
 
-# Exponemos el puerto 80
+# Exponer el puerto 80
 EXPOSE 80
- 
-# Iniciamos el servidor Nginx
+
+# Iniciar Nginx
 CMD ["nginx", "-g", "daemon off;"]
